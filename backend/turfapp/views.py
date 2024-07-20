@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import AllowAny,IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK,HTTP_500_INTERNAL_SERVER_ERROR
-
+from django.db.models import Q
 
 # Create your views here.
 
@@ -37,8 +37,14 @@ def get_turfs_all(request):
     name = request.GET.get('name','')
     city = request.GET.get('city','')
 
-    turfs  = Turf.objects.filter(turf_name__icontains = name)
-    turfs += Turf.objects.filter(city__icontains = city)
+    if name and city:
+        turfs  = Turf.objects.filter(Q(turf_name__icontains = name) & Q(city__icontains = city))
+
+    if name:
+        turfs = Turf.objects.filter(city__icontains = name)
+    
+    if city:
+        turfs = Turf.objects.filter(city__icontains = city)
 
     try:
         turf_serializer = TurfSerializer(turfs,many=True)
@@ -47,6 +53,4 @@ def get_turfs_all(request):
     except Exception as e:
 
         return Response({'error':str(e)},status=HTTP_500_INTERNAL_SERVER_ERROR)
-    
-
     
