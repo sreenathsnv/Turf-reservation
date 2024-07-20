@@ -16,7 +16,10 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
     phone = models.BigIntegerField(blank=True,null=True)
     
     is_owner = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
+
+
+    is_admin = models.BooleanField(default=False) 
+    is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 
@@ -94,6 +97,8 @@ class GameRoom(models.Model):
 
 
 
+
+
 class GroupComments(models.Model):
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     body = models.TextField(max_length=250)
@@ -115,7 +120,11 @@ class Payment(models.Model):
 
 class Booking(models.Model):
 
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,blank=True)
     turf = models.ForeignKey(Turf,on_delete=models.CASCADE)
     Payment = models.ForeignKey(Payment,on_delete=models.CASCADE)
 
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField( default=timezone.now)
+    
 

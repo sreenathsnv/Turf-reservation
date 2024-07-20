@@ -176,10 +176,10 @@ DJOSER = {
     'ACTIVATION_URL': '#/activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
     'TOKEN_MODEL':None,
-    'SET_PASSWORD_RETYPE':True,
+    'USER_CREATE_PASSWORD_RETYPE':True,
 
     'EMAIL':{
-    'activation': 'djoser.email.ActivationEmail',
+        'activation': 'djoser.email.ActivationEmail',   
     },
     
     'SERIALIZERS': {
