@@ -10,7 +10,7 @@ class CustomUserSerializer(UserCreateSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ("id", "email", "username", "name", "password",'phone','is_owner')
+        fields = ("id", "email", "username", "name", "password",'phone','is_owner','pref_position','location','profile_pic')
 
 
 class PlayerAnalysisSerializer(ModelSerializer):

@@ -14,9 +14,10 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
     name  = models.TextField(max_length=100)
     username = models.TextField(max_length=27,unique=True)
     phone = models.BigIntegerField(blank=True,null=True)
-    # favourite = models.TextField(null=True,blank=True,max_length=30)
-    # profile_pic
-    # location = models.TextField()
+    favourite = models.TextField(null=True,blank=True,max_length=30,default='Football')
+    profile_pic = models.ImageField(upload_to='profile_pics/',default='/dummy/empty.png')
+    location = models.TextField(blank=True,null=True,default="Kerala",max_length=60)
+    pref_position = models.TextField(blank=True,null=True,max_length=30)
 
     
     is_owner = models.BooleanField(default=False)
