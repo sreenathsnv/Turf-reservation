@@ -14,6 +14,10 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
     name  = models.TextField(max_length=100)
     username = models.TextField(max_length=27,unique=True)
     phone = models.BigIntegerField(blank=True,null=True)
+    # favourite = models.TextField(null=True,blank=True,max_length=30)
+    # profile_pic
+    # location = models.TextField()
+
     
     is_owner = models.BooleanField(default=False)
 

@@ -5,7 +5,7 @@ from .models import *
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import AllowAny,IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK,HTTP_500_INTERNAL_SERVER_ERROR,HTTP_404_NOT_FOUND,HTTP_400_BAD_REQUEST
+from rest_framework.status import HTTP_200_OK,HTTP_500_INTERNAL_SERVER_ERROR,HTTP_404_NOT_FOUND,HTTP_400_BAD_REQUEST,HTTP_201_CREATED
 from django.db.models import Q
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
@@ -39,7 +39,7 @@ def get_turfs_all(request):
     print(f"Received search parameters - Name: {name}, Location: {city}")
 
     if name and city:
-        turfs = Turf.objects.filter(Q(turf_name__icontains=name) & Q(city__icontains=city))
+        turfs = Turf.objects.filter(Q(turf_name__icontains=name) | Q(city__icontains=city))
     elif name:
         turfs = Turf.objects.filter(turf_name__icontains=name)
     elif city:
@@ -118,6 +118,50 @@ def create_room(request):
 
 
 
+@api_view(['POST','GET'])
+@permission_classes([IsAuthenticated])
+def comments(request,pk):
+    if request.method == 'POST':
+       
+        
+        group = GameRoom.objects.get(id=pk)
+
+        if not request.user in group.players.all():
+            return Response({'error': 'User is not present in the group'}, status=HTTP_400_BAD_REQUEST)
+
+        comment_serializer = GroupCommentsSerializer(data = request.data) 
+
+        # Validate and save the serializer
+        if comment_serializer.is_valid():
+           
+            comment_serializer.save(user=request.user)
+
+            comments = GroupComments.objects.filter(group = pk)
+            serializer = GroupCommentsSerializer(comments,many=True)
+
+            return Response(serializer.data, status=HTTP_201_CREATED)
+        else:
+            return Response({'error': 'Error saving comment', 'details': comment_serializer.errors}, status=HTTP_400_BAD_REQUEST)
+    
+
+    if request.method == 'GET':
+
+        try: 
+            comments = GroupComments.objects.filter(group = pk)
+            serializer = GroupCommentsSerializer(comments,many=True)
+
+            return Response(serializer.data, status=HTTP_200_OK)
+        
+        except Exception as e:
+            return Response({'error':'Some error occured','details':str(e)}, status=HTTP_400_BAD_REQUEST)
+
+
+
+
+@api_view(['POST','GET'])
+@permission_classes([IsAuthenticated])
+def delete_comment(request,pk):
+    pass   
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
