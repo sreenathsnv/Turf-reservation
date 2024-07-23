@@ -5,7 +5,14 @@ from .models import *
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import AllowAny,IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK,HTTP_500_INTERNAL_SERVER_ERROR,HTTP_404_NOT_FOUND,HTTP_400_BAD_REQUEST,HTTP_201_CREATED
+from rest_framework.status import (HTTP_200_OK,
+                                   HTTP_500_INTERNAL_SERVER_ERROR,
+                                   HTTP_404_NOT_FOUND,
+                                   HTTP_400_BAD_REQUEST,
+                                   HTTP_201_CREATED,
+                                   HTTP_403_FORBIDDEN
+
+                                   )
 from django.db.models import Q
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
@@ -111,7 +118,7 @@ def create_room(request):
     else:
         return Response({'error':'Invalid data','details':group_serializer.errors},status=HTTP_400_BAD_REQUEST)
     
-    return Response(group_serializer.data,status=HTTP_200_OK)
+    return Response(group_serializer.data,status=HTTP_201_CREATED)
 
 
 
@@ -158,14 +165,27 @@ def comments(request,pk):
 
 
 
-@api_view(['POST','GET'])
+@api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def delete_comment(request,pk):
-    pass   
+    
+    comment = get_object_or_404(GroupComments,id=pk)
+    group_id = comment.group
+    
+    if request.user != comment.user:
+        return Response({'error':'Not allowed'},status=HTTP_403_FORBIDDEN)
+    
+    try:
+        comment.delete()
+        comments = GroupComments.objects.filter(group=group_id)
+        serializer = GroupCommentsSerializer(comments,many=True)
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_comments(request,pk):
-    pass
+        return Response(serializer.data,status=HTTP_200_OK)
+    
 
+    except GroupComments.DoesNotExist:
+        return Response({'error':'Unknown error'},status=HTTP_400_BAD_REQUEST)
+
+
+    
 
