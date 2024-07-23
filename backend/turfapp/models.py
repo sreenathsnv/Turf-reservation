@@ -88,7 +88,7 @@ class GameRoom(models.Model):
     time_slot = models.DateTimeField(default=timezone.now)
     visibility = models.TextField(default='public')
 
-    players = models.ManyToManyField(CustomUser)
+    players = models.ManyToManyField(CustomUser,blank=True,default=None)
 
     turf = models.ForeignKey(Turf,on_delete=models.CASCADE)
 
