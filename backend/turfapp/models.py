@@ -140,10 +140,15 @@ class Notification(models.Model):
         ('payment','payment'),
         ('booking','booking'),
     ]
+    
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     head = models.TextField(max_length=100)
     body = models.TextField(max_length=200)
     notification_class = models.TextField(max_length=200,choices=CHOICES)
+    is_read = models.BooleanField(default=False)
+
+
+
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField( auto_now_add=True)
     
