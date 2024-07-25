@@ -3,7 +3,7 @@ from rest_framework.serializers import ModelSerializer
 from .models import (
     CustomUser,PlayerAnalysis,Turf,
     TurfReview,GameRoom,GroupComments,
-    Payment,Booking
+    Payment,Booking,Notification
                      )
 
 class CustomUserSerializer(UserCreateSerializer):
@@ -54,4 +54,10 @@ class BookingSerializer(ModelSerializer):
     
     class Meta:
         model = Booking
+        fields = '__all__'
+
+class NotificationSerializer(ModelSerializer):
+    
+    class Meta:
+        model = Notification
         fields = '__all__'

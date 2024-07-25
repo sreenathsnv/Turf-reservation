@@ -187,5 +187,17 @@ def delete_comment(request,pk):
         return Response({'error':'Unknown error'},status=HTTP_400_BAD_REQUEST)
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_group_details(request,pk):
+
+    group = GameRoom.objects.get(id=pk)
+
+    if group is None:
+        return Response({'error':'No such group'},status=HTTP_400_BAD_REQUEST)
     
+    serializer = GameRoomSerializer(group)
+
+    return Response(serializer.data,status=HTTP_200_OK)
+
 

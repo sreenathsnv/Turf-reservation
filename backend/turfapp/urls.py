@@ -10,6 +10,7 @@ from .views import (test,
                     create_room,
                     comments,
                     delete_comment,
+                    get_group_details,
                 )
 urlpatterns = [
 
@@ -17,10 +18,16 @@ urlpatterns = [
     path('get-all-rooms/',get_rooms_all,name='getrooms'),
     path('get-all-turfs/',get_turfs_all,name='get-turfs'),
 
+    path('groups/<int:pk>/',get_group_details,name='group'),
     path('groups/<int:pk>/join/',join_group,name='join-groups'),
     path('groups/create/',create_room,name='create-group'),
     path('groups/<int:pk>/comments/',comments,name='group-comments'),
     path('groups/comment/<int:pk>/delete/',delete_comment,name='delete-comment'),
+    
+
+
+    
+
 
         
 ]
