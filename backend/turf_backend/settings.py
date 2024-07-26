@@ -185,9 +185,11 @@ DJOSER = {
     },
     
     'SERIALIZERS': {
+        'activation': 'djoser.serializers.ActivationSerializer',
         'user_create': 'turfapp.serializers.CustomUserSerializer',
         'user': 'turfapp.serializers.CustomUserSerializer',
         'user_delete': 'djoser.serializers.UserDeleteSerializer',
+
     },
 }
 

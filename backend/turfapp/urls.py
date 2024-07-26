@@ -24,12 +24,7 @@ urlpatterns = [
     path('groups/<int:pk>/comments/',comments,name='group-comments'),
     path('groups/comment/<int:pk>/delete/',delete_comment,name='delete-comment'),
     
-
-
-    
-
-
-        
+            
 ]
 
 if settings.DEBUG:

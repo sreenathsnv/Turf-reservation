@@ -46,6 +46,7 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
 class PlayerAnalysis(models.Model):
 
     player = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    
     total_play = models.IntegerField(blank=True,null=True)
     dble = models.IntegerField(blank=True,null=True)
     shoot = models.IntegerField(blank=True,null=True)
@@ -87,6 +88,8 @@ class TurfReview(models.Model):
 
 
 class GameRoom(models.Model):
+
+    group_admin = models.ForeignKey(CustomUser,related_name='group_admin',on_delete=models.CASCADE,default=None)
 
     group_name = models.TextField(max_length=24)
     req_players = models.IntegerField()

@@ -91,6 +91,7 @@ def join_group(request,pk):
     else:
 
         group.players.add(user)
+        
         group.save()
 
     serializer = GameRoomSerializer(group)
@@ -129,8 +130,7 @@ def create_room(request):
 @permission_classes([IsAuthenticated])
 def comments(request,pk):
     if request.method == 'POST':
-       
-        
+               
         group = GameRoom.objects.get(id=pk)
 
         if not request.user in group.players.all():
