@@ -32,6 +32,7 @@ urlpatterns = [
     path('groups/<int:pk>/leave/',leave_group,name='leave-group'),
     
     
+    
 
     
 ]

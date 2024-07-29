@@ -16,10 +16,14 @@ from rest_framework.status import (HTTP_200_OK,
 from django.db.models import Q
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
 
 def test(request):
     return HttpResponse("hello world")
 
+@cache_page(60 * 25)
+@vary_on_cookie
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_rooms_all(request):
@@ -33,7 +37,8 @@ def get_rooms_all(request):
     except Exception as e:
         return Response({'error':str(e)},status=HTTP_500_INTERNAL_SERVER_ERROR)
 
-
+@cache_page(60 * 25)
+@vary_on_cookie
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def get_turfs_all(request):
@@ -196,12 +201,18 @@ def get_group_details(request,pk):
     if group is None:
         return Response({'error':'No such group'},status=HTTP_400_BAD_REQUEST)
     
+    players = group.players.all()
+    
+    players_details = [{'id': player.id,'name':player.name,'username':player.username} for player in players]
+    
     serializer = GameRoomSerializer(group)
+    response = {
+        'group_info': serializer.data,
+        'player_info':players_details
+    }
+    return Response(response,status=HTTP_200_OK)
 
-    return Response(serializer.data,status=HTTP_200_OK)
 
-
-#Uncommitted
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def remove_user(request,pk):
@@ -252,7 +263,8 @@ def leave_group(request,pk):
         return Response({'Error':str(e)},status=HTTP_400_BAD_REQUEST)
 
 
-
+@cache_page(60 * 25)
+@vary_on_cookie
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_groups(request):
