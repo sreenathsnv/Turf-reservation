@@ -201,3 +201,67 @@ def get_group_details(request,pk):
     return Response(serializer.data,status=HTTP_200_OK)
 
 
+#Uncommitted
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def remove_user(request,pk):
+    
+    group = GameRoom.objects.get(id=pk)
+    user = request.data.get('user')
+    
+    try:
+        user = CustomUser.objects.get(id=user)
+    except CustomUser.DoesNotExist:
+        return Response({'Error':'User Does not exist'})
+
+    if not request.user == group.group_admin:
+        return Response({'Error':'You are not a Group admin'},status=HTTP_403_FORBIDDEN)
+    
+    if group.group_admin == user:
+        GameRoom.objects.delete(group)
+        return Response({'details':'group deleted'},status=HTTP_200_OK)
+
+    if not user in group.players.all():
+
+        return Response({'Error':'User not present'},status=HTTP_400_BAD_REQUEST)
+    
+    try:
+        group.players.remove(user)
+        serializer = GameRoomSerializer(group)
+        return Response(serializer.data,status=HTTP_200_OK)
+
+    except Exception as e:
+        return Response({'Error':str(e)},status=HTTP_400_BAD_REQUEST)
+    
+    
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+
+def leave_group(request,pk):
+
+    group = GameRoom.objects.get(id=pk)
+
+    if not request.user in group.players.all():
+        return Response({'ERROR':'You are not a member of this group'},status=HTTP_400_BAD_REQUEST)
+    
+    try:
+        group.players.remove(request.user)
+        serializer = GameRoomSerializer(group)
+        return Response(serializer.data,status=HTTP_200_OK)
+    except Exception as e:
+        return Response({'Error':str(e)},status=HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_groups(request):
+    groups = GameRoom.objects.filter(players = request.user)
+
+    serializer = GameRoomSerializer(groups,many=True)
+
+    return Response(serializer.data,status=HTTP_200_OK)
+
+    
+                                 
+
