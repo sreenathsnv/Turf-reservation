@@ -115,7 +115,7 @@ class GameRoom(models.Model):
     players = models.ManyToManyField(CustomUser,blank=True,default=None)
 
     turf = models.ForeignKey(Turf,on_delete=models.CASCADE)
-
+    is_active = models.BooleanField(default=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

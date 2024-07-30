@@ -287,6 +287,14 @@ def get_user_groups(request):
 @api_view(['GET','POST','PUT'])
 @permission_classes([IsAuthenticated])
 def get_user_profile(request,pk=None):
+    user_details = None
+    player_analysis = None
+    groups = None
+    bookings = None
+    Payment = None
+
+    turf_owned = None
+
     if pk is None:
         user = request.user
     else:
@@ -302,8 +310,7 @@ def get_user_profile(request,pk=None):
             if request.user == user:
                 
                 bookings = Booking.objects.filter(turf__turf_manager = user)
-                # payments = 
-        
+                payments = Payment.objects.filter(booking__turf__turf_manager = user)
 
         
     if request.method == 'POST':
@@ -312,3 +319,4 @@ def get_user_profile(request,pk=None):
     if request.method == 'PUT':
         pass
 
+#=========================Booking ==================
