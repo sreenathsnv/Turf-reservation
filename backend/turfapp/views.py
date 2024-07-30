@@ -80,12 +80,15 @@ def create_room(request):
 @permission_classes([IsAuthenticated])
 def join_group(request,pk):
 
+
     try:
         group = get_object_or_404(GameRoom.objects.annotate(player_count = Count('players')),id=pk)
     except GameRoom.DoesNotExist:
         return Response({'error':"Group doesn't exist"},status=HTTP_404_NOT_FOUND)
     
-
+    if not group.is_active:
+        return Response({'error':"This group is not active"},status=HTTP_400_BAD_REQUEST)
+    
     user = request.user
     
     
