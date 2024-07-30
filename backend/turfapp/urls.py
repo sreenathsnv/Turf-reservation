@@ -1,5 +1,5 @@
 
-from django.urls import path,include
+from django.urls import path,re_path
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -23,13 +23,13 @@ urlpatterns = [
     path('get-all-turfs/',get_turfs_all,name='get-turfs'),
     
     path('groups/',get_user_groups,name='user-groups'),
-    path('groups/<int:pk>/',get_group_details,name='group'),
-    path('groups/<int:pk>/join/',join_group,name='join-groups'),
+    re_path(r'groups/(?P<pk>[a-fA-F0-9-]+)/$',get_group_details,name='group'),
+    re_path(r'^groups/(?P<pk>[a-fA-F0-9-]+)/join/$',join_group,name='join-groups'),
     path('groups/create/',create_room,name='create-group'),
-    path('groups/<int:pk>/comments/',comments,name='group-comments'),
-    path('groups/comment/<int:pk>/delete/',delete_comment,name='delete-comment'),
-    path('groups/<int:pk>/user/delete/',remove_user,name='delete-user'),
-    path('groups/<int:pk>/leave/',leave_group,name='leave-group'),
+    re_path(r'^groups/(?P<pk>[a-fA-F0-9-]+)/comments/',comments,name='group-comments'),
+    re_path(r'groups/comment/(?P<pk>[a-fA-F0-9-]+)/delete/',delete_comment,name='delete-comment'),
+    re_path(r'groups/(?P<pk>[a-fA-F0-9-]+)/user/delete/',remove_user,name='delete-user'),
+    re_path(r'groups/(?P<pk>[a-fA-F0-9-]+)/leave/',leave_group,name='leave-group'),
     
 
 ]
