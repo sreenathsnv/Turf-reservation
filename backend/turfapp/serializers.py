@@ -10,9 +10,12 @@ class CustomUserSerializer(UserCreateSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ("id", "email", "username", "name", "password",'phone','is_owner','pref_position','location','profile_pic')
+        fields = '__all__'
 
 
+    def create(self, validated_data):
+        print("Validated Data: ", validated_data)
+        return super().create(validated_data)
 class PlayerAnalysisSerializer(ModelSerializer):
     
     class Meta:

@@ -16,13 +16,9 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
     name  = models.TextField(max_length=100)
     username = models.TextField(max_length=27,unique=True)
     phone = models.BigIntegerField(blank=True,null=True)
-
-    favourite = models.TextField(null=True,blank=True,max_length=30,default='Football')
     profile_pic = models.ImageField(upload_to='profile_pics/',default='/dummy/empty.png')
     location = models.TextField(blank=True,null=True,default="Kerala",max_length=60)
-    pref_position = models.TextField(blank=True,null=True,max_length=30)
 
-    
     is_owner = models.BooleanField(default=False)
 
 
@@ -35,7 +31,7 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = ['username','name','is_owner','phone']
 
 
 
@@ -48,11 +44,13 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
 
 class PlayerAnalysis(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    
+
     player = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
-    
+    pref_position = models.TextField(blank=True,null=True,max_length=30,default=None)
+
+
     games_played = models.IntegerField(blank=True,null=True)
-    drribble = models.IntegerField(blank=True,null=True)
+    dribble = models.IntegerField(blank=True,null=True)
     shoot = models.IntegerField(blank=True,null=True)
     pass_acuracy = models.IntegerField(blank=True,null=True)
     defence = models.IntegerField(blank=True,null=True)
@@ -61,6 +59,8 @@ class PlayerAnalysis(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self) -> str:
+        return self.player.name
 
 class Turf(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -72,13 +72,24 @@ class Turf(models.Model):
 
     open_time = models.TimeField(blank=True,null=True)
     close_time = models.TimeField(blank=True,null=True)
-    is_open = models.BooleanField(blank=True,null=True)
+    
     turf_manager = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
- 
+    def __str__(self) -> str:
+        return self.turf_name
+    
+    @property
+    def is_open(self):
+        if self.open_time and self.close_time:
+            now = timezone.now()
+            if self.open_time <= now <= self.close_time:
+                return True
+            return False
+        return False
+
 class TurfReview(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     turf = models.ForeignKey(Turf,on_delete=models.CASCADE)
@@ -88,6 +99,8 @@ class TurfReview(models.Model):
 
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    def __str__(self) -> str:
+        return f"{self.user.name} : {self.comments[:20]}"
 
 
 
@@ -98,7 +111,6 @@ class GameRoom(models.Model):
     group_name = models.TextField(max_length=24)
     req_players = models.IntegerField()
     time_slot = models.DateTimeField(default=timezone.now)
-    visibility = models.TextField(default='public')
 
     players = models.ManyToManyField(CustomUser,blank=True,default=None)
 
@@ -107,7 +119,8 @@ class GameRoom(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-
+    def __str__(self) -> str:
+        return self.group_name
 
 
 
@@ -121,47 +134,64 @@ class GroupComments(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self) -> str:
+        return self.body[:20]
+
+
 
 
 class Booking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,blank=True)
-    turf = models.ForeignKey(Turf,on_delete=models.CASCADE)
-    status = models.CharField(max_length=50,default='Pending', choices=[('Pending', 'Pending'), ('Confirmed', 'Confirmed'), ('Cancelled', 'Cancelled')])
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2,default=0)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    turf = models.ForeignKey(Turf, on_delete=models.CASCADE)
+    status = models.CharField(max_length=50, default='Pending', choices=[
+        ('Pending', 'Pending'), 
+        ('Confirmed', 'Confirmed'), 
+        ('Cancelled', 'Cancelled')
+    ])
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
     updated_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField( default=timezone.now)
-    
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self) -> str:
+        return f"{self.user.name} : {self.turf.turf_name}"
+
 class Payment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,default=None)
-    booking = models.ForeignKey(Booking, on_delete=models.CASCADE,default=None)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_method = models.CharField(max_length=50,default='Credit Card', choices=[('Credit Card', 'Credit Card'), ('Debit Card', 'Debit Card'), ('PayPal', 'PayPal'), ('Bank Transfer', 'Bank Transfer')])
-    payment_status = models.CharField(max_length=50,default='Pending', choices=[('Pending', 'Pending'), ('Completed', 'Completed'), ('Failed', 'Failed')])
-    transaction_id = models.CharField(max_length=100, unique=True,default=uuid.uuid4,editable=False)
+    payment_method = models.CharField(max_length=50, default='Credit Card', choices=[
+        ('Credit Card', 'Credit Card'), 
+        ('Debit Card', 'Debit Card'), 
+        ('PayPal', 'PayPal'), 
+        ('Bank Transfer', 'Bank Transfer')
+    ])
+    payment_status = models.CharField(max_length=50, default='Pending', choices=[
+        ('Pending', 'Pending'), 
+        ('Completed', 'Completed'), 
+        ('Failed', 'Failed')
+    ])
+    transaction_id = models.CharField(max_length=100, unique=True, default=uuid.uuid4, editable=False)
     payment_date = models.DateTimeField(auto_now_add=True)
 
 class Notification(models.Model):
-
-    CHOICES = [
-        ('group','group'),
-        ('payment','payment'),
-        ('booking','booking'),
+    NOTIFICATION_CHOICES = [
+        ('group', 'group'),
+        ('payment', 'payment'),
+        ('booking', 'booking')
     ]
-    
-    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
-    head = models.TextField(max_length=100)
-    body = models.TextField(max_length=200)
-    notification_class = models.TextField(max_length=200,choices=CHOICES)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    head = models.CharField(max_length=100)
+    body = models.CharField(max_length=200)
+    notification_class = models.CharField(max_length=20, choices=NOTIFICATION_CHOICES)
     is_read = models.BooleanField(default=False)
 
-
-
     updated_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField( auto_now_add=True)
-    
-            
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self) -> str:
+        return self.head
 
 

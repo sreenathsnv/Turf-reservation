@@ -5,7 +5,7 @@ from django.db import IntegrityError
 class CustomUserManager(BaseUserManager):
 
     def create_user(self,email,username,password,**extra_fields):
-
+        
         if not email:
             raise ValueError("email must be set")
         if not username:
@@ -15,8 +15,10 @@ class CustomUserManager(BaseUserManager):
             raise ValueError("Password has to have atleast 8 characters")
         
         email = self.normalize_email(email)
+
         try:
             user = self.model(email = email,username= username,**extra_fields)
+            print(user)
         except Exception as e:
             print(e)
 
