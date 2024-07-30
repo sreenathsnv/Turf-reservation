@@ -65,7 +65,9 @@ def get_turfs_all(request):
     except Exception as e:
 
         return Response({'error':str(e)},status=HTTP_500_INTERNAL_SERVER_ERROR)
-    
+
+
+#==================== GROUP-RELATED APIs============================================== 
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -108,10 +110,11 @@ def join_group(request,pk):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_room(request):
-    
-    group_serializer = GameRoomSerializer(data=request.data)
+    data = request.data.copy()
+    data['group_admin'] = request.user.id
+    group_serializer = GameRoomSerializer(data=data)
   
-
+    
     if group_serializer.is_valid():
 
         game_room=group_serializer.save()
@@ -191,7 +194,8 @@ def delete_comment(request,pk):
     except GroupComments.DoesNotExist:
         return Response({'error':'Unknown error'},status=HTTP_400_BAD_REQUEST)
 
-
+@cache_page(60 * 10)
+@vary_on_cookie
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_group_details(request,pk):
@@ -274,6 +278,37 @@ def get_user_groups(request):
 
     return Response(serializer.data,status=HTTP_200_OK)
 
-    
-                                 
+
+
+#========================= USER Profile ==========================
+
+@cache_page(60 * 25)
+@vary_on_cookie
+@api_view(['GET','POST','PUT'])
+@permission_classes([IsAuthenticated])
+def get_user_profile(request,pk=None):
+    if pk is None:
+        user = request.user
+    else:
+        user = CustomUser.objects.get(id=pk)
+
+
+    if request.method == 'GET':
+        
+        if user.is_owner == None:
+            player_analysis = None
+            turf_owned = Turf.objects.filter(turf_manager = user)
+            bookings = None
+            if request.user == user:
+                
+                bookings = Booking.objects.filter(turf__turf_manager = user)
+                # payments = 
+        
+
+        
+    if request.method == 'POST':
+        pass
+
+    if request.method == 'PUT':
+        pass
 

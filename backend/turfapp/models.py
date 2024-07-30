@@ -3,17 +3,20 @@ from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin
 from django.core.validators import MaxValueValidator,MinValueValidator
 from django.utils import timezone
 from .manager import CustomUserManager
+import uuid 
 # Create your models here.
 
 
 
 
 class CustomUser(AbstractBaseUser,PermissionsMixin):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     email = models.EmailField(unique=True)
     name  = models.TextField(max_length=100)
     username = models.TextField(max_length=27,unique=True)
     phone = models.BigIntegerField(blank=True,null=True)
+
     favourite = models.TextField(null=True,blank=True,max_length=30,default='Football')
     profile_pic = models.ImageField(upload_to='profile_pics/',default='/dummy/empty.png')
     location = models.TextField(blank=True,null=True,default="Kerala",max_length=60)
@@ -44,14 +47,15 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
         return self.username
 
 class PlayerAnalysis(models.Model):
-
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    
     player = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     
-    total_play = models.IntegerField(blank=True,null=True)
-    dble = models.IntegerField(blank=True,null=True)
+    games_played = models.IntegerField(blank=True,null=True)
+    drribble = models.IntegerField(blank=True,null=True)
     shoot = models.IntegerField(blank=True,null=True)
-    pas = models.IntegerField(blank=True,null=True)
-    defc = models.IntegerField(blank=True,null=True)
+    pass_acuracy = models.IntegerField(blank=True,null=True)
+    defence = models.IntegerField(blank=True,null=True)
 
     
     updated_at = models.DateTimeField(auto_now=True)
@@ -59,7 +63,7 @@ class PlayerAnalysis(models.Model):
 
 
 class Turf(models.Model):
-    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     turf_name = models.TextField(max_length=75)
     description = models.TextField(max_length=300)
     city = models.TextField(max_length=30)
@@ -68,15 +72,15 @@ class Turf(models.Model):
 
     open_time = models.TimeField(blank=True,null=True)
     close_time = models.TimeField(blank=True,null=True)
-
+    is_open = models.BooleanField(blank=True,null=True)
     turf_manager = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-
+ 
 class TurfReview(models.Model):
-    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     turf = models.ForeignKey(Turf,on_delete=models.CASCADE)
     rating = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(5)])
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
@@ -88,7 +92,7 @@ class TurfReview(models.Model):
 
 
 class GameRoom(models.Model):
-
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     group_admin = models.ForeignKey(CustomUser,related_name='group_admin',on_delete=models.CASCADE,default=None)
 
     group_name = models.TextField(max_length=24)
@@ -108,6 +112,7 @@ class GameRoom(models.Model):
 
 
 class GroupComments(models.Model):
+    
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     body = models.TextField(max_length=250)
     group = models.ForeignKey(GameRoom,on_delete=models.CASCADE)
@@ -117,24 +122,25 @@ class GroupComments(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-class Payment(models.Model):
-    
-    method = models.TextField(max_length=15)
-    amount = models.FloatField()
-    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
-
-    updated_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField(auto_now_add=True)
 
 class Booking(models.Model):
-
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True,blank=True)
     turf = models.ForeignKey(Turf,on_delete=models.CASCADE)
-    Payment = models.ForeignKey(Payment,on_delete=models.CASCADE)
-
+    status = models.CharField(max_length=50,default='Pending', choices=[('Pending', 'Pending'), ('Confirmed', 'Confirmed'), ('Cancelled', 'Cancelled')])
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2,default=0)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField( default=timezone.now)
     
+class Payment(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,default=None)
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE,default=None)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_method = models.CharField(max_length=50,default='Credit Card', choices=[('Credit Card', 'Credit Card'), ('Debit Card', 'Debit Card'), ('PayPal', 'PayPal'), ('Bank Transfer', 'Bank Transfer')])
+    payment_status = models.CharField(max_length=50,default='Pending', choices=[('Pending', 'Pending'), ('Completed', 'Completed'), ('Failed', 'Failed')])
+    transaction_id = models.CharField(max_length=100, unique=True,default=uuid.uuid4,editable=False)
+    payment_date = models.DateTimeField(auto_now_add=True)
 
 class Notification(models.Model):
 
@@ -155,4 +161,7 @@ class Notification(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField( auto_now_add=True)
     
+            
+
+
 

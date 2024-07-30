@@ -31,10 +31,7 @@ urlpatterns = [
     path('groups/<int:pk>/user/delete/',remove_user,name='delete-user'),
     path('groups/<int:pk>/leave/',leave_group,name='leave-group'),
     
-    
-    
 
-    
 ]
 
 if settings.DEBUG:
