@@ -360,4 +360,24 @@ def get_user_profile(request,pk=None):
         return Response(response,status=HTTP_200_OK)
 
 
+@cache_page(60 * 10)
+@vary_on_cookie
+@api_view(['PUT','PATCH'])
+@permission_classes([IsAuthenticated])
+def update_user_profile(request):
+    
+    user = get_object_or_404(CustomUser,id = request.user.id)
+
+    if request.method == 'PUT':
+        serializer = UserProfileSerializer(user,data=request.data)
+    if request.method == 'PATCH':
+        serializer = UserProfileSerializer(user,data=request.data,partial=True)
+    
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data,status=HTTP_200_OK)
+    
+    return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+        
+
 #=========================Booking ==================
