@@ -101,6 +101,8 @@ def join_group(request,pk):
     else:
 
         group.players.add(user)
+        group.req_players -= 1
+
         
         group.save()
 
@@ -245,6 +247,8 @@ def remove_user(request,pk):
     
     try:
         group.players.remove(user)
+        group.req_players += 1
+        group.save()
         serializer = GameRoomSerializer(group)
         return Response(serializer.data,status=HTTP_200_OK)
 
@@ -264,6 +268,8 @@ def leave_group(request,pk):
     
     try:
         group.players.remove(request.user)
+        group.req_players += 1
+        group.save()
         serializer = GameRoomSerializer(group)
         return Response(serializer.data,status=HTTP_200_OK)
     except Exception as e:
