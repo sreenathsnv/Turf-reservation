@@ -20,7 +20,7 @@ class CustomUserSerializer(UserCreateSerializer):
 class UserProfileSerializer(ModelSerializer):
     class Meta:
         model = CustomUser
-        exclude = ['username','email','password']
+        exclude = ['username','email','password','is_owner','is_superuser','is_staff','is_active','is_admin']
 
 class PlayerAnalysisSerializer(ModelSerializer):
     
