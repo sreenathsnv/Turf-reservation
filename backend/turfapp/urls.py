@@ -14,6 +14,7 @@ from .views import (test,
                     remove_user,
                     leave_group,
                     get_user_groups,
+                    get_user_profile,
                 )
 
 urlpatterns = [
@@ -30,6 +31,11 @@ urlpatterns = [
     re_path(r'groups/comment/(?P<pk>[a-fA-F0-9-]+)/delete/',delete_comment,name='delete-comment'),
     re_path(r'groups/(?P<pk>[a-fA-F0-9-]+)/user/delete/',remove_user,name='delete-user'),
     re_path(r'groups/(?P<pk>[a-fA-F0-9-]+)/leave/',leave_group,name='leave-group'),
+    
+    re_path(r'user/(?P<pk>[a-fA-F0-9-]+)/profile/',get_user_profile,name='user-profile'),
+    re_path(r'user/profile/',get_user_profile,name='view-profile'),
+    
+    
     
 
 ]

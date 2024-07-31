@@ -287,14 +287,15 @@ def get_user_groups(request):
 
 @cache_page(60 * 25)
 @vary_on_cookie
-@api_view(['GET','POST','PUT'])
+@api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_profile(request,pk=None):
-    user_details = None
+    
     player_analysis = None
-    groups = None
+    my_groups = None
+    groups_in = None
     bookings = None
-    Payment = None
+    payments = None
 
     turf_owned = None
 
@@ -306,7 +307,7 @@ def get_user_profile(request,pk=None):
 
     if request.method == 'GET':
         
-        if user.is_owner == None:
+        if user.is_owner:
             player_analysis = None
             turf_owned = Turf.objects.filter(turf_manager = user)
             bookings = None
@@ -315,11 +316,42 @@ def get_user_profile(request,pk=None):
                 bookings = Booking.objects.filter(turf__turf_manager = user)
                 payments = Payment.objects.filter(booking__turf__turf_manager = user)
 
-        
-    if request.method == 'POST':
-        pass
 
-    if request.method == 'PUT':
-        pass
+        else:
+            player_analysis = PlayerAnalysis.objects.filter(player = user)
+            my_groups = GameRoom.objects.filter(group_admin=user)
+            groups_in = GameRoom.objects.filter(players = user)
+            if user == request.user:
+                bookings = Booking.objects.filter(user = user)
+                payments = Payment.objects.filter(user=user)
+
+        user_serializer = CustomUserSerializer(user)
+        turf_serializer = TurfSerializer(turf_owned,many=True)
+        booking_serializer = BookingSerializer(bookings,many=True)
+        payment_serializer = PaymentSerializer(payments,many=True)
+        player_analysis_serializer = PlayerAnalysisSerializer(player_analysis,many=True)
+        my_group_serializer = GameRoomSerializer(my_groups,many=True)
+        group_in__serializer = GameRoomSerializer(groups_in,many=True)
+
+    #TODO: Analsysis Report
+        
+
+
+        response = {
+            "user_details":user_serializer.data,
+            "booking":booking_serializer.data,
+            "turfs":turf_serializer.data,
+            "payment":payment_serializer.data,
+            "analysis":player_analysis_serializer.data,
+            "groups":{
+                "my_groups":my_group_serializer.data,
+                "groups_in":group_in__serializer.data,
+            },
+
+            
+
+        }
+        return Response(response,status=HTTP_200_OK)
+
 
 #=========================Booking ==================
