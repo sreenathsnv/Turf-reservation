@@ -64,7 +64,7 @@ def get_turfs_all(request):
         return Response(turf_serializer.data,status=HTTP_200_OK)
     except Exception as e:
 
-        return Response({'error':str(e)},status=HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response({'error':str(e)},status=HTTP_400_BAD_REQUEST)
 
 
 #==================== GROUP-RELATED APIs============================================== 
@@ -375,6 +375,7 @@ def update_user_profile(request):
     
     if serializer.is_valid():
         serializer.save()
+        
         return Response(serializer.data,status=HTTP_200_OK)
     
     return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
