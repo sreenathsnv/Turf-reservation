@@ -183,9 +183,9 @@ def comments(request,pk):
 def delete_comment(request,pk):
     
     comment = get_object_or_404(GroupComments,id=pk)
-    group_id = comment.group
-    
-    if request.user != comment.user:
+    group_id = comment.group.id
+    group = get_object_or_404(GameRoom,id=group_id)
+    if request.user != comment.user or request.user != group.group_admin:
         return Response({'error':'Not allowed'},status=HTTP_403_FORBIDDEN)
     
     try:
@@ -379,6 +379,42 @@ def update_user_profile(request):
         return Response(serializer.data,status=HTTP_200_OK)
     
     return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
-        
+
+
+
+#====================== Turf ====================
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_turf(request):
+    pass
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def update_turf(request,pk):
+    pass
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def delete_turf(request,pk):
+    pass
+
 
 #=========================Booking ==================
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def book_turf(request):
+    pass
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def cancel_booking(request):
+    pass
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def payment_book(request):
+    pass

@@ -195,3 +195,17 @@ class Notification(models.Model):
         return self.head
 
 
+class Slot(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    turf = models.ForeignKey(Turf,default=None,on_delete=models.CASCADE)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    is_booked = models.BooleanField(default=False)
+    booked_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.turf} : {self.is_booked}"
+    
