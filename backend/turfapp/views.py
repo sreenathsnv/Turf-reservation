@@ -387,18 +387,83 @@ def update_user_profile(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_turf(request):
-    pass
+    
+    if not request.user.is_owner:
+        return Response({'error':'Not allowed.User is not a turf manager'},status=HTTP_400_BAD_REQUEST)
+    
+    serializer = TurfSerializer(data= request.data)
 
-@api_view(['POST'])
+    if serializer.is_valid():
+
+        serializer.save(turf_manager = request.user)
+        return Response(serializer.data,status=HTTP_201_CREATED)
+    
+    return Response({'error':serializer.error_messages},status=HTTP_400_BAD_REQUEST)
+    
+@api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def update_turf(request,pk):
+    
+    try:
+
+        turf = Turf.objects.filter(id=pk)
+    except Turf.DoesNotExist:
+        return Response({'error':'Object does not Exists'},status=HTTP_400_BAD_REQUEST)
+    
+    if not request.user.is_owner:
+        return Response({'error':'Not allowed.User is not a turf manager'},status=HTTP_400_BAD_REQUEST)
+
+    serializer = TurfSerializer(turf,data = request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data,status=HTTP_200_OK)
+     
+    return Response({'eoor':serializer.error_messages},status=HTTP_400_BAD_REQUEST)
+    
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_turf(request,pk):
+    
+        try:
+            turf = Turf.objects.filter(id=pk)
+        except Turf.DoesNotExist:
+            return Response({'error':'Object does not Exists'},status=HTTP_400_BAD_REQUEST)
+        
+        if not request.user.is_owner:
+            return Response({'error':'Not allowed.User is not a turf manager'},status=HTTP_400_BAD_REQUEST)
+
+        try:
+            turf.delete()
+            turfs = Turf.objects.all()
+            serializer = TurfSerializer(turfs,many=True)
+            return Response(serializer.data,status=HTTP_200_OK)
+        
+        except Exception as e:
+            return Response({'error':str(e)},status=HTTP_400_BAD_REQUEST)
+        
+        
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def view_turfs(request):
     pass
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def delete_turf(request,pk):
+def add_slots(request):
     pass
 
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def delete_slot(requset,pk):
+    pass
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def view_available_slots(request):
+    pass
 
 #=========================Booking ==================
 

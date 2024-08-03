@@ -73,7 +73,7 @@ class Turf(models.Model):
     open_time = models.TimeField(blank=True,null=True)
     close_time = models.TimeField(blank=True,null=True)
     
-    turf_manager = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    turf_manager = models.ForeignKey(CustomUser,on_delete=models.CASCADE,default=None)
     
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
