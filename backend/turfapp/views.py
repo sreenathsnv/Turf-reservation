@@ -4,13 +4,16 @@ from .serializers import *
 from .models import *
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import AllowAny,IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework.response import Response
 from rest_framework.status import (HTTP_200_OK,
                                    HTTP_500_INTERNAL_SERVER_ERROR,
                                    HTTP_404_NOT_FOUND,
                                    HTTP_400_BAD_REQUEST,
                                    HTTP_201_CREATED,
-                                   HTTP_403_FORBIDDEN
+                                   HTTP_403_FORBIDDEN,
+                                   HTTP_205_RESET_CONTENT
 
                                    )
 from django.db.models import Q
@@ -22,6 +25,20 @@ from django.views.decorators.vary import vary_on_cookie
 def test(request):
     return HttpResponse("hello world")
 
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def logout(request):
+    try:
+        refresh_token = request.data.get('refresh')
+        token = RefreshToken(refresh_token)
+        token.blacklist()  
+        return Response({"detail": "Logout successful"}, status=HTTP_205_RESET_CONTENT)
+    except TokenError:
+            return Response({"detail": "Invalid or expired token"}, status=HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({"detail": str(e)}, status=HTTP_400_BAD_REQUEST)
+    
 @cache_page(60 * 25)
 @vary_on_cookie
 @api_view(['GET'])
@@ -398,7 +415,7 @@ def create_turf(request):
         serializer.save(turf_manager = request.user)
         return Response(serializer.data,status=HTTP_201_CREATED)
     
-    return Response({'error':serializer.error_messages},status=HTTP_400_BAD_REQUEST)
+    return Response({'error':serializer.errors},status=HTTP_400_BAD_REQUEST)
     
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
@@ -406,7 +423,7 @@ def update_turf(request,pk):
     
     try:
 
-        turf = Turf.objects.filter(id=pk)
+        turf = get_object_or_404(id=pk)
     except Turf.DoesNotExist:
         return Response({'error':'Object does not Exists'},status=HTTP_400_BAD_REQUEST)
     
@@ -419,7 +436,7 @@ def update_turf(request,pk):
         serializer.save()
         return Response(serializer.data,status=HTTP_200_OK)
      
-    return Response({'eoor':serializer.error_messages},status=HTTP_400_BAD_REQUEST)
+    return Response({'error':serializer.error_messages},status=HTTP_400_BAD_REQUEST)
     
 
 @api_view(['DELETE'])
@@ -427,7 +444,7 @@ def update_turf(request,pk):
 def delete_turf(request,pk):
     
         try:
-            turf = Turf.objects.filter(id=pk)
+            turf = get_object_or_404(id=pk)
         except Turf.DoesNotExist:
             return Response({'error':'Object does not Exists'},status=HTTP_400_BAD_REQUEST)
         
@@ -447,30 +464,100 @@ def delete_turf(request,pk):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def view_turfs(request):
-    pass
+    
+    if not request.user.is_owner:
+            return Response({'error':'Not allowed.User is not a turf manager'},status=HTTP_400_BAD_REQUEST)
+
+    turfs = Turf.objects.filter(turf_manager=request.user)
+
+    serializer = TurfSerializer(turfs,many=True)
+
+    return Response(serializer.data,status=HTTP_200_OK)
 
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def view_a_turf(request,pk):
+
+    try:
+        turf = Turf.objects.get(id=pk)
+        print(turf)
+    except Turf.DoesNotExist:
+        return Response({'error':'Turf does not Exists'},status=HTTP_400_BAD_REQUEST)
+
+    slots = Slot.objects.filter(turf=turf)
+    reviews = TurfReview.objects.filter(turf=turf)
+    t_serializer = TurfSerializer(turf)
+    s_serializer = SlotSerializer(slots,many=True)
+    r_serializer = TurfReviewSerializer(reviews,many=True)
+
+    response={
+        'turf_data':t_serializer.data,
+        'turf_reviews':r_serializer.data,
+        'slots_info':s_serializer.data
+    } 
+
+    return Response(response,status=HTTP_200_OK)
+
+
+#================== Slots =====================================
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def add_slots(request):
-    pass
+    
+    if not request.user.is_owner:
+            return Response({'error':'Not allowed.User is not a turf manager'},status=HTTP_400_BAD_REQUEST)
 
-@api_view(['PUT'])
+    slot = SlotSerializer(data=request.data)
+
+    if slot.is_valid():
+        slot.save()
+        return Response(slot.data,status=HTTP_200_OK)
+    else:
+        return Response({'error':str(slot.error_messages)},status=HTTP_400_BAD_REQUEST)
+    
+
+@api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
-def delete_slot(requset,pk):
-    pass
+def delete_slot(request,pk):
+    
+    if not request.user.is_owner:
+            return Response({'error':'Not allowed.User is not a turf manager'},status=HTTP_400_BAD_REQUEST)
+
+    try:
+        slot = Slot.objects.get(id=pk)
+        turf = slot.turf
+    except Slot.DoesNotExist:
+        return Response({'error':'The slot does not exist'},status=HTTP_400_BAD_REQUEST)
+    
+    slot.delete()
+    slots = Slot.objects.filter(turf=turf)
+
+    serializer = SlotSerializer(slots,many=True)
+
+    return Response(serializer.data,status=HTTP_200_OK)
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def view_available_slots(request):
+def view_available_slots(request,pk):
+    
     pass
 
 #=========================Booking ==================
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def book_turf(request):
-    pass
+# @api_view(['POST'])
+# @permission_classes([IsAuthenticated])
+# def book_turf(request):
+    
+#     serializer = BookingSerializer(data = request.data)
+
+#     if serializer.is_valid():
+#         serializer.save(user=request.user)
+
+#         return Response(serializer.data,status=HTTP_200_OK)
+#     else:
+#         return Response({'error':serializer.errors},status=HTTP_400_BAD_REQUEST)
 
 
 @api_view(['DELETE'])
