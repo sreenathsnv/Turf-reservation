@@ -467,19 +467,71 @@ def view_available_slots(request):
 
 #=========================Booking ==================
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_booking_details(request, booking_id):
+    try:
+        booking = Booking.objects.get(id=booking_id, user=request.user)
+        serializer = BookingSerializer(booking)
+        return Response(serializer.data, status=HTTP_200_OK)
+    except Booking.DoesNotExist:
+        return Response({'error': 'Booking not found or not authorized'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def book_turf(request):
-    pass
+    user = request.user
+    total_amount = request.data.get('total_amount')
 
+    try:
+        # turf = Turf.objects.get(id=turf_id)
+        booking = Booking.objects.create(
+            user=user,
+            # turf=turf,
+            status='Pending',
+            total_amount=total_amount
+        )
+        serializer = BookingSerializer(booking)
+        return Response(serializer.data, status=HTTP_201_CREATED)
+    # except Turf.DoesNotExist:
+        # return Response({'error': 'Turf not found'}, status=HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def cancel_booking(request):
-    pass
+    booking_id = request.data.get('booking_id')
 
+    try:
+        booking = Booking.objects.get(id=booking_id, user=request.user)
+        booking.status = 'Cancelled'
+        booking.save()
+        serializer = BookingSerializer(booking)
+        return Response(serializer.data, status=HTTP_200_OK)
+    except Booking.DoesNotExist:
+        return Response({'error': 'Booking not found or not authorized'}, status=HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def payment_book(request):
-    pass
+    booking_id = request.data.get('booking_id')
+    payment_amount = request.data.get('payment_amount')
+
+    try:
+        booking = Booking.objects.get(id=booking_id, user=request.user)
+        if float(payment_amount) >= float(booking.total_amount):
+            booking.status = 'Confirmed'
+            booking.save()
+            serializer = BookingSerializer(booking)
+            return Response(serializer.data, status=HTTP_200_OK)
+        else:
+            return Response({'error': 'Insufficient payment amount'}, status=HTTP_400_BAD_REQUEST)
+    except Booking.DoesNotExist:
+        return Response({'error': 'Booking not found or not authorized'}, status=HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
