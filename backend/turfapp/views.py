@@ -546,10 +546,28 @@ def view_available_slots(request,pk):
 
 #=========================Booking ==================
 
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def book_turf(request):
-    pass
+    user = request.user
+    total_amount = request.data.get('total_amount')
+
+    try:
+        # turf = Turf.objects.get(id=turf_id)
+        booking = Booking.objects.create(
+            user=user,
+            # turf=turf,
+            status='Pending',
+            total_amount=total_amount
+        )
+        serializer = BookingSerializer(booking)
+        return Response(serializer.data, status=HTTP_201_CREATED)
+    except Turf.DoesNotExist:
+        return Response({'error': 'Turf not found'}, status=HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 
 @api_view(['DELETE'])
