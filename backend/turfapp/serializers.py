@@ -3,7 +3,7 @@ from rest_framework.serializers import ModelSerializer
 from .models import (
     CustomUser,PlayerAnalysis,Turf,
     TurfReview,GameRoom,GroupComments,
-    Payment,Booking,Notification
+    Payment,Booking,Notification,Slot
                      )
 
 class CustomUserSerializer(UserCreateSerializer):
@@ -28,18 +28,37 @@ class PlayerAnalysisSerializer(ModelSerializer):
         model = PlayerAnalysis
         fields = '__all__'
 
-class TurfSerializer(ModelSerializer):
+class SlotSerializer(ModelSerializer):
     
     class Meta:
-        model = Turf
+        model = Slot
         fields = '__all__'
 
+   
+class TurfSerializer(ModelSerializer):
+    
+    slots = SlotSerializer(many=True,write_only=True)
+    class Meta:
+        model = Turf
+        fields = ['id', 'turf_name', 'description', 'city', 'state', 'zipcode', 'open_time', 'close_time', 'turf_manager', 'slots']
+
+    def create(self,validated_data):
+        slots_data = validated_data.pop('slots')
+        turf = Turf.objects.create(**validated_data)
+
+        for slot in slots_data:
+            Slot.objects.create(turf=turf,**slot)
+        
+        return turf
+
+ 
 class TurfReviewSerializer(ModelSerializer):
+    
     
     class Meta:
         model = TurfReview
-        fields = '__all__'
-
+        field = '__all__'
+        
 
 class GameRoomSerializer(ModelSerializer):
     
@@ -70,3 +89,4 @@ class NotificationSerializer(ModelSerializer):
     class Meta:
         model = Notification
         fields = '__all__'
+

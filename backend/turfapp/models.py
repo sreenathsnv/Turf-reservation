@@ -138,6 +138,17 @@ class GroupComments(models.Model):
         return self.body[:20]
 
 
+class Slot(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    turf = models.ForeignKey(Turf,default=None,on_delete=models.CASCADE)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.turf} : {self.is_booked}"
 
 
 class Booking(models.Model):
@@ -150,9 +161,14 @@ class Booking(models.Model):
         ('Cancelled', 'Cancelled')
     ])
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    date = models.DateField(default=timezone.now)
+    time_slot = models.ForeignKey(Slot,on_delete=models.CASCADE,default=None)
 
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        unique_together = ('turf', 'time_slot', 'date')
 
     def __str__(self) -> str:
         return f"{self.user.name} : {self.turf.turf_name}"
@@ -180,7 +196,8 @@ class Notification(models.Model):
     NOTIFICATION_CHOICES = [
         ('group', 'group'),
         ('payment', 'payment'),
-        ('booking', 'booking')
+        ('booking', 'booking'),
+        ('Refunded','Refunded')
     ]
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     head = models.CharField(max_length=100)
@@ -195,17 +212,4 @@ class Notification(models.Model):
         return self.head
 
 
-class Slot(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    turf = models.ForeignKey(Turf,default=None,on_delete=models.CASCADE)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
-    is_booked = models.BooleanField(default=False)
-    booked_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
-
-    updated_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self) -> str:
-        return f"{self.turf} : {self.is_booked}"
     
