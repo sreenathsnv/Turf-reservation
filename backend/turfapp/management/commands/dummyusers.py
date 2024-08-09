@@ -16,8 +16,8 @@ class Command(BaseCommand):
         unique_usernames = set()
 
         # Generate 200 Turf Managers and 800 Regular Users
-        for i in range(1000):
-            is_turf_manager = i < 200  # First 200 users are turf managers
+        for i in range(600):
+            is_turf_manager = i < 50 
 
             # Generate unique email
             email = fake.email()
@@ -51,4 +51,4 @@ class Command(BaseCommand):
             user.set_password('password')  # Set a dummy password
             user.save()
             print("done")
-            self.stdout.write(self.style.SUCCESS('Successfully generated 1000 dummy users'))
+            self.stdout.write(self.style.SUCCESS('Successfully generated  dummy users'))

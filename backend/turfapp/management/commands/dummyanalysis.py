@@ -11,7 +11,8 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         fake = Faker()
         for user in CustomUser.objects.all():
-            PlayerAnalysis.objects.create(
+            for _ in range(300):
+                PlayerAnalysis.objects.create(
                 player=user,
                 pref_position=fake.word(),
                 games_played=random.randint(0, 100),

@@ -12,7 +12,7 @@ class Command(BaseCommand):
         fake = Faker()
 
         # Generate Turfs with assigned Turf Managers
-        for _ in range(100):
+        for _ in range(200):
             Turf.objects.create(
                 turf_name=fake.company(),
                 description=fake.text(),

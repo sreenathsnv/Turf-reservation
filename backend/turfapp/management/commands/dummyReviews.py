@@ -11,7 +11,9 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         fake = Faker()
         for turf in Turf.objects.all():
-            TurfReview.objects.create(
+            for _ in range(30):
+                
+                TurfReview.objects.create(
                 turf=turf,
                 rating=random.randint(0, 5),
                 user=CustomUser.objects.order_by('?').first(),
@@ -19,4 +21,4 @@ class Command(BaseCommand):
             )
             print("-done")
         
-        self.stdout.write(self.style.SUCCESS('Successfully generated 1000 dummy Reviews'))
+        self.stdout.write(self.style.SUCCESS('Successfully generated  dummy Reviews'))

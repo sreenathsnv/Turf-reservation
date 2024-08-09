@@ -24,21 +24,13 @@ class Command(BaseCommand):
         print("created gamerooms")
         # Generate GroupComments
         for game_room in GameRoom.objects.all():
+            user = game_room.players.order_by('?').first()
             GroupComments.objects.create(
-                user=CustomUser.objects.order_by('?').first(),
+                user= user,
                 body=fake.text(),
                 group=game_room
             )
             print("-done")
         print("created comments")
-        # Generate Slots
-        for turf in Turf.objects.all():
-            Slot.objects.create(
-                turf=turf,
-                start_time=fake.time_object(),
-                end_time=fake.time_object()
-            )
-            print("-done")
-        print("created slots")
 
         self.stdout.write(self.style.SUCCESS('Successfully generated 1000 dummy groups and comments'))
