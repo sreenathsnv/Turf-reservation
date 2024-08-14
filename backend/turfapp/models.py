@@ -148,20 +148,21 @@ class Slot(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return f"{self.turf} : {self.is_booked}"
+        return f"{self.turf} : {self.created_at}"
 
-
+def get_current_date():
+    return timezone.now().date()
 class Booking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
-    turf = models.ForeignKey(Turf, on_delete=models.CASCADE)
+    turf = models.ForeignKey(Turf, on_delete=models.CASCADE,null=True,blank=True)
     status = models.CharField(max_length=50, default='Pending', choices=[
         ('Pending', 'Pending'), 
         ('Confirmed', 'Confirmed'), 
         ('Cancelled', 'Cancelled')
     ])
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    date = models.DateField(default=timezone.now)
+    date = models.DateField(default=get_current_date,null=True,blank=True)
     time_slot = models.ForeignKey(Slot,on_delete=models.CASCADE,default=None)
 
     updated_at = models.DateTimeField(auto_now=True)
@@ -178,6 +179,7 @@ class Payment(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
+    currency = models.CharField(max_length=3, default='usd')
     payment_method = models.CharField(max_length=50, default='Credit Card', choices=[
         ('Credit Card', 'Credit Card'), 
         ('Debit Card', 'Debit Card'), 
@@ -187,10 +189,15 @@ class Payment(models.Model):
     payment_status = models.CharField(max_length=50, default='Pending', choices=[
         ('Pending', 'Pending'), 
         ('Completed', 'Completed'), 
-        ('Failed', 'Failed')
+        ('Failed', 'Failed'),
+        ('Refund', 'Refund'),
+
     ])
     transaction_id = models.CharField(max_length=100, unique=True, default=uuid.uuid4, editable=False)
     payment_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.user} : {self.amount}"
 
 class Notification(models.Model):
     NOTIFICATION_CHOICES = [

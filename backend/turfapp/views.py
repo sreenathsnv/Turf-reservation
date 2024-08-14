@@ -21,6 +21,7 @@ from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie
+import stripe
 
 def test(request):
     return HttpResponse("hello world")
@@ -508,6 +509,7 @@ def add_slots(request):
     if not request.user.is_owner:
             return Response({'error':'Not allowed.User is not a turf manager'},status=HTTP_400_BAD_REQUEST)
 
+
     slot = SlotSerializer(data=request.data)
 
     if slot.is_valid():
@@ -527,6 +529,12 @@ def delete_slot(request,pk):
     try:
         slot = Slot.objects.get(id=pk)
         turf = slot.turf
+
+        turf_manager = turf.turf_manager
+        
+        if not turf_manager != request.user:
+            return Response({'error':'Not allowed'},status=HTTP_400_BAD_REQUEST)
+        
     except Slot.DoesNotExist:
         return Response({'error':'The slot does not exist'},status=HTTP_400_BAD_REQUEST)
     
@@ -552,17 +560,30 @@ def view_available_slots(request,pk):
 def book_turf(request):
     user = request.user
     total_amount = request.data.get('total_amount')
-
+    turf = Turf.objects.get(id= request.data.get('turf'))
+    slot = Slot.objects.get(id = request.data.get('time_slot'))
+    
     try:
-        # turf = Turf.objects.get(id=turf_id)
-        booking = Booking.objects.create(
-            user=user,
-            # turf=turf,
-            status='Pending',
-            total_amount=total_amount
-        )
-        serializer = BookingSerializer(booking)
-        return Response(serializer.data, status=HTTP_201_CREATED)
+        
+        
+        serializer = BookingSerializer(data={
+    'user': user.id,
+    'turf': turf.id,
+    'time_slot': slot.id,  
+    'date': timezone.now().date() if not request.data.get('date') else request.data.get('date'),  
+    'total_amount': total_amount
+})
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'data':serializer.data,
+                'slot_details':SlotSerializer(slot).data,
+                'turf_data':TurfSerializer(turf).data,
+                }, status=HTTP_201_CREATED)
+        else:
+            return Response({'error':str(serializer.errors)},status=HTTP_400_BAD_REQUEST)
+        
     except Turf.DoesNotExist:
         return Response({'error': 'Turf not found'}, status=HTTP_404_NOT_FOUND)
     except Exception as e:
@@ -570,23 +591,83 @@ def book_turf(request):
 
 
 
-@api_view(['DELETE'])
+@api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def cancel_booking(request):
     booking_id = request.data.get('booking_id')
 
+    
+
     try:
         booking = Booking.objects.get(id=booking_id, user=request.user)
+        
+        if request.user != booking.user:
+            return Response({'error': 'Not allowed'}, status=HTTP_400_BAD_REQUEST)
+        if booking.status == 'Pending':
+            booking.delete()
+            return Response({'details': 'Deleted succesffully'}, status=HTTP_200_OK)
+
         booking.status = 'Cancelled'
+        booking.turf = None
+        booking.date  = None
         booking.save()
         serializer = BookingSerializer(booking)
+        
+        try:
+            
+            payment = Payment.objects.get(booking=booking)
+            payment.payment_status = 'Refund'
+            payment.save()
+        except Payment.DoesNotExist:
+            booking.delete()
         return Response(serializer.data, status=HTTP_200_OK)
     except Booking.DoesNotExist:
         return Response({'error': 'Booking not found or not authorized'}, status=HTTP_404_NOT_FOUND)
     except Exception as e:
         return Response({'error': str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
 
+
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def payment_book(request):
-    pass
+def create_payment(request):
+    data = request.data
+    user = request.user
+    booking_id = data.get('booking_id')
+    payment_method = data.get('payment_method', 'Credit Card')
+    
+    try:
+        
+        booking = Booking.objects.get(id=booking_id)
+
+        
+        charge = stripe.Charge.create(
+            amount=int(data['amount']),
+            currency=data.get('currency', 'INR'),
+            source=data['token'], 
+            description=f"Charge for {user.email} - Booking ID: {booking_id}",
+        )
+
+        
+        payment = Payment.objects.create(
+            user=user,
+            booking=booking,
+            amount=data['amount'],
+            currency=data.get('currency', 'usd'),
+            payment_method=payment_method,
+            payment_status='Completed',
+            transaction_id=charge['id'],
+        )
+
+        booking.status = 'Confirmed'
+        booking.save()
+
+
+        return Response(PaymentSerializer(payment).data, status=HTTP_201_CREATED)
+
+    except Booking.DoesNotExist:
+        return Response({"error": "Booking not found"}, status=HTTP_404_NOT_FOUND)
+    
+    except stripe.error.StripeError as e:
+        return Response({"error": str(e)}, status=HTTP_400_BAD_REQUEST)
+    
+    except Exception as e:
+        return Response({"error": str(e)}, status=HTTP_400_BAD_REQUEST)

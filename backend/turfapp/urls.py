@@ -21,7 +21,12 @@ from .views import (test,
                     delete_turf,
                     view_turfs,
                     view_a_turf,
-                    logout
+                    logout,
+                    add_slots,
+                    delete_slot,
+                    book_turf,
+                    cancel_booking
+
                 )
 
 urlpatterns = [
@@ -51,6 +56,13 @@ urlpatterns = [
     re_path(r'turf/(?P<pk>[a-fA-F0-9-]+)/delete/',delete_turf,name='delete-turf'),
     re_path(r'turf/(?P<pk>[a-fA-F0-9-]+)/view/',view_a_turf,name='view-turf'),
     re_path(r'turfs/',view_turfs,name='view-turfs-owner'),
+
+    path('turf/add/slot/',add_slots,name='add-turfs-slot'),
+    re_path(r'turf/slot/(?P<pk>[a-fA-F0-9-]+)/delete/',delete_slot,name='delete-slot'),
+
+    path('turf/book/',book_turf,name='book-turf'),
+    path('turf/cancel/book/',cancel_booking,name='book-cancel'),
+
 
     
     

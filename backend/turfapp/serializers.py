@@ -57,7 +57,7 @@ class TurfReviewSerializer(ModelSerializer):
     
     class Meta:
         model = TurfReview
-        field = '__all__'
+        fields = '__all__'
         
 
 class GameRoomSerializer(ModelSerializer):
