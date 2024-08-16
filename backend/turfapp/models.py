@@ -69,6 +69,8 @@ class Turf(models.Model):
     city = models.TextField(max_length=30)
     state = models.TextField(max_length=30)
     zipcode = models.TextField(max_length=20)
+    
+    image = models.ImageField(upload_to='turf_images/',default='/dummy/turf-default.jpg')
 
     open_time = models.TimeField(blank=True,null=True)
     close_time = models.TimeField(blank=True,null=True)
