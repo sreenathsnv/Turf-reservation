@@ -37,7 +37,7 @@ const Register = () => {
 
   }
   return (
-    <form action="" className="form_main" id="registrationForm">
+    <form action="" className="form_main_reg" id="registrationForm">
     <p className="heading">Register</p>
     <div className="inputContainer">
       <input type="text" 

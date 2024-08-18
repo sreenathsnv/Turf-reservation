@@ -1,5 +1,5 @@
 
-.form_main {
+.form_main_reg {
     width: 300px; /* Adjusted width */
     display: flex;
     flex-direction: column;
@@ -9,10 +9,11 @@
     padding: 40px 40px; /* Increased padding */
     box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.062);
     position: relative;
+    top:20vh;
     overflow: hidden;
   }
   
-  .form_main::before {
+  .form_main_reg::before {
     position: absolute;
     content: "";
     width: 400px; /* Increased size */
