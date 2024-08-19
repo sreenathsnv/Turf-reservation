@@ -232,11 +232,13 @@ def get_group_details(request,pk):
     players = group.players.all()
     
     players_details = [{'id': player.id,'name':player.name,'username':player.username} for player in players]
-    
+    turf_info = Turf.objects.get(id = group.turf.id)
+    turf_serializer = TurfSerializer(turf_info)
     serializer = GameRoomSerializer(group)
     response = {
         'group_info': serializer.data,
-        'player_info':players_details
+        'player_info':players_details,
+        'turf_info':turf_serializer.data
     }
     return Response(response,status=HTTP_200_OK)
 
