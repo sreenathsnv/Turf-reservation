@@ -37,7 +37,7 @@ const NotauthNav = () => {
     <nav>
       <ul>
         <li>
-          <Link to="/home">
+          <Link to="/" exact>
             <button>Home</button>
           </Link>
         </li>
