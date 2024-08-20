@@ -6,17 +6,22 @@ import Login from "./Pages/Login";
 import "./CSS/index.css";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Page_404 from "./Pages/Page_404";
+import { ToastContainer} from 'react-toastify';
+import ForgotPasswordConfirm from "./Components/Auth/ForgotPasswordConfirm";
+import UserActivation from "./Components/Auth/UserActivation";
 function App() {
   return (
     <>
       <Router>
         <Layout>
           <Routes>
-            <Route path="/" exacct element={<Home />} />
+            <Route path="/" exact element={<Home />} />
             {/* <Route path="/about" element={<About />} /> */}
             {/* <Route path="/contact" element={<Contact />} /> */}
             <Route path="/signup" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/password/reset" element={<ForgotPasswordConfirm/>} />
+            <Route path="/activate/:uid/:token" exact element={<UserActivation/>} />
 
             {/* user Protected */}
 
@@ -25,6 +30,9 @@ function App() {
           </Routes>
         </Layout>
       </Router>
+
+
+      <ToastContainer />
     </>
   );
 }

@@ -8,7 +8,7 @@ const AuthProvider = ({ children }) => {
   // State to hold the authentication token
   const [token, setToken_] = useState(localStorage.getItem("token"));
   const [isAuthenticated,setIsAuthenticated] = useState(false)
-
+  const [user,setUser] = useState(null)
   // Function to set the authentication token
   const setToken = (newToken) => {
     setToken_(newToken);
@@ -31,7 +31,9 @@ const AuthProvider = ({ children }) => {
       token,
       setToken,
       isAuthenticated,
-      setIsAuthenticated
+      setIsAuthenticated,
+      user,
+      setUser
     }),
     [token]
   );
