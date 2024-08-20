@@ -19,6 +19,7 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+USE_I18N = True
 
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR,'.env'))
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'djoser',
     'rest_framework_simplejwt',
@@ -54,6 +56,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -67,7 +70,7 @@ ROOT_URLCONF = 'turf_backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -174,12 +177,13 @@ SIMPLE_JWT = {
 
 
 #Djoser settings
-
+SITE_URL = env('SITE_URL')
+FRONTEND_URL = env('SITE_URL')
 
 DJOSER = {
 
     'USER_ID_FIELD' :'email',
-    'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
     'TOKEN_MODEL':None,
     'USER_CREATE_PASSWORD_RETYPE':True,
@@ -187,7 +191,8 @@ DJOSER = {
     'PASSWORD_RESET_CONFIRM_RETYPE':True,
 
     'EMAIL':{
-        'activation': 'djoser.email.ActivationEmail',   
+        "activation": "turfapp.email.ActivationEmail"
+        
     },
     
     'SERIALIZERS': {
@@ -217,3 +222,7 @@ CACHES = {
 
 STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
 STRIPE_PUBLISHABLE_KEY = env("STRIPE_PUBLISH_KEY")
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+]
