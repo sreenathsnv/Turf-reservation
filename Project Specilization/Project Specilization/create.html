@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Play</title>
+  <link rel="stylesheet" href="./create.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Create Play</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="booking.html">My Bookings</a></li>
+          <li><a href="login.html">Login</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="container">
+      <form id="create-play-form">
+        <div class="form-group">
+          <label for="turf">Select Turf:</label>
+          <select id="turf" name="turf">
+            <!-- Populate with options dynamically if needed -->
+            <option value="turf1">Campnou</option>
+            <option value="turf2">Santiyago</option>
+            <option value="turf3">Arena</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="players">Number of Players:</label>
+          <input type="number" id="players" name="players" min="1" required>
+        </div>
+        <div class="form-group">
+          <label for="date">Date of Play:</label>
+          <input type="date" id="date" name="date" required>
+        </div>
+        <div class="form-group">
+          <label for="time">Time of Play:</label>
+          <input type="time" id="time" name="time" required>
+        </div>
+        <button type="submit" class="create-button">Create Play</button>
+      </form>
+    </div>
+  </main>
+  <!-- <footer>
+    <div class="container">
+      <p>&copy; 2024 Turf Booking. All rights reserved.</p>
+    </div>
+  </footer> -->
+  <script src="./create.js"></script>
+</body>
+</html>

@@ -1,0 +1,379 @@
+ body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+header {
+    background-color: #2cb56c;
+    padding: 15px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+nav ul li button:hover {
+    color: #d4f1d8;
+}
+
+#profile {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+#fut-player-card{
+	
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 7vh;
+}
+.profile-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+.profile-img-container {
+    position: relative;
+}
+
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 4px solid #2cb56c;
+}
+
+#add-profile-pic {
+    margin-top: 10px;
+    background-color: #2cb56c;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#add-profile-pic:hover {
+    background-color: #249e57;
+}
+
+.profile-details h2 {
+    margin: 20px 0 10px;
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.profile-details p {
+    margin: 5px 0;
+    color: #666;
+}
+
+button {
+    background-color: #2cb56c;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background-color: #249e57;
+}
+
+.ratings {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.rating {
+    text-align: center;
+}
+
+.rating h3 {
+    margin: 5px 0;
+    color: #333;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.rating p {
+    margin: 0;
+    color: #2cb56c;
+    font-size: 16px;
+}
+
+.hidden {
+    display: none;
+}
+
+#booking-details {
+    text-align: left;
+}
+
+#booking-details h3 {
+    color: #333;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+#booking-details ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#booking-details ul li {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+/*.......................player card...................*/
+/* * {
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Saira Semi Condensed', sans-serif;
+	font-weight: 400;
+	position: relative;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	width: 100%;
+	height: 100vh;
+	min-height: 700px;
+	background: url("https://media.playstation.com/is/image/SCEA/fifa-19-stadium-background-blur-01-ps4-us-08jun18?$native_nt$") no-repeat center center/cover;
+}
+
+body:after {
+	content: '@selimdoyranli';
+	font-size: 1rem;
+	color: #aaa;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	z-index: 2;
+} 
+
+
+/*
+  *** fut-player-card styles ***
+*/
+
+.fut-player-card {
+	position: relative;
+	width: 300px;
+	height: 485px;
+	background-image: url(https://selimdoyranli.com/cdn/fut-player-card/img/card_bg.png);
+	background-position: center center;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	padding: 3.8rem 0;
+	z-index: 2;
+	-webkit-transition: 200ms ease-in;
+	-o-transition: 200ms ease-in;
+	transition: 200ms ease-in;
+}
+
+.fut-player-card .player-card-top {
+	position: relative;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	color: #e9cc74;
+	padding: 0 1.5rem;
+}
+
+.fut-player-card .player-card-top .player-master-info {
+	position: absolute;
+	line-height: 2.2rem;
+	font-weight: 300;
+	padding: 1.5rem 0;
+	text-transform: uppercase;
+}
+
+.fut-player-card .player-card-top .player-master-info .player-rating {
+	font-size: 2rem;
+}
+
+.fut-player-card .player-card-top .player-master-info .player-position {
+	font-size: 1.4rem;
+}
+
+.fut-player-card .player-card-top .player-master-info .player-nation {
+	display: block;
+	width: 2rem;
+	height: 25px;
+	margin: 0.3rem 0;
+}
+
+.fut-player-card .player-card-top .player-master-info .player-nation img {
+	width: 100%;
+	height: 100%;
+	-o-object-fit: contain;
+	object-fit: contain;
+}
+
+.fut-player-card .player-card-top .player-master-info .player-club {
+	display: block;
+	width: 2.1rem;
+	height: 40px;
+}
+
+.fut-player-card .player-card-top .player-master-info .player-club img {
+	width: 100%;
+	height: 100%;
+	-o-object-fit: contain;
+	object-fit: contain;
+}
+
+.fut-player-card .player-card-top .player-picture {
+	width: 200px;
+	height: 200px;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+.fut-player-card .player-card-top .player-picture img {
+	width: 100%;
+	height: 100%;
+	-o-object-fit: contain;
+	object-fit: contain;
+	position: relative;
+	right: -1.5rem;
+	bottom: 0;
+}
+
+.fut-player-card .player-card-top .player-picture .player-extra {
+	position: absolute;
+	right: 0;
+	bottom: -0.5rem;
+	overflow: hidden;
+	font-size: 1rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	width: 100%;
+	height: 2rem;
+	padding: 0 1.5rem;
+	text-align: right;
+	background: none;
+}
+
+.fut-player-card .player-card-top .player-picture .player-extra span {
+	margin-left: 0.6rem;
+	text-shadow: 2px 2px #333;
+}
+
+.fut-player-card .player-card-bottom {
+	position: relative;
+}
+
+.fut-player-card .player-card-bottom .player-info {
+	display: block;
+	padding: 0.3rem 0;
+	color: #e9cc74;
+	width: 90%;
+	margin: 0 auto;
+	height: auto;
+	position: relative;
+	z-index: 2;
+}
+
+.fut-player-card .player-card-bottom .player-info .player-name {
+	width: 100%;
+	display: block;
+	text-align: center;
+	font-size: 1.6rem;
+	text-transform: uppercase;
+	border-bottom: 2px solid rgba(233, 204, 116, 0.1);
+	padding-bottom: 0.3rem;
+	overflow: hidden;
+}
+
+.fut-player-card .player-card-bottom .player-info .player-name span {
+	display: block;
+	text-shadow: 2px 2px #111;
+}
+
+.fut-player-card .player-card-bottom .player-info .player-features {
+	margin: 0.5rem auto;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+}
+
+.fut-player-card .player-card-bottom .player-info .player-features .player-features-col {
+	border-right: 2px solid rgba(233, 204, 116, 0.1);
+	padding: 0 2.3rem;
+}
+
+.fut-player-card .player-card-bottom .player-info .player-features .player-features-col span {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	font-size: 1.2rem;
+	text-transform: uppercase;
+}
+
+.fut-player-card .player-card-bottom .player-info .player-features .player-features-col span .player-feature-value {
+	margin-right: 0.3rem;
+	font-weight: 700;
+}
+
+.fut-player-card .player-card-bottom .player-info .player-features .player-features-col span .player-feature-title {
+	font-weight: 300;
+}
+
+.fut-player-card .player-card-bottom .player-info .player-features .player-features-col:last-child {
+	border: 0;
+} 

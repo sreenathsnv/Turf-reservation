@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Turf Booking</title>
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>4play</h1>
+      <nav>
+        <ul>
+          <li><button onclick="location.href='index.html'">Home</button></li>
+          <li><button onclick="location.href='booking.html'">My Bookings</button></li>
+          <li><button onclick="location.href='login.html'">Login</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="container">
+      <section id="hero">
+        <h2>Book Your Turf Easily and Quickly</h2>
+        <p>Find the best turfs near you and book online.</p>
+        <button onclick="window.location.href='booking.html'" class="cta-button">Book Now</button>
+    </section>
+          
+      <section id="turfs">
+        <h2>Available Turfs</h2>
+        <div class="turf-list">
+          <!-- Turf listings will be dynamically loaded here -->
+        </div>
+        <div class="search">
+          <input placeholder="Search..." type="text">
+          <!-- <button type="submit">Go</button> -->
+        </div>
+
+      </section>
+
+      <div class="button-box">
+        <button class="create-button" onclick="window.location.href='create.html'">Create</button>
+        <button class="create-button" onclick="window.location.href='join.html'">Join</button>
+      </div>
+
+      <section id="recommendations">
+        <h2>Nearby Recommendations</h2>
+        <div class="recommendation-list">
+          <div class="recommendation-box" data-turf="Campnou">
+            <h3>Campnou</h3>
+            <p>Location: Marathahalli</p>
+            <p>Rating: 4.5/5</p>
+            <button onclick="window.location.href='booking.html'">Book Now</button>
+          </div>
+          <div class="recommendation-box" data-turf="Santiyago">
+            <h3>Santi yago</h3>
+            <p>Location: Kadkodi</p>
+            <p>Rating: 4.2/5</p>
+            <button onclick="window.location.href='booking.html'">Book Now</button>
+          </div>
+          <div class="recommendation-box" data-turf="Astro Arena">
+            <h3>Astro Arena</h3>
+            <p>Location: Whitefield</p>
+            <p>Rating: 4.8/5</p>
+            <button onclick="window.location.href='booking.html'">Book Now</button>
+          </div>
+        </div>
+        <button class="load-more-btn" onclick="loadMoreRecommendations()">Load More</button>
+      </section>  
+    </div>
+  </main>
+  <!-- <div id="chatbot">
+    <div id="chatbot-header">Chat with us</div>
+    <div id="chatbot-messages"></div>
+    <input type="text" id="chatbot-input" placeholder="Type a message...">
+     
+  </div>
+   -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 Turf Booking. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="./index.js"></script>
+</body>
+</html>

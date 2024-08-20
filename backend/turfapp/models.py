@@ -69,6 +69,7 @@ class Turf(models.Model):
     city = models.TextField(max_length=30)
     state = models.TextField(max_length=30)
     zipcode = models.TextField(max_length=20)
+    price = models.PositiveBigIntegerField(default=0)
     
     image = models.ImageField(upload_to='turf_images/',default='/dummy/turf-default.jpg')
 
