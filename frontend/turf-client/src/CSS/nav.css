@@ -66,4 +66,14 @@
   nav ul li button:hover {
     background-color: #249e57;
   }  
+
+  
+  .profile-pic {
+    width: 3vw;
+    height: 6vh;
+    border-radius: 50%;
+    margin-bottom: -13px;
+    margin-left: 1vw;
+    object-fit: cover; /* Ensures the image covers the entire button */
+  }
   

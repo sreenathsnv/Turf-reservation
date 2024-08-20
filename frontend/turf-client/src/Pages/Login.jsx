@@ -16,23 +16,21 @@ const Login = () => {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false); // New loading state
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formdata);
+    
 
     setError("");
     setSuccess(false);
+    setLoading(true); // Set loading to true when starting form submission
 
     try {
-      const response = await axiosInstance
-        .post("/auth/jwt/create", formdata)
-        .then((response) => {
-        setToken(response.data.access)
-        setIsAuthenticated(true)
-        }
-        );
-      if (response.status == 200 || response.status == 201) {
+      const response = await axiosInstance.post("/auth/jwt/create", formdata);
+      if (response.status === 200 || response.status === 201) {
+        setToken(response.data.access);
+        setIsAuthenticated(true);
         setSuccess(true);
         toast.success("Login successfully", {
           position: "top-right",
@@ -47,30 +45,11 @@ const Login = () => {
         });
         setFormData({
           email: "",
-          username: "",
-          name: "",
           password: "",
-          re_password: "",
-          phone: "",
-          is_owner: false, // Boolean instead of string
         });
-
-        if (response.status == 400 || response.status == 401) {
-          return toast.error(response.data || "Login failed", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-            transition: Bounce,
-          });
-        }
       } else {
-        setError(response.data.message || "Registration failed");
-        toast.error(response.data.message || "Registration failed", {
+        setError(response.data || "Login failed");
+        toast.error(response.data || "Login failed", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -84,7 +63,7 @@ const Login = () => {
       }
     } catch (err) {
       const errorMsg =
-        err.response?.data?.message || "An error occurred during Login";
+        err.response?.data || "An error occurred during Login";
       setError(errorMsg);
       toast.error(errorMsg, {
         position: "top-right",
@@ -97,6 +76,8 @@ const Login = () => {
         theme: "colored",
         transition: Bounce,
       });
+    } finally {
+      setLoading(false); // Set loading to false when done
     }
   };
 
@@ -113,11 +94,11 @@ const Login = () => {
   }
 
   return (
-    <form action="" onSubmit={handleSubmit} class="form_main">
-      <p class="heading">Login</p>
-      <div class="inputContainer">
+    <form onSubmit={handleSubmit} className="form_main">
+      <p className="heading">Login</p>
+      <div className="inputContainer">
         <svg
-          class="inputIcon"
+          className="inputIcon"
           xmlns="http://www.w3.org/2000/svg"
           width="16"
           height="16"
@@ -129,16 +110,17 @@ const Login = () => {
         <input
           type="email"
           onChange={handleChange}
-          class="inputField"
+          className="inputField"
           name="email"
-          id="username"
+          id="email"
           placeholder="Email"
+          disabled={loading} // Disable input if loading
         />
       </div>
 
-      <div class="inputContainer">
+      <div className="inputContainer">
         <svg
-          class="inputIcon"
+          className="inputIcon"
           xmlns="http://www.w3.org/2000/svg"
           width="16"
           height="16"
@@ -151,13 +133,16 @@ const Login = () => {
           type="password"
           name="password"
           onChange={handleChange}
-          class="inputField"
+          className="inputField"
           id="password"
           placeholder="Password"
+          disabled={loading} // Disable input if loading
         />
       </div>
-      <button id="button">Submit</button>
-      <Link class="forgotLink" to="/password/reset" onclick="forgotPassword()">
+      <button id="button" type="submit" disabled={loading}>
+        {loading ? "Authenticating..." : "Submit"}
+      </button>
+      <Link className="forgotLink" to="/password/reset">
         Forgot your password?
       </Link>
       <br />

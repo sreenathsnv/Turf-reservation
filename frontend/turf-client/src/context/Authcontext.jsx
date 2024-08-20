@@ -35,7 +35,7 @@ const AuthProvider = ({ children }) => {
       user,
       setUser
     }),
-    [token]
+    [token,isAuthenticated,user]
   );
 
   // Provide the authentication context to the children components
