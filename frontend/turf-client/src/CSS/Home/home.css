@@ -218,9 +218,11 @@
   .search input[type="text"] {
     width: 100%; /* Ensure the input field takes up the full width of the parent container */
     padding: 10px;
+    padding-left: 2vw;
     border: none;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 2.5vh;
   }
   
   

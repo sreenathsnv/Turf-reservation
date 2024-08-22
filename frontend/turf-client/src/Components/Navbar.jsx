@@ -79,8 +79,6 @@ const Navbar = () => {
   const { isAuthenticated } = useAuth();
 
   useEffect(()=>{
-
-    console.log("logout")
     
   },[isAuthenticated])
   return (

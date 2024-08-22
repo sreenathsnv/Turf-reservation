@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import '../CSS/Home/Createroom.css'
+import '../CSS/Home/Createroom.css';
+import { axiosInstance } from '../utils/CustomFetch';
 
 const CreatePlayForm = () => {
   const [turfs, setTurfs] = useState([]);
@@ -11,26 +11,26 @@ const CreatePlayForm = () => {
 
   useEffect(() => {
     // Fetch turf data from API
-    axios.get('/get-all-turfs/')
+    axiosInstance.get('/get-all-turfs/')
       .then(response => {
-        setTurfs(response.data); // Adjust according to API response structure
+        setTurfs(response.data);
       })
       .catch(error => console.error('Error fetching turfs:', error));
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const groupAdminId = 'fcdc93a3-b0db-45b3-8b76-bb70663ad7c1'; // Replace with actual user ID
+    const groupAdminId = 'fcdc93a3-b0db-45b3-8b76-bb70663ad7c1';
     const timeSlot = `${playDate}T${playTime}:00.000Z`;
     const requestData = {
       group_admin: groupAdminId,
       group_name: 'testgroup-1',
       req_players: numPlayers,
       time_slot: timeSlot,
-      turf: selectedTurf
+      turf: selectedTurf,
     };
 
-    axios.post('/your-api-endpoint', requestData)
+    axiosInstance.post('/your-api-endpoint', requestData)
       .then(response => {
         console.log('Play created successfully:', response.data);
       })
@@ -38,21 +38,31 @@ const CreatePlayForm = () => {
   };
 
   return (
-    <main>
+    <div className="main">
       <div className="container">
-        <form id="create-play-form" onSubmit={handleSubmit}>
+        <form className="form" id="create-play-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="turf">Select Turf:</label>
-            <select id="turf" name="turf" value={selectedTurf} onChange={(e) => setSelectedTurf(e.target.value)} required>
+            <label className="label" htmlFor="turf">Select Turf:</label>
+            <select
+              className="select"
+              id="turf"
+              name="turf"
+              value={selectedTurf}
+              onChange={(e) => setSelectedTurf(e.target.value)}
+              required
+            >
               <option value="">Select Turf</option>
-              {turfs.map(turf => (
-                <option key={turf.id} value={turf.id}>{turf.name}</option>
+              {turfs.map((turf) => (
+                <option key={turf.id} value={turf.id}>
+                  {turf.name}
+                </option>
               ))}
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="players">Number of Players:</label>
+            <label className="label" htmlFor="players">Number of Players:</label>
             <input
+              className="input-number"
               type="number"
               id="players"
               name="players"
@@ -63,8 +73,9 @@ const CreatePlayForm = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="date">Date of Play:</label>
+            <label className="label" htmlFor="date">Date of Play:</label>
             <input
+              className="input-number"
               type="date"
               id="date"
               name="date"
@@ -74,8 +85,9 @@ const CreatePlayForm = () => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="time">Time of Play:</label>
+            <label className="label" htmlFor="time">Time of Play:</label>
             <input
+              className="input-time"
               type="time"
               id="time"
               name="time"
@@ -87,7 +99,7 @@ const CreatePlayForm = () => {
           <button type="submit" className="create-button">Create Play</button>
         </form>
       </div>
-    </main>
+    </div>
   );
 };
 
