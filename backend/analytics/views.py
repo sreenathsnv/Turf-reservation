@@ -32,7 +32,7 @@ from django.db.models import Avg
 
 
 def test(request):
-    return HttpResponse("Good to Go")
+    return HttpResponse("Good to Goo")
 
 #========================================PLayer View================================================
 
