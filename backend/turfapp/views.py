@@ -79,7 +79,7 @@ def get_turfs_all(request):
     
     try:
         turf_serializer = TurfSerializer(turfs,many=True)
-
+        
         return Response(turf_serializer.data,status=HTTP_200_OK)
     except Exception as e:
 
