@@ -1,0 +1,293 @@
+    main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    min-height: 100vh;
+
+  }
+
+  .container-main {
+    display: flex;
+    margin-top: 14vh;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 97%;    
+    padding: 0vh 0vh 0vh 5vh  ;
+    height: fit-content;
+  }
+
+  #hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(0.5px) saturate(154%);
+      -webkit-backdrop-filter: blur(0.5px) saturate(154%);
+      background-color: rgba(255, 255, 255, 0.63);
+      border-radius: 12px;
+      border: 1px solid rgba(209, 213, 219, 0.662);
+    
+    color: #1e1e1f;
+    padding: 2rem 0;
+    text-align: center;
+    position: relative;
+    min-height: 33vh;
+    width: 80%;
+  }
+  #hero img.hero-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 1rem;
+    border-radius: 10px;
+  }
+  #hero h2 {
+    margin: 0;
+  }
+  #hero p {
+    margin: 0 0 1.5rem;
+  }
+  #hero button {
+    background: #fff;
+    color: #333;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+  #hero button:hover {
+    background: #ddd;
+  } 
+  #turfs,
+  #recommendations {
+    padding: 2rem 0;
+  }
+  #turfs h2,
+  #recommendations h2 {
+    margin-bottom: 1rem;
+    text-align: center;
+    color: #f4f4f4;
+  }
+  /*............................... create and join............... button*/
+   .button-box {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+  } 
+   .create-button {
+    text-decoration: none;
+    position: relative;
+    border: none;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    color: #fff;
+    width: 9em;
+    height: 3em;
+    line-height: 2em;
+    text-align: center;
+    background: linear-gradient(90deg, #07d7be, #0ac720, #04f92d, #079f6c);
+    background-size: 300%;
+    border-radius: 30px;
+    z-index: 1;
+    margin-right: 3vw;
+  }
+   .create-button:hover {
+    animation: ani 8s linear infinite;
+    border: none;
+  }
+  
+  @keyframes ani {
+    0% {
+      background-position: 0%;
+    }
+    100% {
+      background-position: 400%;
+    }
+  }
+  .create-button:before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    z-index: -1;
+    background: linear-gradient(90deg, #2cb56c, #e3f42a, #ffeb3b, #2cb56c);
+    background-size: 400%;
+    border-radius: 35px;
+    transition: 1s;
+  }
+  .create-button:hover::before {
+    filter: blur(20px);
+  }
+  .create-button:active {
+      background: linear-gradient(135deg, #2cb56c, #d4e021, #ffeb3b, #2cb56c);
+    
+  }
+  /*........................ Recommendations styles ...............................*/
+  .recommendation-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .recommendation-box {
+    background-color: #ffffffee;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+  }
+  .recommendation-box h3 {
+    margin: 0 0 10px;
+    font-size: 1.5rem;
+  }
+  .recommendation-box p {
+    margin: 5px 0;
+    font-size: 1.2rem;
+  }
+  .recommendation-box button {
+    background-color: #2cb56c;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .recommendation-box button:hover {
+    background-color: #555;
+  }
+  .load-more-btn {
+    background-color:#2cb56c;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transition: background-color 0.3s ease;
+  }
+  .load-more-btn:hover {
+    background-color: #555;
+  }
+  .load-more-btn:hover {
+    background-color: #555;
+  }
+  /* .............................Load more button styles..................... */
+  .load-more-btn {
+    background: #2cb56c;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    margin: 1rem auto;
+    display: block;
+  }
+  .load-more-btn:hover {
+    background: #555;
+  }
+  
+  /* Footer styles */
+  footer {
+    background: #2cb56c;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+  }
+  footer p {
+    margin: 0;
+  }
+  /* ...............................Search bar styles...................................... */
+  
+  .search {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 29vw;
+    margin: 0 auto; /* Center horizontally */
+  }
+  
+  .search input[type="text"] {
+    width: 100%; /* Ensure the input field takes up the full width of the parent container */
+    padding: 10px;
+    padding-left: 2vw;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 2.5vh;
+  }
+  
+  
+  /*.......................... book now button.................................*/
+  .cta-button {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 5px;
+    background-color: #2cb56c;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cta-button:hover {
+    background-color: #012716;
+  }
+  
+  /*..................chatbot....................*/
+  #chatbot {
+    position: fixed;
+    bottom: 0;
+    left: 20px; /* Ensure this is set to place it on the right */
+    width: 300px;
+    border: 1px solid #ccc;
+    background: white;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000; /* Ensure it's above other elements */
+  }
+  
+  #chatbot-header {
+    background: #4CAF50;
+    color: white;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+  }
+  
+  #chatbot-messages {
+    padding: 10px;
+    height: 200px;
+    overflow-y: scroll;
+    flex-grow: 1;
+  }
+  
+  #chatbot-input {
+    border: none;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  #chatbot-send {
+    border: none;
+    background: #4CAF50;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  
