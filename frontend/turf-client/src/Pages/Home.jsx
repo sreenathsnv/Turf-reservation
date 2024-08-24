@@ -1,7 +1,34 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
+=======
+import React, { useEffect } from "react";
+>>>>>>> 1c0a814bf97e2ca0d0175543f704de7814af3443
 import "../CSS/Home/home.css";
+import { useAuth } from "../context/Authcontext";
+import { axiosInstance } from "../utils/CustomFetch";
+import CreatePlayForm from "./Createroom";
+import Turflist from "../Components/home/Turflist";
+
+const fetchUserData = async (token, setUser) => {
+  try {
+    const response = await axiosInstance.get('/auth/users/', {
+      headers: {
+        "Authorization": `JWT ${token}`,
+      }
+    });
+    // setUser(response.data[0]);
+    setUser(response.data[0]);
+    
+    
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
+
+
 
 const Home = () => {
+<<<<<<< HEAD
   const [recommendations, setRecommendations] = useState([
     { name: "Campnou", location: "Marathahalli", rating: "4.5/5" },
     { name: "Santiyago", location: "Kadkodi", rating: "4.2/5" },
@@ -25,19 +52,41 @@ const Home = () => {
     setRecommendations(filteredRecommendations);
   };
 
+=======
+  const {
+    token,
+    user,
+    isAuthenticated,
+    setUser,
+  } = useAuth();
+
+  useEffect(() => {
+    if (token && isAuthenticated) {
+      fetchUserData(token, setUser);
+      // console.log(user)
+      
+    }
+  }, [token, isAuthenticated]);
+>>>>>>> 1c0a814bf97e2ca0d0175543f704de7814af3443
   return (
+    
     <main>
       <div className="container-main">
         <section id="hero">
           <h2>Book Your Turf Easily and Quickly</h2>
           <p>Find the best turfs near you and book online.</p>
           <button
+<<<<<<< HEAD
             onClick={() => (window.location.href = 'booking.html')}
+=======
+            
+>>>>>>> 1c0a814bf97e2ca0d0175543f704de7814af3443
             className="cta-button"
           >
             Book Now
           </button>
         </section>
+<<<<<<< HEAD
 
         <section id="turfs">
           <h2>Available Turfs</h2>
@@ -85,8 +134,12 @@ const Home = () => {
             Load More
           </button>
         </section>
+=======
+        <Turflist/>
+>>>>>>> 1c0a814bf97e2ca0d0175543f704de7814af3443
       </div>
     </main>
+    
   );
 };
 

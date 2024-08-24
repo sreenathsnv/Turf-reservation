@@ -92,6 +92,9 @@ class Turf(models.Model):
                 return True
             return False
         return False
+    @property
+    def phone(self):
+        return self.turf_manager.phone
 
 class TurfReview(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 

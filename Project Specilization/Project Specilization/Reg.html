@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Turf Booking</title>
+  <link rel="stylesheet" href="./Reg.css">
+</head>
+<body>
+  <form action="" class="form_main" id="registrationForm">
+    <p class="heading">Register</p>
+    <div class="inputContainer">
+      <input type="text" class="inputField" id="username" placeholder="Username" required>
+    </div>
+    <div class="inputContainer">
+      <input type="email" class="inputField" id="email" placeholder="Email" required>
+    </div>
+    <div class="inputContainer">
+      <input type="text" class="inputField" id="phonenumber" placeholder="Phone Number" required>
+    </div>
+    <div class="inputContainer">
+      <input type="password" class="inputField" id="password" placeholder="Password" required>
+      <span class="toggle-password" onclick="togglePassword('password')">&#128065;</span>
+    </div>
+    <div class="inputContainer">
+      <input type="password" class="inputField" id="confirm_password" placeholder="Confirm Password" required>
+      <span class="toggle-password" onclick="togglePassword('confirm_password')">&#128065;</span>
+    </div>
+    <div class="inputContainer">
+      <label class="radioLabel">
+        <input type="radio" name="userType" value="user" required> User
+      </label>
+      <label class="radioLabel">
+        <input type="radio" name="userType" value="owner" required> Owner
+      </label>
+    </div>
+    <button id="button" type="submit">Submit</button>
+  </form>
+  <script src="./Reg.js"></script>
+</body>
+</html>
+

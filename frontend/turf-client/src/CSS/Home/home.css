@@ -61,19 +61,28 @@
   } 
   #turfs,
   #recommendations {
-    padding: 2rem 0;
+    padding: 0rem 0;
   }
   #turfs h2,
-  #recommendations h2 {
-    margin-bottom: 1rem;
+  #recommendations h2 , .turf-recomendation-header {
+    margin-bottom: 3vh;
+    font-size: 2.2vw;
     text-align: center;
-    color: #f4f4f4;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #ffffff;
+    margin-bottom: 7vh;
+  }
+  .turf-recomendation-header{
+
+    font-size: 3.5vh;
+    color: #fafcfa;
   }
   /*............................... create and join............... button*/
    .button-box {
     display: flex;
     justify-content: center;
-    margin-bottom: 2rem;
+    margin-bottom: 15vh;
+    margin-top: 10vh;
   } 
    .create-button {
     text-decoration: none;
@@ -106,7 +115,7 @@
       background-position: 400%;
     }
   }
-  .create-button:before {
+  /* .create-button:before {
     content: "";
     position: absolute;
     top: -5px;
@@ -118,7 +127,7 @@
     background-size: 400%;
     border-radius: 35px;
     transition: 1s;
-  }
+  } */
   .create-button:hover::before {
     filter: blur(20px);
   }
@@ -213,14 +222,17 @@
     justify-content: center;
     width: 29vw;
     margin: 0 auto; /* Center horizontally */
+    margin-bottom: 3vh;
   }
   
   .search input[type="text"] {
     width: 100%; /* Ensure the input field takes up the full width of the parent container */
     padding: 10px;
+    padding-left: 2vw;
     border: none;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 2.5vh;
   }
   
   

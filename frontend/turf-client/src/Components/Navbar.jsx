@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../CSS/nav.css";
 import { useAuth } from "../context/Authcontext";
-
+import { axiosInstance } from "../utils/CustomFetch";
 const AuthNav = () => {
+
+  const {user,token,setToken,setUser,setIsAuthenticated} = useAuth()
+
+  const logout = ()=>{
+    if(token){
+      
+      delete axiosInstance.defaults.headers.common["Authorization"];
+        localStorage.removeItem('token');
+        setToken(null)
+        setUser(null)
+        setIsAuthenticated(false)
+    }
+  }
   return (
     <nav>
       <ul>
@@ -24,9 +37,15 @@ const AuthNav = () => {
         </li>
         <li>
           <Link to="/login">
-            <button>Logout</button>
+            <button onClick={logout}>Logout</button>
           </Link>
         </li>
+        <li className="profile-ele">
+  <Link to="/">
+      <img className="profile-pic" src={user?.profile_pic} alt="Profile" />
+  </Link>
+</li>
+
       </ul>
     </nav>
   );
@@ -59,9 +78,12 @@ const NotauthNav = () => {
 const Navbar = () => {
   const { isAuthenticated } = useAuth();
 
+  useEffect(()=>{
+    
+  },[isAuthenticated])
   return (
     <header>
-      <div class="container">
+      <div className="container">
         <h1>4play</h1>
         {isAuthenticated ? <AuthNav /> : <NotauthNav />}
       </div>

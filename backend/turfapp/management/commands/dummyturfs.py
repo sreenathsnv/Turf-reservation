@@ -19,6 +19,7 @@ class Command(BaseCommand):
                 city=fake.city(),
                 state=fake.state(),
                 zipcode=fake.zipcode(),
+                price = fake.pyfloat(left_digits=4, right_digits=2, positive=True, min_value=800, max_value=2000),
                 open_time=fake.time_object(),
                 close_time=fake.time_object(),
                 turf_manager=CustomUser.objects.filter(is_owner=True).order_by('?').first()

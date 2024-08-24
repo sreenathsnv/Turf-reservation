@@ -1,0 +1,32 @@
+.refresh-btn {
+    background-color: #0aa98c; 
+    border: none; 
+    color: rgb(242, 245, 242); 
+    padding: 10px 20px; 
+    text-align: center; 
+
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    font-size: 16px; 
+    cursor: pointer; 
+    border-radius: 5px;
+    margin-right: 1.2vw;
+    transition: background-color 0.3s; 
+  }
+  
+  .refresh-btn:hover {
+    background-color: #2fc9ac; 
+  }
+  
+  .refresh-btn .icon {
+    margin-right: 8px; 
+  }
+  
+  .refresh-btn .icon::before {
+    content: "\21BB"; 
+    font-size: 1.2vw; 
+    font-weight: 800;
+
+  }
+  

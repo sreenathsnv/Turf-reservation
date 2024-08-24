@@ -40,7 +40,7 @@ class TurfSerializer(ModelSerializer):
     slots = SlotSerializer(many=True,write_only=True)
     class Meta:
         model = Turf
-        fields = ['id', 'turf_name', 'description', 'city', 'state', 'zipcode', 'open_time', 'close_time', 'turf_manager', 'slots']
+        fields = ['id', 'turf_name', 'description', 'city', 'state', 'zipcode', 'open_time', 'close_time', 'turf_manager', 'slots','price']
 
     def create(self,validated_data):
         slots_data = validated_data.pop('slots')

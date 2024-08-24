@@ -9,8 +9,6 @@ import Page_404 from "./Pages/Page_404";
 import { ToastContainer} from 'react-toastify';
 import ForgotPasswordConfirm from "./Components/Auth/ForgotPasswordConfirm";
 import UserActivation from "./Components/Auth/UserActivation";
-import Group from "./Pages/Group";
-
 function App() {
   return (
     <>
