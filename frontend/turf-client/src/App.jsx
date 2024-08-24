@@ -9,6 +9,7 @@ import Page_404 from "./Pages/Page_404";
 import { ToastContainer} from 'react-toastify';
 import ForgotPasswordConfirm from "./Components/Auth/ForgotPasswordConfirm";
 import UserActivation from "./Components/Auth/UserActivation";
+import Group from "./Pages/Group";
 
 function App() {
   return (
@@ -17,8 +18,8 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" exact element={<Home />} />
-            {/* <Route path="/about" element={<About />} /> */}
-            {/* <Route path="/contact" element={<Contact />} /> */}
+            {/* { <Route path="/about" element={<About />} /> }
+            {<Route path="/contact" element={<Contact />} /> } */}
             <Route path="/signup" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/password/reset" element={<ForgotPasswordConfirm/>} />
@@ -26,6 +27,8 @@ function App() {
 
             {/* user Protected */}
 
+
+             <Route path="/Group" element={<ProtectedRoute><Group/></ProtectedRoute>} />
             <Route path="/booking" element={<ProtectedRoute><div>hello</div></ProtectedRoute>} />
             <Route path="*" element={<Page_404/>}/>
           </Routes>
