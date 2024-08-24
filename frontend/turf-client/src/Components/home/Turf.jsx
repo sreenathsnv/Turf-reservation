@@ -3,6 +3,9 @@ import "../../CSS/Turf/turfcard.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPhone } from '@fortawesome/free-solid-svg-icons';
+
+
 const formatTime = (time) => {
   let [hours, minutes] = time.split(":");
 
@@ -30,9 +33,20 @@ const Turf = ({ props }) => {
             <i class="phone-icon"></i> {props.phone}
           </a>
         </p>
-        <p class="turf-time">
-          Open: {formatTime(props.open_time)} AM - Close:{" "}
-          {formatTime(props.close_time)} PM
+        <p className="turf-phone">
+          <a href={`tel:${props.phone}`}>
+            <FontAwesomeIcon icon={faPhone} style={{ marginRight: '0.5vw' }} />
+            {props.phone}
+          </a>
+        </p>
+        <p className="turf-time">
+          {props.is_open? (
+            <span style={{ color: 'green' }}>Open Now</span>
+          ) : (
+            <span style={{ color: 'red' }}>Closed</span>
+          )}
+          <br />
+          Open: {formatTime(props.open_time)} AM - Close: {formatTime(props.close_time)} PM
         </p>
         <p class="turf-city">{props.state}</p>
         <p class="turf-zipcode">Zipcode: {props.zipcode}</p>

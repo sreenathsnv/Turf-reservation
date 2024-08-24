@@ -1,7 +1,7 @@
 .refresh-btn {
-    background-color: #f7f3f7; 
+    background-color: #0aa98c; 
     border: none; 
-    color: rgb(2, 97, 7); 
+    color: rgb(242, 245, 242); 
     padding: 10px 20px; 
     text-align: center; 
 
@@ -16,7 +16,7 @@
   }
   
   .refresh-btn:hover {
-    background-color: #c1c2c1; 
+    background-color: #2fc9ac; 
   }
   
   .refresh-btn .icon {

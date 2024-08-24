@@ -17,7 +17,8 @@ const Turflist = () => {
     async function fetchTurf() {
       try {
         const response = await axiosInstance.get("/get-all-turfs/");
-
+        console.log(response.data);
+        
         setTurfs(response.data);
       } catch (error) {
         toast.error(response.data || "Couldn't  fetch turfs", {
@@ -59,8 +60,15 @@ const Turflist = () => {
   return (
     <>
       <section id="turfs">
+
+      <div className="button-box">
+        <button className="create-button">Create</button>
+        <button className="create-button">Join</button>
+      </div>
+
         <h2>Available Turfs</h2>
         <div className="turf-list"></div>
+        
         <div className="search">
           <button className="refresh-btn" onClick={refreshComponent}>
             <span className="icon"></span>
@@ -77,17 +85,12 @@ const Turflist = () => {
         </div>
       </section>
 
-      <div className="button-box">
-        <button className="create-button">Create</button>
-        <button className="create-button">Join</button>
-      </div>
-
       <section id="recommendations">
         
         {
         turfs.length >0 ? (
             <>
-            <h2>Nearby Recommendations</h2>
+            <h6 className="turf-recomendation-header">Nearby Recommendations</h6>
             <TurfRecommendations turfs={turfs} />
             </> 
             
