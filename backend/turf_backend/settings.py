@@ -191,7 +191,8 @@ DJOSER = {
     'PASSWORD_RESET_CONFIRM_RETYPE':True,
 
     'EMAIL':{
-        "activation": "turfapp.email.ActivationEmail"
+        "activation": "turfapp.email.ActivationEmail",
+        'password_reset': 'account.email.PasswordResetEmail',
         
     },
     

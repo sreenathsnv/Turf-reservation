@@ -51,7 +51,6 @@ def get_rooms_all(request):
 
     try:
         room_serializer = GameRoomSerializer(rooms,many= True)
-
         return Response(room_serializer.data,status=HTTP_200_OK)
     except Exception as e:
         return Response({'error':str(e)},status=HTTP_500_INTERNAL_SERVER_ERROR)
@@ -162,25 +161,30 @@ def create_room(request):
 @permission_classes([IsAuthenticated])
 def comments(request,pk):
     if request.method == 'POST':
-               
-        group = GameRoom.objects.get(id=pk)
+        try:
 
+            group = GameRoom.objects.get(id=pk)
+        except GameRoom.DoesNotExist:
+             return Response({'error': 'Group is not present '}, status=HTTP_400_BAD_REQUEST)
         if not request.user in group.players.all():
             return Response({'error': 'User is not present in the group'}, status=HTTP_400_BAD_REQUEST)
 
-        comment_serializer = GroupCommentsSerializer(data = request.data) 
+        
 
         # Validate and save the serializer
-        if comment_serializer.is_valid():
-           
-            comment_serializer.save(user=request.user)
+        
+        GroupComments.objects.create(
+        user=request.user,
+        group=group,
+        body=request.data.get('body'),
+        
+    )
 
-            comments = GroupComments.objects.filter(group = pk)
-            serializer = GroupCommentsSerializer(comments,many=True)
+        comments = GroupComments.objects.filter(group = pk)
+        serializer = GroupCommentsSerializer(comments,many=True)
 
-            return Response(serializer.data, status=HTTP_201_CREATED)
-        else:
-            return Response({'error': 'Error saving comment', 'details': comment_serializer.errors}, status=HTTP_400_BAD_REQUEST)
+        return Response(serializer.data, status=HTTP_201_CREATED)
+        
     
 
     if request.method == 'GET':
@@ -229,8 +233,15 @@ def get_group_details(request,pk):
     if group is None:
         return Response({'error':'No such group'},status=HTTP_400_BAD_REQUEST)
     
+
+
     players = group.players.all()
     
+    if request.user in players:
+        is_member = True
+    else:
+        is_member = False
+
     players_details = [{'id': player.id,'name':player.name,'username':player.username} for player in players]
     turf_info = Turf.objects.get(id = group.turf.id)
     turf_serializer = TurfSerializer(turf_info)
@@ -238,7 +249,8 @@ def get_group_details(request,pk):
     response = {
         'group_info': serializer.data,
         'player_info':players_details,
-        'turf_info':turf_serializer.data
+        'turf_info':turf_serializer.data,
+        'is_member':is_member
     }
     return Response(response,status=HTTP_200_OK)
 

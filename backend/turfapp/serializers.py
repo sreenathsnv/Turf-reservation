@@ -1,5 +1,6 @@
 from djoser.serializers import UserCreateSerializer
 from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 from .models import (
     CustomUser,PlayerAnalysis,Turf,
     TurfReview,GameRoom,GroupComments,
@@ -62,9 +63,15 @@ class TurfReviewSerializer(ModelSerializer):
 
 class GameRoomSerializer(ModelSerializer):
     
+
+    turf = serializers.CharField(source='turf.turf_name')
+    location = serializers.CharField(source='turf.city')
+    slot_details = serializers.CharField(source='time_slot.start_time')
+
     class Meta:
         model = GameRoom
-        fields = '__all__'
+        fields =  ['id','group_name','req_players','is_active','turf', 'location','slot_details'] 
+        # extra_fields = ['turf', 'location','slot_details']
 
 class GroupCommentsSerializer(ModelSerializer):
     

@@ -108,7 +108,20 @@ class TurfReview(models.Model):
     def __str__(self) -> str:
         return f"{self.user.name} : {self.comments[:20]}"
 
+class Slot(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    turf = models.ForeignKey(Turf,default=None,on_delete=models.CASCADE)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self) -> str:
+        return f"{self.turf} : {self.created_at}"
+
+def get_current_date():
+    return timezone.now().date()
 
 class GameRoom(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -116,7 +129,7 @@ class GameRoom(models.Model):
 
     group_name = models.TextField(max_length=24)
     req_players = models.IntegerField()
-    time_slot = models.DateTimeField(default=timezone.now)
+    time_slot = models.ForeignKey(Slot,on_delete=models.CASCADE,default=None)
 
     players = models.ManyToManyField(CustomUser,blank=True,default=None)
 
@@ -143,21 +156,6 @@ class GroupComments(models.Model):
     def __str__(self) -> str:
         return self.body[:20]
 
-
-class Slot(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    turf = models.ForeignKey(Turf,default=None,on_delete=models.CASCADE)
-    start_time = models.TimeField()
-    end_time = models.TimeField()
-    
-    updated_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self) -> str:
-        return f"{self.turf} : {self.created_at}"
-
-def get_current_date():
-    return timezone.now().date()
 class Booking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)

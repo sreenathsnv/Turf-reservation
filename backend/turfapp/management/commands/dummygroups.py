@@ -13,12 +13,14 @@ class Command(BaseCommand):
 
         # Generate GameRooms
         for _ in range(100):
+            turf = Turf.objects.order_by('?').first()
+            slot = Slot.objects.order_by('?').first()
             GameRoom.objects.create(
                 group_admin=CustomUser.objects.order_by('?').first(),
                 group_name=fake.word(),
                 req_players=random.randint(1, 11),
-                time_slot=fake.date_time_this_year(),
-                turf=Turf.objects.order_by('?').first()
+                turf=turf,
+                time_slot=slot,
             )
             print("-done")
         print("created gamerooms")
