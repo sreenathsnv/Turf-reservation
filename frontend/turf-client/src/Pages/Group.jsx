@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import MemberList from "../Components/group/MemberList";
 import CommentsSection from "../Components/group/CommentsSection";
 import "../CSS/Group.css";
-import { useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
+import {toast,Bounce} from 'react-toastify'
 import { axiosInstance } from "../utils/CustomFetch";
 import Loader from "../Components/Loader";
 
@@ -10,17 +11,115 @@ const GroupActivity = () => {
   const { id } = useParams();
   const [groupData, setGroupData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+
+  const navigate = useNavigate()
 
   const leaveGroup = async ()=>{
 
     const response = await axiosInstance.delete(`/groups/${id}/leave/`)
-    console.log(response.data,response.status)
+
+    if (response.status == 200){
+
+      toast.success("You left", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
+      navigate('/user/groups')
+    }else{
+
+      toast.error(`Error! ${response.data.error}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
+    }
+    
   }
   const joinGroup = async ()=>{
 
-    const response = await axiosInstance.post(`/groups/${id}/join/`)
-    console.log(response.data,response.status)
+    try{
+      const response = await axiosInstance.post(`/groups/${id}/join/`)
+      if (response.status == 200){
+
+        toast.success("joined successfully", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+        try {
+          
+          const response = await axiosInstance.get(`/groups/${id}`);
+          setGroupData(response.data);
+          
+  
+        } catch (error) {
+          toast.error("Please go to group section", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Bounce,
+          });
+          
+  
+        } finally {
+          setLoading(false);
+          console.log(groupData?.is_member);
+        }
+        
+      } 
+      else{
+        toast.error(`Error! ${response.data.error}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+      }
+    }catch(error){
+
+      toast.error(`Error Occured! `, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
+    }
+    
+    
   }
   useEffect(() => {
     async function fetchData() {
@@ -32,7 +131,7 @@ const GroupActivity = () => {
 
       } catch (error) {
         console.error("Failed to fetch data:", error);
-        setError(error);
+        
 
       } finally {
         setLoading(false);
@@ -46,7 +145,6 @@ const GroupActivity = () => {
   }, [id]);
 
   if( loading){return <Loader/>;}
-  if (error) return <div>Error loading group data.</div>;
 
   // Ensure groupData and groupData.group_info are defined
   const groupInfo = groupData?.group_info || {};

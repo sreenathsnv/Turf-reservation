@@ -149,12 +149,12 @@
   background-color: #e0e0e0;
 }
 
-.play-card-button.join-button {
+.play-card-button.join-card-button {
   background-color: #4CAF50;
   color: white;
 }
 
-.play-card-button.join-button:hover {
+.play-card-button.join-card-button:hover {
   background-color: #6dc271;
   transform: scale(1.06);
   transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
