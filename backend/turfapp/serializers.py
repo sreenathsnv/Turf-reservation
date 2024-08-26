@@ -1,5 +1,6 @@
 from djoser.serializers import UserCreateSerializer
 from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 from .models import (
     CustomUser,PlayerAnalysis,Turf,
     TurfReview,GameRoom,GroupComments,
@@ -40,7 +41,7 @@ class TurfSerializer(ModelSerializer):
     slots = SlotSerializer(many=True,write_only=True)
     class Meta:
         model = Turf
-        fields = ['id', 'turf_name', 'description', 'city', 'state', 'zipcode', 'open_time', 'close_time', 'turf_manager', 'slots','price']
+        fields = ['id', 'turf_name', 'description', 'city', 'state', 'zipcode', 'open_time', 'close_time', 'turf_manager', 'slots','price','phone','is_open']
 
     def create(self,validated_data):
         slots_data = validated_data.pop('slots')
@@ -62,15 +63,23 @@ class TurfReviewSerializer(ModelSerializer):
 
 class GameRoomSerializer(ModelSerializer):
     
+
+    turf = serializers.CharField(source='turf.turf_name')
+    location = serializers.CharField(source='turf.city')
+    slot_details = serializers.CharField(source='time_slot.start_time')
+
     class Meta:
         model = GameRoom
-        fields = '__all__'
+        fields =  ['id','group_name','req_players','is_active','turf', 'location','slot_details'] 
+        # extra_fields = ['turf', 'location','slot_details']
 
 class GroupCommentsSerializer(ModelSerializer):
     
+    user = serializers.CharField(source='user.username')
+    avatar = serializers.CharField(source='user.profile_pic')
     class Meta:
         model = GroupComments
-        fields = '__all__'
+        fields = ['id','user','body','created_at','group','avatar']
 
 class PaymentSerializer(ModelSerializer):
     

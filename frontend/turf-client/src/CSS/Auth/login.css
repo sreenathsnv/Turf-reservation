@@ -46,6 +46,7 @@
 .inputIcon {
   position: absolute;
   left: 3px;
+  margin-right: 1vw;
 }
 
 .inputField {

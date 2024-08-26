@@ -16,7 +16,7 @@ const TurfRecommendations = ({ turfs }) => {
           return index <= turfnum && <Turf props= {turf} key={index} />;
         })}
       </div>
-      <button className="load-more-btn" onClick={loadTurfs}>Load More</button>
+      {turfs.length>3 && <button className="load-more-btn" onClick={loadTurfs}>Load More</button>}
     </>
   );
 };

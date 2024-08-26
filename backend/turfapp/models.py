@@ -87,10 +87,16 @@ class Turf(models.Model):
     @property
     def is_open(self):
         if self.open_time and self.close_time:
-            now = timezone.now()
-            if self.open_time <= now <= self.close_time:
-                return True
-            return False
+            now = timezone.now().time()  # Get current time
+            print(now)
+            if self.open_time <= self.close_time: 
+                # print(f"{self.open_time}- {self.close_time} -- {self.open_time <= now <= self.close_time}") # Same day operation
+                return (self.open_time <= now) and now <= self.close_time
+                
+            else:  # Over midnight operation
+                # print(f"{self.open_time}- {self.close_time} -- {now >= self.open_time or now <= self.close_time}") # Same day operation
+                return now >= self.open_time or now <= self.close_time
+                
         return False
     @property
     def phone(self):
@@ -108,7 +114,20 @@ class TurfReview(models.Model):
     def __str__(self) -> str:
         return f"{self.user.name} : {self.comments[:20]}"
 
+class Slot(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    turf = models.ForeignKey(Turf,default=None,on_delete=models.CASCADE)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self) -> str:
+        return f"{self.turf} : {self.created_at}"
+
+def get_current_date():
+    return timezone.now().date()
 
 class GameRoom(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -116,7 +135,7 @@ class GameRoom(models.Model):
 
     group_name = models.TextField(max_length=24)
     req_players = models.IntegerField()
-    time_slot = models.DateTimeField(default=timezone.now)
+    time_slot = models.ForeignKey(Slot,on_delete=models.CASCADE,default=None)
 
     players = models.ManyToManyField(CustomUser,blank=True,default=None)
 
@@ -143,21 +162,6 @@ class GroupComments(models.Model):
     def __str__(self) -> str:
         return self.body[:20]
 
-
-class Slot(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    turf = models.ForeignKey(Turf,default=None,on_delete=models.CASCADE)
-    start_time = models.TimeField()
-    end_time = models.TimeField()
-    
-    updated_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self) -> str:
-        return f"{self.turf} : {self.created_at}"
-
-def get_current_date():
-    return timezone.now().date()
 class Booking(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)

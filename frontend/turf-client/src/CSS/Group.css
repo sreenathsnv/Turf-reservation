@@ -1,0 +1,226 @@
+
+.container-group {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffffc4;
+  margin-top: 7vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar li {
+  display: inline;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+.profile-icon {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.main-content {
+  padding: 20px;
+}
+
+.group-activity {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.title {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.membership-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.leave-button {
+  background-color: #fb2904;
+  color: white;
+  /* padding: 10px 20px; */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 2vw;
+  width: 10vw;
+  height:7vh;
+}
+.join-button{
+
+  background-color: #4db100;
+  color: white;
+  /* padding: 10px 20px; */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 2vw;
+  width: 10vw;
+  height:7vh;
+}
+.member-list {
+  list-style-type: none;
+  margin: 20px 0;
+  padding: 0;
+}
+
+.member-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.member-item img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.comments-section {
+  margin-top: 30px;
+}
+
+.comment {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.comment-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.comment-content {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex: 1;
+}
+
+.comment-author {
+  font-weight: bold;
+}
+
+.comment-time {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 5px;
+}
+
+.comment-text {
+  margin: 10px 0;
+}
+
+.comment-interactions {
+  display: flex;
+  gap: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.comment-input-container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.comment-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-right: 10px; /* Space between input and button */
+}
+
+.send-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.send-button:hover {
+  background-color: #0056b3;
+}
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+
+}
+.card-header {
+  font-size: 26px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+  text-align: center;
+}
+.card-content {
+  margin-bottom: 20px;
+}
+.card-content p {
+  margin: 10px 0;
+  font-size: 16px;
+  line-height: 1.6;
+}
+.card-content p strong {
+  color: #555;
+}
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #777;
+}
+.card-footer .status {
+  font-weight: bold;
+  color: #4caf50;
+}
+.card-footer .details {
+  font-style: italic;
+}

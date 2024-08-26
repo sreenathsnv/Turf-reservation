@@ -28,25 +28,21 @@ const Turf = ({ props }) => {
           />
           {props.city}
         </p>
-        <p class="turf-phone">
-          <a href="tel:{props.phone}">
-            <i class="phone-icon"></i> {props.phone}
-          </a>
-        </p>
         <p className="turf-phone">
-          <a href={`tel:${props.phone}`}>
+          <a className="phone-num" href={`tel:${props.phone}`}>
             <FontAwesomeIcon icon={faPhone} style={{ marginRight: '0.5vw' }} />
             {props.phone}
           </a>
         </p>
         <p className="turf-time">
           {props.is_open? (
-            <span style={{ color: 'green' }}>Open Now</span>
+            <span style={{ color: 'green', marginBottom:'2vh',fontSize:'2vh'  }}>Open Now</span>
           ) : (
-            <span style={{ color: 'red' }}>Closed</span>
+            <span style={{ color: 'red', marginBottom:'2vh',fontSize:'2vh' }}>Closed</span>
           )}
           <br />
-          Open: {formatTime(props.open_time)} AM - Close: {formatTime(props.close_time)} PM
+          <br />
+          Open: {formatTime(props.open_time)}  - Close: {formatTime(props.close_time)}
         </p>
         <p class="turf-city">{props.state}</p>
         <p class="turf-zipcode">Zipcode: {props.zipcode}</p>

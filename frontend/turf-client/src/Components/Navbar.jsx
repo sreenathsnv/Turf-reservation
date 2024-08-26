@@ -26,7 +26,7 @@ const AuthNav = () => {
           </Link>
         </li>
         <li>
-          <Link to="/login">
+          <Link to="/user/groups">
             <button>Groups</button>
           </Link>
         </li>
