@@ -110,11 +110,12 @@ def join_group(request,pk):
     user = request.user
     
     
-    if group.req_players <= group.player_count:
+    # if group.req_players <= group.player_count:
 
-        return Response({'error':"This group is already full"},status=HTTP_400_BAD_REQUEST)
+    #     return Response({'error':"This group is already full"},status=HTTP_400_BAD_REQUEST)
     
-    elif user in group.players.all() :
+    if user in group.players.all() :
+        print(user in group.players.all() ,group.players.all())
         return Response({'error': 'User already exists'}, status=HTTP_400_BAD_REQUEST)
     else:
 
@@ -123,7 +124,7 @@ def join_group(request,pk):
 
         
         group.save()
-
+        group.refresh_from_db()
     serializer = GameRoomSerializer(group)
 
     
@@ -222,14 +223,14 @@ def delete_comment(request,pk):
     except GroupComments.DoesNotExist:
         return Response({'error':'Unknown error'},status=HTTP_400_BAD_REQUEST)
 
-@cache_page(60 * 10)
-@vary_on_cookie
+# @cache_page(60 * 10)
+# @vary_on_cookie
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_group_details(request,pk):
 
     group = GameRoom.objects.get(id=pk)
-
+    group.refresh_from_db()
     if group is None:
         return Response({'error':'No such group'},status=HTTP_400_BAD_REQUEST)
     
@@ -242,7 +243,7 @@ def get_group_details(request,pk):
     else:
         is_member = False
 
-    players_details = [{'id': player.id,'name':player.name,'username':player.username} for player in players]
+    players_details = [CustomUserSerializer(player).data for player in players]
     turf_info = Turf.objects.get(id = group.turf.id)
     turf_serializer = TurfSerializer(turf_info)
     serializer = GameRoomSerializer(group)
@@ -282,6 +283,7 @@ def remove_user(request,pk):
         group.players.remove(user)
         group.req_players += 1
         group.save()
+        group.refresh_from_db()
         serializer = GameRoomSerializer(group)
         return Response(serializer.data,status=HTTP_200_OK)
 
@@ -301,21 +303,23 @@ def leave_group(request,pk):
     
     try:
         group.players.remove(request.user)
+        print(request.user in group.players.all())
         group.req_players += 1
         group.save()
+        group.refresh_from_db()
         serializer = GameRoomSerializer(group)
         return Response(serializer.data,status=HTTP_200_OK)
     except Exception as e:
         return Response({'Error':str(e)},status=HTTP_400_BAD_REQUEST)
 
 
-@cache_page(60 * 25)
-@vary_on_cookie
+# @cache_page(60 * 25)
+# @vary_on_cookie
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_groups(request):
     groups = GameRoom.objects.filter(players = request.user)
-
+    
     serializer = GameRoomSerializer(groups,many=True)
 
     return Response(serializer.data,status=HTTP_200_OK)

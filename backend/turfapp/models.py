@@ -87,10 +87,16 @@ class Turf(models.Model):
     @property
     def is_open(self):
         if self.open_time and self.close_time:
-            now = timezone.now()
-            if self.open_time <= now <= self.close_time:
-                return True
-            return False
+            now = timezone.now().time()  # Get current time
+            print(now)
+            if self.open_time <= self.close_time: 
+                # print(f"{self.open_time}- {self.close_time} -- {self.open_time <= now <= self.close_time}") # Same day operation
+                return (self.open_time <= now) and now <= self.close_time
+                
+            else:  # Over midnight operation
+                # print(f"{self.open_time}- {self.close_time} -- {now >= self.open_time or now <= self.close_time}") # Same day operation
+                return now >= self.open_time or now <= self.close_time
+                
         return False
     @property
     def phone(self):

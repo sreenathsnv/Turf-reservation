@@ -41,7 +41,7 @@ class TurfSerializer(ModelSerializer):
     slots = SlotSerializer(many=True,write_only=True)
     class Meta:
         model = Turf
-        fields = ['id', 'turf_name', 'description', 'city', 'state', 'zipcode', 'open_time', 'close_time', 'turf_manager', 'slots','price']
+        fields = ['id', 'turf_name', 'description', 'city', 'state', 'zipcode', 'open_time', 'close_time', 'turf_manager', 'slots','price','phone','is_open']
 
     def create(self,validated_data):
         slots_data = validated_data.pop('slots')
@@ -75,9 +75,11 @@ class GameRoomSerializer(ModelSerializer):
 
 class GroupCommentsSerializer(ModelSerializer):
     
+    user = serializers.CharField(source='user.username')
+    avatar = serializers.CharField(source='user.profile_pic')
     class Meta:
         model = GroupComments
-        fields = '__all__'
+        fields = ['id','user','body','created_at','group','avatar']
 
 class PaymentSerializer(ModelSerializer):
     
