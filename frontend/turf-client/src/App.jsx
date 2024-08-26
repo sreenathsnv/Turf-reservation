@@ -9,14 +9,10 @@ import Page_404 from "./Pages/Page_404";
 import { ToastContainer} from 'react-toastify';
 import ForgotPasswordConfirm from "./Components/Auth/ForgotPasswordConfirm";
 import UserActivation from "./Components/Auth/UserActivation";
-<<<<<<< HEAD
-=======
-
 import GroupList from "./Components/group/GroupList";
 import GroupActivity from "./Pages/Group";
 import UserGroupList from "./Components/group/UserGroupList";
 
->>>>>>> recovery-branch
 function App() {
   return (
     <>
@@ -34,7 +30,7 @@ function App() {
             {/* user Protected */}
 
 
-             <Route path="/Group" element={<ProtectedRoute><Group/></ProtectedRoute>} />
+             {/* <Route path="/Group" element={<ProtectedRoute><Group/></ProtectedRoute>} /> */}
             <Route path="/booking" element={<ProtectedRoute><div>hello</div></ProtectedRoute>} />
             <Route path="/groups" element={<ProtectedRoute><GroupList/></ProtectedRoute>} />
             <Route path="/groups/:id" element={<ProtectedRoute><GroupActivity/></ProtectedRoute>} />
