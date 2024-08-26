@@ -10,6 +10,10 @@ import { ToastContainer} from 'react-toastify';
 import ForgotPasswordConfirm from "./Components/Auth/ForgotPasswordConfirm";
 import UserActivation from "./Components/Auth/UserActivation";
 
+import GroupList from "./Components/group/GroupList";
+import GroupActivity from "./Pages/Group";
+import UserGroupList from "./Components/group/UserGroupList";
+
 function App() {
   return (
     <>
@@ -27,6 +31,10 @@ function App() {
             {/* user Protected */}
 
             <Route path="/booking" element={<ProtectedRoute><div>hello</div></ProtectedRoute>} />
+            <Route path="/groups" element={<ProtectedRoute><GroupList/></ProtectedRoute>} />
+            <Route path="/groups/:id" element={<ProtectedRoute><GroupActivity/></ProtectedRoute>} />
+            <Route path="/user/groups" element={<ProtectedRoute><UserGroupList/></ProtectedRoute>} />
+            <Route path="/user/groups/:id" element={<ProtectedRoute><GroupActivity/></ProtectedRoute>} />
             <Route path="*" element={<Page_404/>}/>
           </Routes>
         </Layout>

@@ -62,3 +62,10 @@
 .book-now-btn:hover {
     background-color: #45a049;
 }
+.phone-num{
+
+    font-size: 1vw;
+    color: #333;
+    text-decoration: none;
+
+}

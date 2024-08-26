@@ -4,14 +4,11 @@ import { useAuth } from "../context/Authcontext";
 import { axiosInstance } from "../utils/CustomFetch";
 import CreatePlayForm from "./Createroom";
 import Turflist from "../Components/home/Turflist";
+import GroupActivity from "./Group";
 
 const fetchUserData = async (token, setUser) => {
   try {
-    const response = await axiosInstance.get('/auth/users/', {
-      headers: {
-        "Authorization": `JWT ${token}`,
-      }
-    });
+    const response = await axiosInstance.get('/auth/users/',);
     // setUser(response.data[0]);
     setUser(response.data[0]);
     

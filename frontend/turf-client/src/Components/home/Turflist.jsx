@@ -3,11 +3,14 @@ import { axiosInstance } from "../../utils/CustomFetch";
 import TurfRecommendations from "./TurfRecommendations";
 import "../../CSS/Home/refreshbtn.css";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import Loader from "../Loader";
 const Turflist = () => {
   const [turfs, setTurfs] = useState([]);
   const [search, setSearch] = useState("");
   const [refresh, setRefresh] = useState(false);
-
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
   const refreshComponent = () => {
     setSearch("");
     setRefresh(!refresh);
@@ -20,6 +23,7 @@ const Turflist = () => {
         console.log(response.data);
         
         setTurfs(response.data);
+        setLoading(false)
       } catch (error) {
         toast.error(response.data || "Couldn't  fetch turfs", {
           position: "top-right",
@@ -40,7 +44,7 @@ const Turflist = () => {
 
   const handleSearch = () => {
     if (search === "") {
-      console.log("trig");
+      
 
       setRefresh(!refresh);
     } else {
@@ -56,14 +60,14 @@ const Turflist = () => {
       setTurfs(searchedItems);
     }
   };
-
+  if( loading){return <Loader/>}
   return (
     <>
       <section id="turfs">
 
       <div className="button-box">
         <button className="create-button">Create</button>
-        <button className="create-button">Join</button>
+        <button className="create-button" onClick={()=>{navigate('/groups')}}>Join</button>
       </div>
 
         <h2>Available Turfs</h2>
