@@ -595,6 +595,7 @@ def book_turf(request):
 
         if serializer.is_valid():
             serializer.save()
+            print("done")
             return Response({
                 'data':serializer.data,
                 'slot_details':SlotSerializer(slot).data,
