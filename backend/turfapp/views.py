@@ -55,8 +55,8 @@ def get_rooms_all(request):
     except Exception as e:
         return Response({'error':str(e)},status=HTTP_500_INTERNAL_SERVER_ERROR)
 
-@cache_page(60 * 25)
-@vary_on_cookie
+# @cache_page(60 * 25)
+# @vary_on_cookie
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def get_turfs_all(request):
@@ -66,7 +66,7 @@ def get_turfs_all(request):
     name = request.GET.get('name','')
     city = request.GET.get('city','')
 
-    print(f"Received search parameters - Name: {name}, Location: {city}")
+    # print(f"Received search parameters - Name: {name}, Location: {city}")
 
     if name and city:
         turfs = Turf.objects.filter(Q(turf_name__icontains=name) | Q(city__icontains=city))

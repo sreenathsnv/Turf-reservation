@@ -20,7 +20,8 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 USE_I18N = True
-
+TIME_ZONE = 'Asia/Kolkata'
+USE_TZ = True
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR,'.env'))
 # Quick-start development settings - unsuitable for production

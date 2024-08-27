@@ -4,6 +4,7 @@ from django.core.validators import MaxValueValidator,MinValueValidator
 from django.utils import timezone
 from .manager import CustomUserManager
 import uuid 
+import pytz
 # Create your models here.
 
 
@@ -87,8 +88,10 @@ class Turf(models.Model):
     @property
     def is_open(self):
         if self.open_time and self.close_time:
-            now = timezone.now().time()  # Get current time
-            print(now)
+            utc_now = timezone.now()
+            ist = pytz.timezone('Asia/Kolkata')
+            now = utc_now.astimezone(ist).time()
+
             if self.open_time <= self.close_time: 
                 # print(f"{self.open_time}- {self.close_time} -- {self.open_time <= now <= self.close_time}") # Same day operation
                 return (self.open_time <= now) and now <= self.close_time
