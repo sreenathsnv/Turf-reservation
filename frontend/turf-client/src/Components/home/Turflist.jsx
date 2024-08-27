@@ -25,7 +25,7 @@ const Turflist = () => {
         setTurfs(response.data);
         setLoading(false)
       } catch (error) {
-        toast.error(response.data || "Couldn't  fetch turfs", {
+        toast.error(error.response?.data || "Couldn't  fetch turfs", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,

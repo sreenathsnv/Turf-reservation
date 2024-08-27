@@ -36,7 +36,7 @@ const GroupList = () => {
     <div className="join-play">
       <main className="main">
         <div className="main-container">
-          <h2 className="main-title">{plays.length <0 ? "Game Rooms Available":" No available rooms"}</h2>
+          <h2 className="main-title">{plays.length >0 ? "Game Rooms Available":" No available rooms"}</h2>
           <div className="play-list">
             {plays.map((play,index) => {
              return index <= groupnum && <GroupCard key={index} play = {play}/> 

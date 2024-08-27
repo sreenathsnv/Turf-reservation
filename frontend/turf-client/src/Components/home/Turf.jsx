@@ -4,6 +4,7 @@ import "../../CSS/Turf/turfcard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from "react-router-dom";
 
 
 const formatTime = (time) => {
@@ -14,6 +15,13 @@ const formatTime = (time) => {
   return `${hours}:${minutes}`;
 };
 const Turf = ({ props }) => {
+
+  const navigate = useNavigate()
+  const handleBook = (id)=>{
+    console.log(id)
+    navigate(`/turf/${id}/book`)
+  }
+
   return (
     <div class="turf-card">
       <div class="turf-image">
@@ -47,7 +55,7 @@ const Turf = ({ props }) => {
         <p class="turf-city">{props.state}</p>
         <p class="turf-zipcode">Zipcode: {props.zipcode}</p>
         <p class="turf-price">₹{props.price}</p>
-        <button class="book-now-btn">Book Now</button>
+        <button class="book-now-btn" onClick={()=>{handleBook(props.id)}}>Book Now</button>
       </div>
     </div>
   );

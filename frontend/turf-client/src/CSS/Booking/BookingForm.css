@@ -1,65 +1,126 @@
 
-  #booking-form {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  #booking-form h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-  
-  #booking-form  form {
-    max-width: 400px;
-    margin: 0 auto;
-  }
-  
-  .form-group {
-    margin-bottom: 1rem;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-  
-  input[type=text], input[type=email], input[type=date], select {
-    width: 100%;
-    padding: 0.5rem;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  select {
-    height: 40px;
-  }
-  
-  button[type=submit] {
-    background-color: #2cb56c;
-    color: #fff;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 5px;
-    cursor: pointer;
-    display: block;
-    margin: auto;
-    margin-top: 1rem;
-  }
-  
-  button[type=submit]:hover {
-    background-color: #555;
-  }
-  
-  footer {
-    background: #2cb56c;
-    color: #fff;
-    text-align: center;
-    padding: 1rem 0;
-  }
-  
-  footer p {
-    margin: 0;
-  }
+.main-container-booking{
+
+  max-width: 60vw;
+}
+#turf-booking-form {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 60vw;
+  width: 60vw;
+  margin: auto;
+  position: relative;
+}
+
+#turf-booking-form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: #2cb56c;
+  border-radius: 10px 10px 0 0;
+}
+
+#turf-booking-form h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  color: #333;
+  font-family: 'Roboto', sans-serif;
+}
+
+.booking-display-group {
+  margin-bottom: 2rem;
+}
+
+.display-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 5px;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.display-item:last-child {
+  margin-bottom: 0;
+}
+
+.display-label {
+  font-weight: bold;
+  color: #333;
+  font-size: 1rem;
+}
+
+.display-value {
+  color: #555;
+  font-size: 1rem;
+}
+
+.booking-form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #333;
+  font-family: 'Roboto', sans-serif;
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease;
+}
+
+.form-input:focus,
+.form-select:focus {
+  border-color: #2cb56c;
+  outline: none;
+}
+
+.booking-submit-btn {
+  background-color: #2cb56c;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  margin: auto;
+  margin-top: 1.5rem;
+  font-size: 1.1rem;
+  font-family: 'Roboto', sans-serif;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.booking-submit-btn:hover {
+  background-color: #28a745;
+  transform: scale(1.05);
+}
+
+.footer-container {
+  background: #2cb56c;
+  color: #fff;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.footer-container p {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
