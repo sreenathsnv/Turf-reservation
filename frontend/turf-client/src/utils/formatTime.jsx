@@ -22,3 +22,10 @@ export function formatDate(dateString) {
         return `${diffInSeconds} second${diffInSeconds > 1 ? 's' : ''} ago`;
     }
 }
+
+export function convertTimeToHHMM(time) {
+    // Check if the input is in the correct format (HH:MM:SS)
+    if (time.length === 8 && time[2] === ':' && time[5] === ':') {
+        return time.slice(0, 5); // Extracts and returns HH:MM
+    }
+}

@@ -13,6 +13,7 @@ import GroupList from "./Components/group/GroupList";
 import GroupActivity from "./Pages/Group";
 import UserGroupList from "./Components/group/UserGroupList";
 import BookingForm from "./Pages/BookingForm";
+import Payment from "./Pages/Payment";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             <Route path="/user/groups" element={<ProtectedRoute><UserGroupList/></ProtectedRoute>} />
             <Route path="/user/groups/:id" element={<ProtectedRoute><GroupActivity/></ProtectedRoute>} />
             <Route path="/turf/:id/book" element={<ProtectedRoute><BookingForm/></ProtectedRoute>} />
+            <Route path="/turf/:id/payment" element={<ProtectedRoute><Payment/></ProtectedRoute>} />
             <Route path="*" element={<Page_404/>}/>
           </Routes>
         </Layout>
