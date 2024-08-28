@@ -224,3 +224,48 @@
 .card-footer .details {
   font-style: italic;
 }
+
+  
+.member-item {
+  position: relative;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.admin-controls {
+  display: none;
+  margin-left:50vw; ;
+
+}
+
+.member-item:hover .admin-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.member-item:hover{
+  transition: .5s;
+  background-color: rgb(231, 232, 233);
+}
+.remove-button, .review-button {
+  background-color: #ff4d4f;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  
+}
+
+.remove-button:hover {
+  background-color: #ff7875;
+}
+
+.review-button{
+  background-color: #4caf50;
+}
+
+.review-button:hover {
+  background-color: #66bb6a;
+}

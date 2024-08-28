@@ -3,11 +3,13 @@ import MemberList from "../Components/group/MemberList";
 import CommentsSection from "../Components/group/CommentsSection";
 import "../CSS/Group.css";
 import {  useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../context/Authcontext";
 import {toast,Bounce} from 'react-toastify'
 import { axiosInstance } from "../utils/CustomFetch";
 import Loader from "../Components/Loader";
 
 const GroupActivity = () => {
+  const {user} = useAuth()
   const { id } = useParams();
   const [groupData, setGroupData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -87,7 +89,7 @@ const GroupActivity = () => {
   
         } finally {
           setLoading(false);
-          console.log(groupData?.is_member);
+          
         }
         
       } 
@@ -135,7 +137,6 @@ const GroupActivity = () => {
 
       } finally {
         setLoading(false);
-        console.log(groupData?.is_member);
       }
     }
 
@@ -170,6 +171,10 @@ const GroupActivity = () => {
                 <span className="req-players">{groupInfo.req_players || 'N/A'}</span>
               </p>
               <p>
+                <strong>Date:</strong>{" "}
+                <span className="slot-details">{groupInfo.date || 'N/A'}</span>
+              </p>
+              <p>
                 <strong>Slot Details:</strong>{" "}
                 <span className="slot-details">{groupInfo.slot_details || 'N/A'}</span>
               </p>
@@ -193,7 +198,13 @@ const GroupActivity = () => {
             </div>
           </div>
           
-          <MemberList props={groupData?.player_info || []} />
+          <MemberList members={groupData?.player_info || []} 
+          isGroupAdmin={groupData?.is_admin}
+           is_member={groupData?.is_member}
+           currentUser = {user.id}
+           bookingDate = {groupData?.group_info.date}
+            slotTime = {groupData?.group_info.slot_details}
+             />
           <CommentsSection
             group={groupData?.id}
             is_member={groupData?.is_member}

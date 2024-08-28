@@ -19,32 +19,22 @@ const CreatePlayForm = () => {
   }, []);
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const groupAdminId = 'fcdc93a3-b0db-45b3-8b76-bb70663ad7c1';
-    const timeSlot = `${playDate}T${playTime}:00.000Z`;
-    const requestData = {
-      group_admin: groupAdminId,
-      group_name: 'testgroup-1',
-      req_players: numPlayers,
-      time_slot: timeSlot,
-      turf: selectedTurf,
-    };
-
-    axiosInstance.post('/your-api-endpoint', requestData)
-      .then(response => {
-        console.log('Play created successfully:', response.data);
-      })
-      .catch(error => console.error('Error creating play:', error));
+    // e.preventDefault();
+    // axiosInstance.post('/your-api-endpoint', requestData)
+    //   .then(response => {
+    //     console.log('Play created successfully:', response.data);
+    //   })
+    //   .catch(error => console.error('Error creating play:', error));
   };
 
   return (
-    <div className="main">
-      <div className="container">
-        <form className="form" id="create-play-form" onSubmit={handleSubmit}>
+    <div className="main-container">
+      <div className="form-container">
+        <form className="create-play-form" id="create-play-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="label" htmlFor="turf">Select Turf:</label>
+            <label className="form-label" htmlFor="turf">Select Turf:</label>
             <select
-              className="select"
+              className="form-select"
               id="turf"
               name="turf"
               value={selectedTurf}
@@ -60,9 +50,9 @@ const CreatePlayForm = () => {
             </select>
           </div>
           <div className="form-group">
-            <label className="label" htmlFor="players">Number of Players:</label>
+            <label className="form-label" htmlFor="players">Number of Players:</label>
             <input
-              className="input-number"
+              className="form-input-number"
               type="number"
               id="players"
               name="players"
@@ -73,9 +63,9 @@ const CreatePlayForm = () => {
             />
           </div>
           <div className="form-group">
-            <label className="label" htmlFor="date">Date of Play:</label>
+            <label className="form-label" htmlFor="date">Date of Play:</label>
             <input
-              className="input-number"
+              className="form-input-number"
               type="date"
               id="date"
               name="date"
@@ -85,9 +75,9 @@ const CreatePlayForm = () => {
             />
           </div>
           <div className="form-group">
-            <label className="label" htmlFor="time">Time of Play:</label>
+            <label className="form-label" htmlFor="time">Time of Play:</label>
             <input
-              className="input-time"
+              className="form-input-time"
               type="time"
               id="time"
               name="time"
@@ -96,7 +86,7 @@ const CreatePlayForm = () => {
               required
             />
           </div>
-          <button type="submit" className="create-button">Create Play</button>
+          <button type="submit" className="submit-button">Create Play</button>
         </form>
       </div>
     </div>

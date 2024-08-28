@@ -1,13 +1,64 @@
-import React from 'react';
+import React from "react";
 
+const MemberList = ({
+  members,
+  is_member,
+  bookingDate,
+  slotTime,
+  isGroupAdmin,
+  currentUser
+}) => {
+  console.log("bdate from props",bookingDate)
+  const shouldShowReviewButton = (bookingDate, slotTime) => {
+    console.log("kuyhgfduyswrgt");
 
-const MemberList = ({props}) => {
+    const currentDateTime = new Date().getUTCDate();
+    const currentTime = new Date().getTime()
+    const bookingDateTime = new Date(bookingDate).getUTCDate();
+    const slot_date_data = new Date(bookingDate)
+    const { hh, mm, ss } = slotTime.split(":").reduce((acc, time, idx) => {
+      if (idx === 0) acc.hh = Number(time);
+      if (idx === 1) acc.mm = Number(time);
+      if (idx === 2) acc.ss = Number(time);
+      return acc;
+  }, {});
+
+    const slotTime_n = new Date(slot_date_data.getFullYear(),slot_date_data.getMonth(),hh,mm,ss).getTime()
+    // console.log(
+    //   "cdate",
+    //   currentDateTime,
+    //   "bdate",
+    //   bookingDateTime,
+    //   "curretime",
+    //   currentTime,
+    //   "dltimr",
+    //   slotTime_n,
+    //   currentDateTime >= bookingDateTime
+    // );
+
+    return (currentDateTime >= bookingDateTime) && (slotTime_n <= currentTime );
+  };
+
   return (
     <ul className="member-list">
-      {props?.map((member, index) => (
+      {members?.map((member, index) => (
         <li key={index} className="member-item">
-          <img src={`${import.meta.env.VITE_BACKEND_URL}${member.profile_pic}`} alt="Avatar" />
+          <img
+            src={`${import.meta.env.VITE_BACKEND_URL}${member.profile_pic}`}
+            alt="Avatar"
+          />
           {member.username}
+          {isGroupAdmin && currentUser !== member.id ? (
+            <div className="admin-controls">
+              <button className="remove-button">Remove</button>
+              {shouldShowReviewButton(bookingDate, slotTime) && is_member && (
+                <button className="review-button">Review</button>
+              )}
+            </div>
+          ) : (
+            shouldShowReviewButton(bookingDate, slotTime) &&
+            is_member && currentUser !== member.id && <div className="admin-controls"><button className="review-button">Review</button></div>
+          )}
         </li>
       ))}
     </ul>
