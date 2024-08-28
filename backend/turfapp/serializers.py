@@ -70,7 +70,7 @@ class GameRoomSerializer(ModelSerializer):
 
     class Meta:
         model = GameRoom
-        fields =  ['id','group_name','req_players','is_active','turf', 'location','slot_details'] 
+        fields =  ['id','group_name','req_players','is_active','turf', 'location','slot_details','date'] 
         # extra_fields = ['turf', 'location','slot_details']
 
 class GroupCommentsSerializer(ModelSerializer):

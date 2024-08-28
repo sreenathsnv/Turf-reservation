@@ -50,12 +50,14 @@ class PlayerAnalysis(models.Model):
     pref_position = models.TextField(blank=True,null=True,max_length=30,default=None)
 
 
-    games_played = models.IntegerField(blank=True,null=True)
-    dribble = models.IntegerField(blank=True,null=True)
-    shoot = models.IntegerField(blank=True,null=True)
-    pass_acuracy = models.IntegerField(blank=True,null=True)
-    defence = models.IntegerField(blank=True,null=True)
-
+    games_played = models.IntegerField(blank=True,null=True,default=0)
+    dribble = models.IntegerField(blank=True,null=True,default=0)
+    shoot = models.IntegerField(blank=True,null=True,default=0)
+    pass_acuracy = models.IntegerField(blank=True,null=True,default=0)
+    defence = models.IntegerField(blank=True,null=True,default=0)
+    diving =  models.IntegerField(blank=True,null=True,default=0)
+    reflexes = models.IntegerField(blank=True,null=True,default=0)
+    positioning = models.IntegerField(blank=True,null=True,default=0)
     
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -132,6 +134,7 @@ class Slot(models.Model):
 def get_current_date():
     return timezone.now().date()
 
+
 class GameRoom(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     group_admin = models.ForeignKey(CustomUser,related_name='group_admin',on_delete=models.CASCADE,default=None)
@@ -141,7 +144,7 @@ class GameRoom(models.Model):
     time_slot = models.ForeignKey(Slot,on_delete=models.CASCADE,default=None)
 
     players = models.ManyToManyField(CustomUser,blank=True,default=None)
-
+    date =  models.DateField(default=None,null=True)
     turf = models.ForeignKey(Turf,on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
     updated_at = models.DateTimeField(auto_now=True)

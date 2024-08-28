@@ -231,6 +231,7 @@ def get_group_details(request,pk):
 
     group = GameRoom.objects.get(id=pk)
     group.refresh_from_db()
+    
     if group is None:
         return Response({'error':'No such group'},status=HTTP_400_BAD_REQUEST)
     
@@ -243,15 +244,22 @@ def get_group_details(request,pk):
     else:
         is_member = False
 
+    if request.user == group.group_admin:
+        is_admin= True
+    else:
+        is_admin = False
+
     players_details = [CustomUserSerializer(player).data for player in players]
     turf_info = Turf.objects.get(id = group.turf.id)
     turf_serializer = TurfSerializer(turf_info)
     serializer = GameRoomSerializer(group)
+
     response = {
         'group_info': serializer.data,
         'player_info':players_details,
         'turf_info':turf_serializer.data,
-        'is_member':is_member
+        'is_member':is_member,
+        'is_admin':is_admin
     }
     return Response(response,status=HTTP_200_OK)
 
@@ -648,6 +656,7 @@ def cancel_booking(request):
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def create_payment(request):
     data = request.data
     user = request.user
@@ -691,3 +700,48 @@ def create_payment(request):
     
     except Exception as e:
         return Response({"error": str(e)}, status=HTTP_400_BAD_REQUEST)
+    
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def post_player_review(request):
+
+    try:
+        player = CustomUser.objects.get(id=request.data.get('player'))
+        print("player retrived",player.username)
+        if player is None:
+            return Response({"error": "Player does not exist"}, status=HTTP_400_BAD_REQUEST)
+        
+        latest_data = PlayerAnalysis.objects.filter(player=player).order_by('-games_played').first()
+        
+        if latest_data is None:
+            games_played = 1
+            
+        else:   
+            games_played = latest_data.games_played + 1
+        serializer = PlayerAnalysisSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(games_played=games_played)
+            return Response(serializer.data,status=HTTP_200_OK)
+        else:
+            return Response({"error": str(serializer.errors)}, status=HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({"error": str(e)}, status=HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def post_turf_review(request):
+
+    try:
+
+        serializer = TurfReviewSerializer(request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data,status=HTTP_200_OK)
+        else:
+            Response({"error": str(serializer.errors)}, status=HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({"error": str(e)}, status=HTTP_400_BAD_REQUEST)
+    

@@ -25,7 +25,10 @@ from .views import (test,
                     add_slots,
                     delete_slot,
                     book_turf,
-                    cancel_booking
+                    cancel_booking,
+                    post_player_review,
+                    post_turf_review,
+                    create_payment
 
                 )
 
@@ -62,6 +65,11 @@ urlpatterns = [
 
     path('turf/book/',book_turf,name='book-turf'),
     path('turf/cancel/book/',cancel_booking,name='book-cancel'),
+    path('turf/book/payment',create_payment,name='book-payment'),
+
+
+    path('player/review/',post_player_review,name='review-player'),
+    path('turf/review/',post_turf_review,name='review-turf'),
 
 
     

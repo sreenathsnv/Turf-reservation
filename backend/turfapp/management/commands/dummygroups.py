@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from django.core.management.base import BaseCommand
 from faker import Faker
 from turfapp.models import CustomUser, PlayerAnalysis, Turf, TurfReview, GameRoom, GroupComments, Slot, Booking, Payment, Notification
@@ -21,13 +22,14 @@ class Command(BaseCommand):
                 # Ensure at least 5 users in the group, including group_admin
                 group_users = list(CustomUser.objects.exclude(id=group_admin.id).order_by('?')[:4])  # Select 4 random users excluding the admin
                 group_users.append(group_admin)  # Add the group_admin to the list
-
+                date = fake.date_between(start_date='-1y', end_date='today')
                 game_room = GameRoom.objects.create(
                     group_admin=group_admin,
                     group_name=fake.word(),
                     req_players=random.randint(1, 11),
                     turf=turf,
                     time_slot=slot,
+                    date = date
                 )
 
                 # Add users to the GameRoom (assuming a ManyToMany relationship)
