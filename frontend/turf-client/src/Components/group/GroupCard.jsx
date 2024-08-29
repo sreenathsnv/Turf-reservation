@@ -58,7 +58,7 @@ const GroupCard = ({ play }) => {
 
   return (
     <div key={play.id} className="play-card">
-      <h3 className="play-card-title">{play.name}</h3>
+      <h3 className="play-card-title">{play.group_name}</h3>
       <div className="play-card-detail">
         <span className="detail-label">Turf:</span>
         <span className="detail-value turf-name">{play.turf}</span>

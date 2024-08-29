@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from "react";
 import Turf from "./Turf";
-import { Link } from "react-router-dom";
+
 
 const TurfRecommendations = ({ turfs }) => {
   const [turfnum, setTurfNum] = useState(5);
