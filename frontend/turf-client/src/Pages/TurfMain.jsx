@@ -5,13 +5,14 @@ import UserReviewComponent from "../Components/Turf/CommentItem";
 import { axiosInstance } from "../utils/CustomFetch";
 import { Bounce, toast } from "react-toastify";
 import { convertTimeToHHMM } from "../utils/formatTime";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const TurfPage = () => {
   const { id } = useParams();
   const [stars, setStars] = useState(0);
   const [turfData, setTurfData] = useState({});
   const [loading,setLoading] = useState(true)
+  const navigate = useNavigate()
   const [formData,setformData] = useState({
     comments:'',
     rating:stars
@@ -184,12 +185,13 @@ const TurfPage = () => {
           </div>
         </div>
         <div className="turfpage-book-now-container">
-          <a
+          <button
             href="#turfpage-comment-input-container"
             className="turfpage-book-now-button"
+            onClick={()=>{navigate(`/turf/${id}/book`)}}
           >
             Book Now
-          </a>
+          </button>
         </div>
       </div>
       {/* Comment Input Section */}

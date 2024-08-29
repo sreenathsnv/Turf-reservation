@@ -12,6 +12,11 @@ function BookingForm() {
   const navigate = useNavigate();
   const [bookingLoading, setBookingLoading] = useState(false);
 
+  const today = new Date().toISOString().split("T")[0];
+
+  const oneYearFromToday = new Date();
+  oneYearFromToday.setFullYear(oneYearFromToday.getFullYear() + 1);
+  const maxDate = oneYearFromToday.toISOString().split("T")[0];
   const [formData, setFormData] = useState({
     date: "",
   });
@@ -42,14 +47,14 @@ function BookingForm() {
     setBookingLoading(true);
     try {
       const response = await axiosInstance.post("/turf/book/", formData);
-  
+
       const book_id = response.data.data?.id;
-  
+
       if (response.status === 201) {
         setFormData({
           date: "",
         });
-  
+
         setTimeout(() => {
           toast.info("Wait a second", {
             position: "top-right",
@@ -62,7 +67,7 @@ function BookingForm() {
             theme: "colored",
             transition: Bounce,
           });
-  
+
           toast.info("You will be redirected to payment!", {
             position: "top-right",
             autoClose: 1000,
@@ -74,31 +79,27 @@ function BookingForm() {
             theme: "colored",
             transition: Bounce,
           });
-  
+
           navigate(`/turf/${book_id}/payment`, { replace: true });
         }, 1000);
       }
     } catch (error) {
-      
-      toast.error(
-        error.response?.data?.error || "Error Booking", 
-        {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-          transition: Bounce,
-        }
-      );
+      toast.error(error.response?.data?.error || "Error Booking", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
     } finally {
       setBookingLoading(false);
     }
   };
-  
+
   return (
     <section id="turf-booking-form">
       <h2>Book Your Turf</h2>
@@ -137,6 +138,8 @@ function BookingForm() {
             onChange={handleChange}
             required
             className="form-input"
+            min={today}
+            max={maxDate}
           />
         </div>
         <div className="booking-form-group">
