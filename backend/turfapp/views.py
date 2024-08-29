@@ -587,8 +587,13 @@ def view_available_slots(request,pk):
 def book_turf(request):
     user = request.user
     total_amount = request.data.get('total_amount')
-    turf = Turf.objects.get(id= request.data.get('turf'))
-    slot = Slot.objects.get(id = request.data.get('time_slot'))
+    try:
+        turf = Turf.objects.get(id= request.data.get('turf'))
+        slot = Slot.objects.get(id = request.data.get('time_slot'))
+    except Turf.DoesNotExist:
+        return Response({"error":"Inavlid Inputs"},status=HTTP_400_BAD_REQUEST)
+    except  Slot.DoesNotExist:
+        return Response({"error":"Inavlid Inputs"},status=HTTP_400_BAD_REQUEST)
     
     try:
         
@@ -680,7 +685,7 @@ def create_payment(request):
             user=user,
             booking=booking,
             amount=data['amount'],
-            currency=data.get('currency', 'usd'),
+            currency=data.get('currency', 'inr'),
             payment_method=payment_method,
             payment_status='Completed',
             transaction_id=charge['id'],
@@ -744,4 +749,22 @@ def post_turf_review(request):
             Response({"error": str(serializer.errors)}, status=HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({"error": str(e)}, status=HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_booking_details(request,pk):
+
+    serializer = {}
+    booking_instance = get_object_or_404(Booking,id=pk)
+    turf_instance = get_object_or_404(Turf,id=booking_instance.turf.id)
+    if booking_instance:
+        booking_serializer = BookingSerializer(booking_instance)
+        serializer['booking_data'] = booking_serializer.data
     
+    if turf_instance:
+        turf_serializer = TurfSerializer(turf_instance)
+        serializer['turf_data'] = turf_serializer.data
+
+    
+    return Response(serializer,status=HTTP_200_OK)
