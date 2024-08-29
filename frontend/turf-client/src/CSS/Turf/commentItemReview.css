@@ -1,0 +1,70 @@
+/* commentItemReview.css */
+
+.turfpage-review-item {
+  border: 1px solid #e0e0e0;
+  transition: box-shadow 0.3s ease;
+}
+
+.turfpage-review-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.turfpage-review-item .flex {
+  display: flex;
+  align-items: center;
+}
+
+.turfpage-review-item .w-10 {
+  width: 2.5rem;
+}
+
+.turfpage-review-item .h-10 {
+  height: 2.5rem;
+}
+
+.turfpage-review-item .rounded-full {
+  border-radius: 9999px;
+}
+
+.turfpage-review-item .mr-3 {
+  margin-right: 0.75rem;
+}
+
+.turfpage-review-item .font-semibold {
+  font-weight: 600;
+}
+
+.turfpage-review-item .text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.turfpage-review-item .mt-2 {
+  margin-top: 0.5rem;
+}
+
+.turfpage-review-item .w-5 {
+  width: 1.25rem;
+}
+
+.turfpage-review-item .h-5 {
+  height: 1.25rem;
+}
+
+.turfpage-review-item .text-yellow-400 {
+  color: #fbbf24;
+}
+
+.turfpage-review-item .text-gray-300 {
+  color: #d1d5db;
+}
+
+.turfpage-review-item .bg-gray-200 {
+  background-color: #e5e7eb;
+}
+
+.turfpage-review-item .text-gray-500 {
+  color: #6b7280;
+  width: 3vw;
+  border-radius: 50%;
+}

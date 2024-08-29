@@ -4,7 +4,7 @@ import "../../CSS/Turf/turfcard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const formatTime = (time) => {
@@ -24,9 +24,11 @@ const Turf = ({ props }) => {
 
   return (
     <div class="turf-card">
+      <Link style={{textDecoration:"none"}} to={`/turf/${props.id}/view`}>
       <div class="turf-image">
         <img src="/turfimage.jpg" alt="Turf Image" />
       </div>
+      </Link>
       <div class="turf-info">
         <h3 class="turf-name">{props.turf_name}</h3>
         <p class="turf-location">
@@ -36,6 +38,7 @@ const Turf = ({ props }) => {
           />
           {props.city}
         </p>
+        
         <p className="turf-phone">
           <a className="phone-num" href={`tel:${props.phone}`}>
             <FontAwesomeIcon icon={faPhone} style={{ marginRight: '0.5vw' }} />

@@ -14,6 +14,8 @@ import GroupActivity from "./Pages/Group";
 import UserGroupList from "./Components/group/UserGroupList";
 import BookingForm from "./Pages/BookingForm";
 import PaymentPage from "./Pages/Payment";
+import PaymentSuccessPage from "./Pages/PaymentSuccess";
+import TurfPage from "./Pages/TurfMain";
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
           <Route path="/user/groups/:id" exact element={<Layout><ProtectedRoute><GroupActivity/></ProtectedRoute></Layout>} />
           <Route path="/turf/:id/book" exact element={<Layout><ProtectedRoute><BookingForm/></ProtectedRoute></Layout>} />
           <Route path="/turf/:id/payment" exact element={<Layout><ProtectedRoute><PaymentPage/></ProtectedRoute></Layout>} />
+          <Route path="/payment/success" exact element={<Layout><ProtectedRoute><PaymentSuccessPage/></ProtectedRoute></Layout>} />
+          <Route path="/turf/:id/view" exact element={<Layout><TurfPage/></Layout>} />
           <Route path="*" element={<Layout><Page_404 /></Layout>} />
 
           {/* Routes that should not be wrapped with Layout */}

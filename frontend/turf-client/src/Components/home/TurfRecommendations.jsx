@@ -1,5 +1,6 @@
 import React, { useEffect,useState } from "react";
 import Turf from "./Turf";
+import { Link } from "react-router-dom";
 
 const TurfRecommendations = ({ turfs }) => {
   const [turfnum, setTurfNum] = useState(5);
@@ -10,9 +11,10 @@ const TurfRecommendations = ({ turfs }) => {
   };
 
   return (
-    <>
+    <>  
       <div className="recommendation-list">
         {turfs.map((turf, index) => {
+          
           return index <= turfnum && <Turf props= {turf} key={index} />;
         })}
       </div>
