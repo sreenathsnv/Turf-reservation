@@ -4,7 +4,7 @@
     padding: 0;
     background-repeat: repeat-y;
     background:url('../../public/turfimage.jpg');
-    /* background: #e8e8e8; */
+    /* background: #F7F9F2; */
     display: flex;
     flex-direction: column;
     justify-content: space-between;

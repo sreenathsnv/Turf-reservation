@@ -1,12 +1,14 @@
   /* .......................Header styles....................... */
   header {
     background-color: #286c48;
+    /* background-color: #FEFDED; */
     color: #fff;
     padding: 0rem 0; 
     width: 100%;
     position: sticky;
     top: 0%;
     z-index: 100;
+    /* box-shadow: 0 0 2vh 0 #ecebdd; */
 
   }
   header h1 {
@@ -54,6 +56,7 @@
   
   nav ul li button {
     background-color: #245138;
+    /* background-color: #191b21; */
     color: #fff;
     border: none;
     padding: 10px 40px;

@@ -21,7 +21,7 @@ const UserGroupList = () => {
     <div className="join-play">
       <main className="main">
         <div className="main-container">
-        <h2 className="main-title">{plays.length <0 ? "My Game Rooms":" No available rooms"}</h2>
+        <h2 className="main-title">{plays.length <0 ? "No available rooms":"My Game Rooms" }</h2>
           <div className="play-list">
             {plays.map((play, index) => {
               return index <= groupnum && <UserGroupCard key={index} play={play} />;

@@ -11,6 +11,7 @@
     position: relative;
     top: 10vh;
     overflow: hidden;
+    width: 23vw;
   }
 .form_main::before {
   position: absolute;

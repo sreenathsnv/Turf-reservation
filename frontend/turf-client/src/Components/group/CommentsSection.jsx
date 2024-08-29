@@ -35,18 +35,6 @@ const CommentsSection = ({id,group,is_member}) => {
       setGroupComments(response.data)
       if( response.status === 201){
 
-        toast.success("Comment posted successfully", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-          transition: Bounce,
-        });
-
         const response = await axiosInstance.get(`/groups/${id}/comments/`);
       setGroupComments(response.data);
       setComment('')

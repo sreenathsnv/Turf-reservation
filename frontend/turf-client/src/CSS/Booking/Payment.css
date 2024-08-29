@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    font-family: 'Poppins', sans-serif;
+    text-transform: capitalize;
+    transition: all 0.2s linear;
+}
+
+.payment-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 25px;
+    background: #d6eef1;
+}
+
+.payment-container form {
+    width: 700px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.payment-container form .payment-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.payment-container form .payment-row .payment-col {
+    flex: 1 1 300px;
+}
+
+.payment-col .payment-title {
+    font-size: 20px;
+    color: rgb(237, 55, 23);
+    padding-bottom: 5px;
+}
+
+.payment-col .payment-inputBox {
+    margin: 15px 0;
+}
+
+.payment-col .payment-inputBox label {
+    margin-bottom: 10px;
+    display: block;
+}
+
+.payment-col .payment-inputBox input,
+.payment-col .payment-inputBox select {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    font-size: 15px;
+}
+
+.payment-col .payment-inputBox input:focus,
+.payment-col .payment-inputBox select:focus {
+    border: 1px solid #000;
+}
+
+.payment-col .payment-flex {
+    display: flex;
+    gap: 15px;
+}
+
+.payment-col .payment-flex .payment-inputBox {
+    flex: 1;
+    margin-top: 5px;
+}
+
+.payment-col .payment-inputBox img {
+    height: 34px;
+    margin-top: 5px;
+    filter: drop-shadow(0 0 1px #000);
+}
+
+.payment-container form .payment-submit_btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 17px;
+    background: rgb(1, 143, 34);
+    color: #fff;
+    margin-top: 5px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
+
+.payment-container form .payment-submit_btn:hover {
+    background: #3d17fb;
+}
+
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+    display: none;
+}
