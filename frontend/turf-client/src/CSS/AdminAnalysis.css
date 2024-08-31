@@ -1,0 +1,96 @@
+/* Container for the entire dashboard */
+.admin-dashboard-container {
+    display: flex;
+    flex-direction: column;
+    background-color: aliceblue;
+    width: 100%;
+    height:auto;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Styling for the back button */
+  .admin-dashboard-back-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    font-size: 16px;
+    width:10vw;
+    margin-bottom: 7vh;
+  }
+  
+  /* Container for the cards */
+  .admin-dashboard-cards-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+  
+  /* Styling for each card */
+  .admin-dashboard-card {
+    flex: 1;
+    padding: 20px;
+    margin: 0 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  /* Styling for the generate report button */
+  .admin-dashboard-generate-report-button {
+    padding: 15px 30px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 30vh;
+  }
+  /* Container for the chart and buttons */
+.booking-chart-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: aliceblue;
+    width:40vw;
+    height: 30vh;
+  }
+  
+  /* Styling for the buttons */
+  .booking-chart-buttons {
+    margin-bottom: 20px;
+  }
+  
+  .booking-chart-button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .booking-chart-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Styling for the chart */
+  .booking-chart {
+    max-width: 100%;
+    height: auto;
+    width: 30vw;
+  }
+  .forcast-container{
+
+    width: 30vw;
+    background-color: aliceblue;
+  }

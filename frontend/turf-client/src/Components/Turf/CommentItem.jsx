@@ -3,7 +3,7 @@ import { User } from 'lucide-react';
 import '../../CSS/Turf/commentItemReview.css'
 import { formatDate } from '../../utils/formatTime';
 
-const StarRating = ({ rating }) => {
+export const StarRating = ({ rating }) => {
   return (
     <div className="flex">
       {[...Array(5)].map((_, index) => (

@@ -1,0 +1,14 @@
+.rating-stars {
+    display: flex;
+  }
+  
+  .rating-stars__star {
+    font-size: 24px;
+    color: lightgray; /* Default color for unfilled stars */
+    margin-right: 4px;
+  }
+  
+  .rating-stars__star--filled {
+    color: rgb(255, 196, 0); /* Color for filled stars */
+  }
+  

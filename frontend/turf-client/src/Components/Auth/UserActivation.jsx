@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import '../../CSS/Auth/UserActivation.css';
@@ -40,6 +39,7 @@ function UserActivation() {
       >
         {buttonText}
       </button>
+      <Link className="resend-activation-btn" to="/resend/activation/form">resend activation</Link>
       <ToastContainer />
     </div>
   );

@@ -1,0 +1,72 @@
+/* LineChartElement.css */
+
+.line-chart-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-left: 20vw;
+  margin-top: 0;
+  margin-bottom: 10vh;
+}
+
+.line-chart-container h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.line-chart-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.attr-head{
+  font-size: 1.1vw;
+  margin-bottom:1vh ;
+}
+.line-chart-buttons button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 0px 16px;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.line-chart-buttons button:hover {
+  background-color: #0056b3;
+}
+
+.line-chart-buttons button:focus {
+  outline: none;
+  background-color: #004085;
+}
+
+.line-chart-buttons button:active {
+  background-color: #003567;
+}
+
+.line-chart {
+  width: 97%;
+  height: 20vw;
+}
+
+.recharts-default-tooltip {
+  font-size: 14px;
+}
+
+.btn-attr{
+
+  background-color: #007bff;
+  color: #333;
+  font-weight: 700;
+  padding: 1vw 2vw;
+
+
+}

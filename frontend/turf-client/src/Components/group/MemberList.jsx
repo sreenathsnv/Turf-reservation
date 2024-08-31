@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FeedbackModal from "../ReviewModal";
 import { axiosInstance } from "../../utils/CustomFetch";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const MemberList = ({
   members,
@@ -10,6 +11,9 @@ const MemberList = ({
   slotTime,
   isGroupAdmin,
   currentUser,
+  groupId,
+  setRefresh,
+  refresh
 }) => {
   
 
@@ -19,24 +23,42 @@ const MemberList = ({
 
   const onRequestClose = ()=>{setIsModalOpen(false)}
 
-  const removeMember = async({id})=>{
-    const response = await axiosInstance.delete('/groups//user/delete/',{"user":String(id)})
-
-    if(response.status == 200){
-      toast.info("User Removed", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        transition: Bounce,
+  const removeMember = async (id) => {
+    try {
+      const response = await axiosInstance.delete(`/groups/${groupId}/user/delete/`, {
+        data: { user: id }
       });
-
-    }
-    else{
+  
+      console.log(response);  // Log response to debug
+  
+      if (response.status >= 200 && response.status < 300) {
+        toast.info("User Removed", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+        setRefresh(!refresh)
+      } else {
+        toast.warn("Unexpected response", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+      }
+    } catch (error) {
+      console.error(error);  // Log error to debug
       toast.error("Error removing user", {
         position: "top-right",
         autoClose: 5000,
@@ -49,14 +71,14 @@ const MemberList = ({
         transition: Bounce,
       });
     }
-  }
-
+  };
+  
   const shouldShowReviewButton = (bookingDate, slotTime) => {
     const currentDateTime = new Date().getUTCDate();
     const currentTime = new Date().getTime();
     const bookingDateTime = new Date(bookingDate).getUTCDate();
     const slot_date_data = new Date(bookingDate);
-    const { hh, mm, ss } = slotTime.split(":").reduce((acc, time, idx) => {
+    const { hh, mm, ss } = slotTime?.split(":").reduce((acc, time, idx) => {
       if (idx === 0) acc.hh = Number(time);
       if (idx === 1) acc.mm = Number(time);
       if (idx === 2) acc.ss = Number(time);
@@ -90,7 +112,7 @@ const MemberList = ({
     <FeedbackModal isOpen ={isModalOpen} onRequestClose = {onRequestClose} user={CurrentReviewUser}/>
       <ul className="member-list">
         {members?.map((member, index) => (
-          <li key={index} className="member-item">
+         <Link style={{textDecoration:"none"}} to={`/user/${member.id}/profile`}><li key={index} className="member-item">
             <img
               src={`${import.meta.env.VITE_BACKEND_URL}${member.profile_pic}`}
               alt="Avatar"
@@ -113,6 +135,7 @@ const MemberList = ({
               )
             )}
           </li>
+          </Link> 
         ))}
       </ul>
     </>

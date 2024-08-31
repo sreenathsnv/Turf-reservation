@@ -1,0 +1,107 @@
+.user-profile {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 200vh;
+    margin: auto;
+    margin-top: 1vh;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width:100%;
+    background: #ffffff;
+  }
+  
+  .user-profile__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .user-profile__pic {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 20px;
+  }
+  
+  .user-profile__info {
+    flex: 1;
+  }
+  
+  .user-profile__name {
+    font-size: 24px;
+    margin: 0;
+  }
+  
+  .user-profile__email,
+  .user-profile__location {
+    margin: 5px 0;
+  }
+  
+  .user-profile__details {
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+  }
+  
+  .user-profile__section-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .user-profile__groups, 
+  .user-profile__bookings, 
+  .user-profile__payments {
+    display: flex;
+    gap: 10vw;
+    flex-direction: row;
+    max-width: 80vw;
+    padding:1vh;
+    justify-content: center;
+  }
+
+  .user-profile__radar-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    max-width: 30vw;
+    margin-top: 5vh;
+  }
+
+  .user-radar-section_chart{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .user-profile__group{
+    border: 1px solid #b5b5b5;
+    border-radius: 5px;
+    margin: 1vh .5vh ;
+    padding: 1vh;
+    background: #ffffff;
+  }
+  
+  .user-profile__groups-section,
+  .user-profile__booking,
+  .user-profile__payment {
+    border: 1px solid #17961b;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    min-width: 30vw;
+  }
+  
+  .user-profile__group-name,
+  .user-profile__booking-title,
+  .user-profile__payment-title {
+    font-size: 18px;
+    margin: 0 0 5px;
+  }
+  
+  .user-profile__group-info,
+  .user-profile__booking-info,
+  .user-profile__payment-info {
+    margin: 5px 0;
+  }
+  

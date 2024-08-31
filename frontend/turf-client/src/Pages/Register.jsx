@@ -105,6 +105,7 @@ const Register = () => {
     const { name, value } = e.target;
     setFormData({
       ...formdata,
+      
       [name]: name === 'is_owner' ? value === 'true' : value,
     });
   };
@@ -116,7 +117,7 @@ const Register = () => {
         <div className="inputContainer">
           <input
             type="text"
-            value={formdata.username}
+            value={formdata.username.toLowerCase()}
             onChange={handleChange}
             name="username"
             className="inputField"

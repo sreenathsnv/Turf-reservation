@@ -16,10 +16,18 @@ import BookingForm from "./Pages/BookingForm";
 import PaymentPage from "./Pages/Payment";
 import PaymentSuccessPage from "./Pages/PaymentSuccess";
 import TurfPage from "./Pages/TurfMain";
+import ResendActivation from "./Components/Auth/ResendActivation";
+import ProtectedAdminRoute from "./routes/ProtectedAdminRoute";
+import AdminDashboard from "./Pages/AdminDashBoard";
+import CreatePlayForm from "./Pages/Createroom";
+import UserProfile from "./Pages/userProfile";
+import BookingPage from "./Pages/BookingPage";
+import AdminAnalysis from "./Pages/AdminAnalysis";
 
 function App() {
   return (
     <>
+    
       <Router>
         <Routes>
           {/* Routes that should be wrapped with Layout */}
@@ -27,11 +35,14 @@ function App() {
           <Route path="/signup" exact element={<Layout><Register /></Layout>} />
           <Route path="/login" exact element={<Layout><Login /></Layout>} />
           <Route path="/password/reset" exact element={<Layout><ForgotPasswordConfirm /></Layout>} />
+          <Route path="/resend/activation/form" exact element={<Layout><ResendActivation/></Layout>} />
           <Route path="/activate/:uid/:token" exact element={<Layout><UserActivation /></Layout>} />
 
           {/* Protected Routes wrapped with Layout */}
-          <Route path="/booking" exact element={<Layout><ProtectedRoute><div>hello</div></ProtectedRoute></Layout>} />
+          <Route path="/bookings" exact element={<Layout><ProtectedRoute><BookingPage/></ProtectedRoute></Layout>} />
+          <Route path="/user/:id/profile" exact element={<Layout><ProtectedRoute><UserProfile/></ProtectedRoute></Layout>} />
           <Route path="/groups" exact element={<Layout><ProtectedRoute><GroupList/></ProtectedRoute></Layout>} />
+          <Route path="/group/create" exact element={<Layout><ProtectedRoute><CreatePlayForm/></ProtectedRoute></Layout>} />
           <Route path="/groups/:id" exact element={<Layout><ProtectedRoute><GroupActivity/></ProtectedRoute></Layout>} />
           <Route path="/user/groups" exact element={<Layout><ProtectedRoute><UserGroupList/></ProtectedRoute></Layout>} />
           <Route path="/user/groups/:id" exact element={<Layout><ProtectedRoute><GroupActivity/></ProtectedRoute></Layout>} />
@@ -42,7 +53,8 @@ function App() {
           <Route path="*" element={<Layout><Page_404 /></Layout>} />
 
           {/* Routes that should not be wrapped with Layout */}
-          <Route path="/admin/kljwhed" exact element={<div>hello</div>} />
+          <Route path="/admin" exact element={<ProtectedAdminRoute><AdminDashboard/></ProtectedAdminRoute>} />
+          <Route path="/admin/analysis" exact element={<ProtectedAdminRoute><AdminAnalysis/></ProtectedAdminRoute>} />
         </Routes>
       </Router>
 

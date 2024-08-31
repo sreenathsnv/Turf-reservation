@@ -13,6 +13,7 @@ const GroupActivity = () => {
   const { id } = useParams();
   const [groupData, setGroupData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [refresh, setRefresh] = useState(false);
 
   const navigate = useNavigate()
 
@@ -143,7 +144,7 @@ const GroupActivity = () => {
     if (id) {
       fetchData();
     }
-  }, [id]);
+  }, [id,refresh]);
 
   if( loading){return <Loader/>;}
 
@@ -204,6 +205,9 @@ const GroupActivity = () => {
            currentUser = {user.id}
            bookingDate = {groupData?.group_info.date}
             slotTime = {groupData?.group_info.slot_details}
+            groupId ={id}
+            setRefresh={setRefresh}
+            refresh={refresh}
              />
           <CommentsSection
             group={groupData?.id}

@@ -1,58 +1,256 @@
-.main-container {
-    padding: 1rem 0;
+.makegroup-container {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 65vw;
+}
+
+.makegroup-header {
+  background-color: #fff;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  animation: makegroup-slideInDown 0.5s ease-in-out;
+}
+
+.makegroup-img-logo {
+  height: 40px;
+}
+
+.makegroup-nav .makegroup-nav-home,
+.makegroup-nav .makegroup-nav-bookings,
+.makegroup-nav .makegroup-nav-login {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #333;
+  position: relative;
+  transition: color 0.3s ease-in-out;
+}
+
+.makegroup-nav-home:before,
+.makegroup-nav-bookings:before,
+.makegroup-nav-login:before {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: #28a745;
+  transition: width 0.3s ease-in-out;
+}
+
+.makegroup-nav-home:hover:before,
+.makegroup-nav-bookings:hover:before,
+.makegroup-nav-login:hover:before {
+  width: 100%;
+}
+
+.makegroup-nav-login {
+  color: rgb(0, 0, 0);
+  padding: 8px 15px;
+  border-radius: 20px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.makegroup-content {
+  max-width: 50vw;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  animation: makegroup-fadeInUp 0.5s ease-in-out;
+}
+
+.makegroup-field-group {
+  margin-bottom: 20px;
+}
+
+.makegroup-label-group-name,
+.makegroup-label-required-player,
+.makegroup-label-slot-booked,
+.makegroup-label-total-amount,
+.makegroup-label-date,
+.makegroup-label-select-turf {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.makegroup-input-group-name,
+.makegroup-input-required-player,
+.makegroup-input-slot-booked,
+.makegroup-input-total-amount,
+.makegroup-input-date {
+  width: calc(100% - 22px);
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.makegroup-input-group-name:focus,
+.makegroup-input-required-player:focus,
+.makegroup-input-slot-booked:focus,
+.makegroup-input-total-amount:focus,
+.makegroup-input-date:focus {
+  border-color: #28a745;
+  box-shadow: 0 0 8px rgba(40, 167, 69, 0.2);
+}
+
+.makegroup-turf-selection {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 20px;
+  max-height: 36vh;
+  overflow-y:scroll ;
+  padding: 1vh 0vh 1vh 0vh;
+  animation: makegroup-slideInLeft 1s ease-in-out;
+}
+
+.makegroup-turf-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 200px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  animation: makegroup-swipeIn 1s ease-in-out;
+  transform-origin: center;
+}
+
+.makegroup-turf-img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+}
+
+.makegroup-turf-info {
+  padding: 10px;
+  text-align: center;
+  background-color: #f7f7f7;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.makegroup-turf-name {
+  margin: 5px 0;
+  font-size: 18px;
+  font-weight: normal;
+}
+
+.makegroup-turf-location {
+  margin: 0;
+  color: #777;
+  font-size: 14px;
+}
+
+.makegroup-turf-card:hover .makegroup-turf-img {
+  transform: scale(1.1);
+}
+
+.makegroup-turf-card:hover .makegroup-turf-info {
+  background-color: #e9f7ec;
+}
+
+.makegroup-turf-card:hover {
+  transform: scale(1.05) rotate(3deg);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.makegroup-actions {
+  display: flex;
+  justify-content: space-between;
+  animation: makegroup-fadeInUp 0.5s ease-in-out;
+}
+
+.makegroup-button-cancel,
+.makegroup-button-create {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.makegroup-button-cancel {
+  background-color: #ccc;
+  color: #333;
+}
+
+.makegroup-button-create {
+  background-color: #28a745;
+  color: white;
+  box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+}
+
+.makegroup-button-cancel:hover,
+.makegroup-button-create:hover {
+  transform: translateY(-2px);
+}
+
+.makegroup-button-create:hover {
+  background-color: #218838;
+}
+
+@keyframes makegroup-slideInDown {
+  from {
+      transform: translateY(-100%);
+      opacity: 0;
   }
-  
-  .form-container {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    max-width: 600px;
-    margin: 20px auto;
+  to {
+      transform: translateY(0);
+      opacity: 1;
   }
-  
-  .form-group {
-    margin-bottom: 20px;
+}
+
+@keyframes makegroup-fadeInUp {
+  from {
+      transform: translateY(20px);
+      opacity: 0;
   }
-  
-  .form-label {
-    display: block;
-    margin-bottom: 5px;
+  to {
+      transform: translateY(0);
+      opacity: 1;
   }
-  
-  .form-input-number,
-  .form-input-time {
-    width: calc(100% - 12px);
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+}
+
+@keyframes makegroup-slideInLeft {
+  from {
+      transform: translateX(-100%);
+      opacity: 0;
   }
-  
-  .submit-button {
-    background-color: #2cb56c;
-    color: #fff;
-    border: none;
-    padding: 12px 24px;
-    font-size: 16px;
-    font-weight: bold;
-    text-transform: uppercase;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+  to {
+      transform: translateX(0);
+      opacity: 1;
   }
-  
-  .submit-button:hover {
-    background-color: #555;
+}
+
+@keyframes makegroup-swipeIn {
+  from {
+      transform: translateX(100%) rotate(20deg);
+      opacity: 0;
   }
-  
-  .footer-container {
-    background-color: #2cb56c;
-    color: #fff;
-    text-align: center;
-    padding: 10px 0;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+  to {
+      transform: translateX(0) rotate(0);
+      opacity: 1;
   }
+}
+
+@keyframes makegroup-fadeIn {
+  from {
+      opacity: 0;
+  }
+  to {
+      opacity: 1;
+  }
+}

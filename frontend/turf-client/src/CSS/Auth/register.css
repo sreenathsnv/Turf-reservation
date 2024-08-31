@@ -1,6 +1,6 @@
 
 .form_main_reg {
-    width: 300px; /* Adjusted width */
+    width: 26vw; /* Adjusted width */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -130,4 +130,6 @@
   .login-link a:hover {
     text-decoration: underline;
   }
-  
+  input[name="username"],input[name="email"] {
+    text-transform: none;
+  }

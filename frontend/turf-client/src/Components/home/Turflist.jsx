@@ -66,7 +66,7 @@ const Turflist = () => {
       <section id="turfs">
 
       <div className="button-box">
-        <button className="create-button">Create</button>
+        <button onClick={()=>{navigate('/group/create')}} className="create-button">Create</button>
         <button className="create-button" onClick={()=>{navigate('/groups')}}>Join</button>
       </div>
 

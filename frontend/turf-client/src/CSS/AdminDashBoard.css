@@ -1,0 +1,271 @@
+.dashboard-container {
+    display: flex;
+    height: auto;
+    width: 100%;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #131415;
+    color: #ecf0f1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h2 {
+    margin: 0 0 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar nav ul li {
+    margin: 10px 0;
+}
+
+.sidebar nav ul li a {
+    color: #ecf0f1;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1em;
+    display: block;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.sidebar nav ul li a:hover {
+    background-color: #0a0a0b;
+    text-decoration: none;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #ecf0f1;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #2c3e50;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-info p {
+    margin: 0;
+    margin-right: 10px;
+    color: #0a0a0b;
+}
+
+.user-info button {
+    background-color: #191616;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.user-info button:hover {
+    background-color: #141312;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.add-button {
+    background-color: #131514;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.add-button:hover {
+    background-color: #131514;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+table th {
+    background-color: #0f1113;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1c40f;
+}
+
+.form-container {
+    display: flex;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.form-container h2 {
+    margin-top: 0;
+    font-size: 1.2em;
+    color: #2c3e50;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-container input {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.form-container button {
+    background-color: #0f100f;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.form-container button:hover {
+    background-color: #111312;
+}
+
+#slots-container{
+
+    display: flex;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+.slot-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 25vw;
+
+}
+
+.slot-group input {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+    margin-right: 4vh;
+    margin-left: 2vh;
+}
+
+.add-slot-button,
+.remove-slot-button {
+    display: flex;
+    justify-content: center;
+    background-color: #ed230d;
+    color: white;
+    border: none;
+    padding: 4px 14px;
+    width: 10vh;
+    height: 6vh;
+    margin-left: 5vh;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 2em;
+    margin-left: 10px;
+}
+.remove-slot-button{
+    width:7vh;
+    height: 5vh;
+}
+.add-slot-button{
+    background-color: #0d2218;
+    color: white;
+    padding: 2px 14px;
+    margin-left: 5vh;
+    margin-top: .7vh;
+}
+
+
+
+.add-slot-button:hover,
+.remove-slot-button:hover {
+    background-color: #0f0f0f;
+}
+.close-slots-button{
+
+    width:10vw;
+    height:3vw;
+    border: 2px solid #2c3e50;
+    padding:1px 2px;
+    margin: auto;
+    margin-left: 30vw;
+    margin-top: 5vh;
+
+}

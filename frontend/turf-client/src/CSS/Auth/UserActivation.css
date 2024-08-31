@@ -48,4 +48,14 @@
     font-family: 'Poppins', sans-serif;
   }
   
+  .resend-activation-btn{
+
+    z-index: 2;
+    font-size: 0.8em; /* Increased font size */
+    font-weight: 500;
+    color: rgb(44, 24, 128);
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+  }
   
