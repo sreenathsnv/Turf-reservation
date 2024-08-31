@@ -7,30 +7,30 @@ from rest_framework.serializers import ModelSerializer
 class PlayerAnalysisSerializer(ModelSerializer):
     class Meta:
         model = PlayerAnalysis
-        fields = '__all__'
+        fields = '_all_'
 
-class DailyBookingSerializer(ModelSerializer):
+class DailyBookingSerializer(serializers.Serializer):
+        date = serializers.DateField()
+        count = serializers.IntegerField()
+
+class WeeklyBookingSerializer(serializers.Serializer):
     date = serializers.DateField()
     count = serializers.IntegerField()
 
-class WeeklyBookingSerializer(ModelSerializer):
+class MonthlyBookingSerializer(serializers.Serializer):
     date = serializers.DateField()
     count = serializers.IntegerField()
 
-class MonthlyBookingSerializer(ModelSerializer):
-    date = serializers.DateField()
-    count = serializers.IntegerField()
-
-class RevenueSerializer(ModelSerializer):
+class RevenueSerializer(serializers.Serializer):
     date = serializers.DateField()
     revenue = serializers.DecimalField(max_digits=10, decimal_places=2)
 
-class PerformanceMetricsOverTimeSerializer(serializers.Serializer):
-    dates = serializers.ListField(child=serializers.DateField())
-    avg_dribble = serializers.ListField(child=serializers.FloatField())
-    avg_shoot = serializers.ListField(child=serializers.FloatField())
-    avg_pass_acuracy = serializers.ListField(child=serializers.FloatField())
-    avg_defence = serializers.ListField(child=serializers.FloatField())
+class CurrentPerformanceMetricsSerializer(serializers.Serializer):
+    avg_dribble = serializers.FloatField()
+    avg_shoot = serializers.FloatField()
+    avg_pass_acuracy = serializers.FloatField()
+    avg_defence = serializers.FloatField()
+
 
 
 class OverallPerformanceRatingSerializer(serializers.ModelSerializer):
@@ -47,7 +47,3 @@ class SkillRadarChartSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlayerAnalysis
         fields = ['player', 'dribble', 'shoot', 'pass_acuracy', 'defence']
-    
-
-
-

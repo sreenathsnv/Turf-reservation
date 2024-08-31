@@ -1,4 +1,7 @@
 # from django.shortcuts import render
+import json
+from uuid import UUID
+from django.core.exceptions import ValidationError
 from django.http import HttpResponse
 from .serializers import *
 from .models import *
@@ -23,6 +26,16 @@ from django.views.decorators.cache import cache_page
 from django.views.decorators.vary import vary_on_cookie
 import stripe
 from rest_framework_simplejwt.tokens import RefreshToken
+import os
+
+import environ
+
+
+env = environ.Env()
+environ.Env.read_env()
+
+
+stripe.api_key = env('STRIPE_SECRET_KEY')
 
 def test(request):
     return HttpResponse("hello world")
@@ -87,12 +100,6 @@ def get_turfs_all(request):
 
 #==================== GROUP-RELATED APIs============================================== 
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def create_room(request):
-
-    data = request.POST
-
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -131,32 +138,17 @@ def join_group(request,pk):
     return Response(serializer.data, status=HTTP_200_OK)
     
     
+
+
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
 def create_room(request):
-    data = request.data.copy()
-    data['group_admin'] = request.user.id
-    group_serializer = GameRoomSerializer(data=data)
-  
-    
+    group_serializer = GETGameRoomSerializer(data=request.data)
     if group_serializer.is_valid():
-
-        game_room=group_serializer.save()
-
+        game_room = group_serializer.save(group_admin=request.user)
         game_room.players.add(request.user)
-
         game_room.save()
-
-   
-    else:
-        return Response({'error':'Invalid data','details':group_serializer.errors},status=HTTP_400_BAD_REQUEST)
-    
-    return Response(group_serializer.data,status=HTTP_201_CREATED)
-
-
-
-
-
+        return Response(group_serializer.data, status=HTTP_201_CREATED)
+    return Response(group_serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 @api_view(['POST','GET'])
 @permission_classes([IsAuthenticated])
@@ -267,14 +259,14 @@ def get_group_details(request,pk):
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def remove_user(request,pk):
-    
+    print(request.data)
     group = GameRoom.objects.get(id=pk)
     user = request.data.get('user')
-    
+    print("user",user)
     try:
         user = CustomUser.objects.get(id=user)
     except CustomUser.DoesNotExist:
-        return Response({'Error':'User Does not exist'})
+        return Response({'Error':'User Does not exist'},status=HTTP_400_BAD_REQUEST)
 
     if not request.user == group.group_admin:
         return Response({'Error':'You are not a Group admin'},status=HTTP_403_FORBIDDEN)
@@ -336,8 +328,7 @@ def get_user_groups(request):
 
 #========================= USER Profile ==========================
 
-@cache_page(60 * 25)
-@vary_on_cookie
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_profile(request,pk=None):
@@ -378,7 +369,7 @@ def get_user_profile(request,pk=None):
 
         user_serializer = CustomUserSerializer(user)
         turf_serializer = TurfSerializer(turf_owned,many=True)
-        booking_serializer = BookingSerializer(bookings,many=True)
+        booking_serializer = GETBookingSerializer(bookings,many=True)
         payment_serializer = PaymentSerializer(payments,many=True)
         player_analysis_serializer = PlayerAnalysisSerializer(player_analysis,many=True)
         my_group_serializer = GameRoomSerializer(my_groups,many=True)
@@ -432,11 +423,11 @@ def update_user_profile(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_turf(request):
-    
+    slots = json.loads(request.POST.get('slots', '[]'))
     if not request.user.is_owner:
         return Response({'error':'Not allowed.User is not a turf manager'},status=HTTP_400_BAD_REQUEST)
     
-    serializer = TurfSerializer(data= request.data)
+    serializer = POSTTurfSerializer(data= request.data)
 
     if serializer.is_valid():
 
@@ -472,7 +463,7 @@ def update_turf(request,pk):
 def delete_turf(request,pk):
     
         try:
-            turf = get_object_or_404(id=pk)
+            turf = get_object_or_404(Turf,id=pk)
         except Turf.DoesNotExist:
             return Response({'error':'Object does not Exists'},status=HTTP_400_BAD_REQUEST)
         
@@ -536,12 +527,14 @@ def add_slots(request):
     if not request.user.is_owner:
             return Response({'error':'Not allowed.User is not a turf manager'},status=HTTP_400_BAD_REQUEST)
 
-
+    turf = get_object_or_404(Turf,id=request.data.get('turf'))
     slot = SlotSerializer(data=request.data)
 
     if slot.is_valid():
         slot.save()
-        return Response(slot.data,status=HTTP_200_OK)
+        slots = Slot.objects.filter(turf=turf)
+        serializer = SlotSerializer(slots,many=True)
+        return Response(serializer.data,status=HTTP_200_OK)
     else:
         return Response({'error':str(slot.error_messages)},status=HTTP_400_BAD_REQUEST)
     
@@ -559,7 +552,7 @@ def delete_slot(request,pk):
 
         turf_manager = turf.turf_manager
         
-        if not turf_manager != request.user:
+        if turf_manager != request.user:
             return Response({'error':'Not allowed'},status=HTTP_400_BAD_REQUEST)
         
     except Slot.DoesNotExist:
@@ -659,7 +652,6 @@ def cancel_booking(request):
     except Exception as e:
         return Response({'error': str(e)}, status=HTTP_500_INTERNAL_SERVER_ERROR)
 
-
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_payment(request):
@@ -669,18 +661,23 @@ def create_payment(request):
     payment_method = data.get('payment_method', 'Credit Card')
     
     try:
-        
         booking = Booking.objects.get(id=booking_id)
 
-        
-        charge = stripe.Charge.create(
-            amount=int(data['amount']),
-            currency=data.get('currency', 'INR'),
-            source=data['token'], 
+        # Convert amount to integer cents
+        amount = int(float(data['amount']) * 100)  # Convert to cents
+
+        # Create PaymentIntent instead of Charge
+        payment_intent = stripe.PaymentIntent.create(
+            amount=amount,
+            currency=data.get('currency', 'inr'),
+            payment_method=data['payment_method'],
+            confirmation_method='manual',
+            confirm=True,
             description=f"Charge for {user.email} - Booking ID: {booking_id}",
+            return_url=f"{env('SITE_URL')}/payment/success"
         )
 
-        
+        # Save payment record
         payment = Payment.objects.create(
             user=user,
             booking=booking,
@@ -688,12 +685,12 @@ def create_payment(request):
             currency=data.get('currency', 'inr'),
             payment_method=payment_method,
             payment_status='Completed',
-            transaction_id=charge['id'],
+            transaction_id=payment_intent['id'],
         )
 
+        # Update booking status
         booking.status = 'Confirmed'
         booking.save()
-
 
         return Response(PaymentSerializer(payment).data, status=HTTP_201_CREATED)
 
@@ -705,7 +702,6 @@ def create_payment(request):
     
     except Exception as e:
         return Response({"error": str(e)}, status=HTTP_400_BAD_REQUEST)
-    
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -737,16 +733,19 @@ def post_player_review(request):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def post_turf_review(request):
+def post_turf_review(request,pk):
 
     try:
-
-        serializer = TurfReviewSerializer(request.data)
+        turf = get_object_or_404(Turf,id=pk)
+    except Turf.DoesNotExist:
+        return Response({"error":"Turf does not exist"})
+    try:
+        serializer = POSTTurfReviewSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(user=request.user)
+            serializer.save(user=request.user,turf=turf)
             return Response(serializer.data,status=HTTP_200_OK)
         else:
-            Response({"error": str(serializer.errors)}, status=HTTP_400_BAD_REQUEST)
+            return Response({"error": str(serializer.errors)}, status=HTTP_400_BAD_REQUEST)
     except Exception as e:
         return Response({"error": str(e)}, status=HTTP_400_BAD_REQUEST)
 
@@ -768,3 +767,35 @@ def get_booking_details(request,pk):
 
     
     return Response(serializer,status=HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_booked_turfs(request):
+    print("trigggggg")
+    try:
+        bookings = Booking.objects.filter(user=request.user)
+    except Exception as e:
+        return Response({"error": str(e)}, status=HTTP_400_BAD_REQUEST)
+    turfs = [TurfSerializer(booking.turf).data for booking in bookings]
+
+    return Response({"turfs":turfs},status=HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_all_slots(request,pk):
+
+    turf = get_object_or_404(Turf,id=pk)
+
+    slots = Slot.objects.filter(turf=turf)
+
+    serializer = SlotSerializer(slots,many=True)
+
+    return Response({"slots":serializer.data},HTTP_200_OK)
+
+def get_all_bookings(request):
+
+    bookings = Booking.objects.filter(user=request.user)
+
+    serializer = BookingSerializer(bookings)
+
+    return Response(serializer.data,status=HTTP_200_OK)

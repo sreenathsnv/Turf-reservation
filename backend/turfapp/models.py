@@ -38,6 +38,8 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
 
     objects = CustomUserManager()
 
+    class Meta:
+        ordering = ["-created_at"]
 
     
     def __str__(self) -> str:
@@ -118,6 +120,8 @@ class TurfReview(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     def __str__(self) -> str:
         return f"{self.user.name} : {self.comments[:20]}"
+    class Meta:
+        ordering = ["-created_at"]
 
 class Slot(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -137,15 +141,15 @@ def get_current_date():
 
 class GameRoom(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    group_admin = models.ForeignKey(CustomUser,related_name='group_admin',on_delete=models.CASCADE,default=None)
+    group_admin = models.ForeignKey(CustomUser,related_name='group_admin',on_delete=models.CASCADE,default=None,null=True)
 
     group_name = models.TextField(max_length=24)
     req_players = models.IntegerField()
-    time_slot = models.ForeignKey(Slot,on_delete=models.CASCADE,default=None)
+    time_slot = models.ForeignKey(Slot, on_delete=models.CASCADE)
 
     players = models.ManyToManyField(CustomUser,blank=True,default=None)
     date =  models.DateField(default=None,null=True)
-    turf = models.ForeignKey(Turf,on_delete=models.CASCADE)
+    turf = models.ForeignKey(Turf,on_delete=models.CASCADE,null=True)
     is_active = models.BooleanField(default=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)

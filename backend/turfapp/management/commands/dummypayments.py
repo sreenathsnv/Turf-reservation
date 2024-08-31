@@ -17,7 +17,7 @@ class Command(BaseCommand):
                 booking=booking,
                 amount=booking.total_amount,
                 payment_method=random.choice(['Credit Card', 'Debit Card', 'PayPal', 'Bank Transfer']),
-                payment_status=random.choice(['Pending', 'Completed', 'Failed']),
+                payment_status="Completed",
                 transaction_id=str(uuid.uuid4())
             )
             print("-done")

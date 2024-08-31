@@ -39,9 +39,10 @@ class SlotSerializer(ModelSerializer):
 class TurfSerializer(ModelSerializer):
     
     slots = SlotSerializer(many=True,write_only=True)
+    manager = serializers.CharField(source='turf_manager.username')
     class Meta:
         model = Turf
-        fields = ['id', 'turf_name', 'description', 'city', 'state', 'zipcode', 'open_time', 'close_time', 'turf_manager', 'slots','price','phone','is_open']
+        fields = ['id','image', 'turf_name', 'description', 'city', 'state', 'zipcode', 'open_time', 'close_time', 'turf_manager', 'slots','price','phone','is_open','manager']
 
     def create(self,validated_data):
         slots_data = validated_data.pop('slots')
@@ -52,26 +53,68 @@ class TurfSerializer(ModelSerializer):
         
         return turf
 
+class TurfSerializer(ModelSerializer):
+    
+    slots = SlotSerializer(many=True,write_only=True)
+    manager = serializers.CharField(source='turf_manager.username')
+    class Meta:
+        model = Turf
+        fields = ['id','image', 'turf_name', 'description', 'city', 'state', 'zipcode', 'open_time', 'close_time', 'turf_manager', 'slots','price','phone','is_open','manager']
+
+    def create(self,validated_data):
+        slots_data = validated_data.pop('slots')
+        turf = Turf.objects.create(**validated_data)
+
+        for slot in slots_data:
+            Slot.objects.create(turf=turf,**slot)
+        
+        return turf
  
+class POSTTurfSerializer(ModelSerializer):
+    class Meta:
+        model = Turf
+        fields = ['id','image', 'turf_name', 'description', 'city', 'state', 'zipcode', 'open_time', 'close_time', 'turf_manager','price','phone']
+ 
+
+
 class TurfReviewSerializer(ModelSerializer):
     
+    username = serializers.CharField(source='user.username') 
+    avatar = serializers.CharField(source='user.profile_pic') 
+    class Meta:
+        model = TurfReview
+        fields = ['id', 'turf', 'rating', 'user', 'comments', 'updated_at', 'created_at','username','avatar']
+
+class POSTTurfReviewSerializer(ModelSerializer):
     
     class Meta:
         model = TurfReview
-        fields = '__all__'
+        fields = ['id', 'rating', 'comments']
         
 
-class GameRoomSerializer(ModelSerializer):
-    
 
+class GameRoomSerializer(serializers.ModelSerializer):
     turf = serializers.CharField(source='turf.turf_name')
     location = serializers.CharField(source='turf.city')
     slot_details = serializers.CharField(source='time_slot.start_time')
 
     class Meta:
         model = GameRoom
-        fields =  ['id','group_name','req_players','is_active','turf', 'location','slot_details','date'] 
+        fields = ['id', 'group_name', 'req_players', 'is_active', 'turf', 'location', 'slot_details', 'date',"time_slot"]
+
+    def get_slot_details(self, obj):
+        # Safely return the start_time if time_slot is set
+        if obj.time_slot:
+            return obj.time_slot.start_time
+        return "16:20:39"  
+
+class GETGameRoomSerializer(ModelSerializer):
+    
+    class Meta:
+        model = GameRoom
+        fields = ['group_name', 'req_players', 'time_slot', 'players', 'date', 'turf', 'is_active']
         # extra_fields = ['turf', 'location','slot_details']
+
 
 class GroupCommentsSerializer(ModelSerializer):
     
@@ -92,6 +135,14 @@ class BookingSerializer(ModelSerializer):
     class Meta:
         model = Booking
         fields = '__all__'
+
+class GETBookingSerializer(ModelSerializer):
+
+    turf_name = serializers.CharField(source='turf.turf_name')    
+    slot_details = serializers.CharField(source='time_slot.start_time')
+    class Meta:
+        model = Booking
+        fields = ["id","user","turf_name","status","slot_details","total_amount","date","time_slot","updated_at","created_at"]
 
 class NotificationSerializer(ModelSerializer):
     

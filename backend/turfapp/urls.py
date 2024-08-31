@@ -29,7 +29,9 @@ from .views import (test,
                     post_player_review,
                     post_turf_review,
                     create_payment,
-                    get_booking_details
+                    get_booking_details,
+                    get_user_booked_turfs,
+                    get_all_slots
 
                 )
 
@@ -54,12 +56,17 @@ urlpatterns = [
     path(r'user/profile/',get_user_profile,name='view-profile'),
     path(r'user/profile/edit',update_user_profile,name='edit-profile'),
     
+    path(r'turfs/booked/',get_user_booked_turfs,name='user-turfs-gameroom'),
     
     path('turf/create/',create_turf,name='create-turf'),
     re_path(r'turf/(?P<pk>[a-fA-F0-9-]+)/update/',update_turf,name='update-turf'),
     re_path(r'turf/(?P<pk>[a-fA-F0-9-]+)/delete/',delete_turf,name='delete-turf'),
     re_path(r'turf/(?P<pk>[a-fA-F0-9-]+)/view/',view_a_turf,name='view-turf'),
+    re_path(r'turf/(?P<pk>[a-fA-F0-9-]+)/slots/',get_all_slots,name='get-slots'),
     re_path(r'turfs/',view_turfs,name='view-turfs-owner'),
+    
+    
+ 
 
     path('turf/add/slot/',add_slots,name='add-turfs-slot'),
     re_path(r'turf/slot/(?P<pk>[a-fA-F0-9-]+)/delete/',delete_slot,name='delete-slot'),
@@ -68,10 +75,11 @@ urlpatterns = [
     path('turf/cancel/book/',cancel_booking,name='book-cancel'),
     path('turf/book/payment/',create_payment,name='book-payment'),
     re_path(r'book/(?P<pk>[a-fA-F0-9-]+)/details/',get_booking_details,name='book-details'),
+    
 
 
     path('player/review/',post_player_review,name='review-player'),
-    path('turf/review/',post_turf_review,name='review-turf'),
+    re_path(r'turf/(?P<pk>[a-fA-F0-9-]+)/review/',post_turf_review,name='turf-review'),
 
 
     

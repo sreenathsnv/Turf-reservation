@@ -16,9 +16,9 @@ class Command(BaseCommand):
             Booking.objects.create(
                 user=CustomUser.objects.order_by('?').first(),
                 turf=Turf.objects.order_by('?').first(),
-                status=random.choice(['Pending', 'Confirmed', 'Cancelled']),
+                status="Confirmed",
                 total_amount=random.uniform(10.0, 100.0),
-                date=fake.date_this_year(),
+                date=fake.date_this_year(before_today=True),
                 time_slot=Slot.objects.order_by('?').first()
             )
             print("-done")
