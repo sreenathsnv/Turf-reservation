@@ -140,7 +140,8 @@ This project is licensed under the MIT License. See the `LICENSE` file for more 
 
 ## Contact
 
-For any inquiries or support, feel free to reach out at [sreenathsnvaltpb@gmail.com](mailto:sreenathsnvaltpb@gmail.com) \
+For any inquiries or support, feel free to reach out at \
+[sreenathsnvaltpb@gmail.com](mailto:sreenathsnvaltpb@gmail.com) \
 [josephpallathukudy@gmail.com](mailto:josephpallathukudy@gmail.com)\
 [sarath.baburaj@mca.christuniversity.in](mailto:sarath.baburaj@mca.christuniversity.in) \
 [athul.raja@mca.christuniversity.in](mailto:athul.raja@mca.christuniversity.in) 
