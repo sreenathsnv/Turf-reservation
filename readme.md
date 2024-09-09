@@ -1,5 +1,5 @@
 # Turf Reservation and Player Analysis Platform
-
+![Turf Reservation Platform](./snapshots/1.jpg)
 ## Overview
 
 This platform is designed to streamline turf reservations and provide advanced player analysis features. It caters to both turf owners and players by offering an easy-to-use interface for booking, reviewing, and interacting within the community.
@@ -22,6 +22,30 @@ This platform is designed to streamline turf reservations and provide advanced p
 - **Payment Gateway**: Stripe
 - **Authentication**: Djoser
 - **Player Analysis**: Aroma and more
+
+
+## Screenshots
+
+### Home Page
+![Home Page](./snapshots/1.jpg)
+
+### Booking Page
+![Booking](./snapshots/2.jpg)
+
+### Payment Page
+![Payment Page](./snapshots/3.jpg)
+
+### Group overview
+![Group overview](./snapshots/4.jpg)
+
+### Create Room
+![Create Room](./snapshots/5.png)
+
+### User profile
+![Player Analysis](./snapshots/6.png)
+
+### Admin profile
+![Player Analysis](./snapshots/8.png)
 
 ## Installation
 
@@ -70,7 +94,8 @@ This platform is designed to streamline turf reservations and provide advanced p
       ```
     - Start the development server:
       ```bash
-      npm start
+      npython manage.py runserver
+      
 4. **Frontend Setup**:
     - Navigate to the frontend directory:
       ```bash
