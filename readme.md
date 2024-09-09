@@ -122,6 +122,31 @@ This platform is designed to streamline turf reservations and provide advanced p
         }
         ```
 
+5. **Environment Variables Setup**:
+
+    - **Backend Environment Variables**:
+      - Create a `.env` file in your backend directory and add the following configuration:
+        ```bash
+        EMAIL_PORT=587
+        EMAIL_HOST_USER=your_app_email
+        EMAIL_HOST_PASSWORD=your_password
+        STRIPE_SECRET_KEY=your_stripe_secret_key
+        STRIPE_PUBLISH_KEY=your_stripe_publish_key
+        SITE_URL=http://localhost:5173/
+        ```
+        - Replace `your_app_email` with the email address used for sending emails.
+        - Replace `your_password` with the app-specific password generated from your email provider (e.g., Gmail: Manage Account -> Security -> App Passwords).
+        - Replace `your_stripe_secret_key` and `your_stripe_publish_key` with the respective keys from your Stripe account.
+
+    - **Frontend Environment Variables**:
+      - Create a `.env` file in your frontend directory and add the following configuration:
+        ```bash
+        VITE_BACKEND_URL=http://localhost:8000
+        VITE_STRIPE_PUBLISH_KEY=your_stripe_publish_key
+        ```
+        - Replace `your_stripe_publish_key` with the respective key from your Stripe account.
+
+
 ## Usage
 
 - Visit the homepage and register/login using the authentication system.
@@ -140,8 +165,7 @@ This project is licensed under the MIT License. See the `LICENSE` file for more 
 
 ## Contact
 
-For any inquiries or support, feel free to reach out at \
-[sreenathsnvaltpb@gmail.com](mailto:sreenathsnvaltpb@gmail.com) \
+For any inquiries or support, feel free to reach out at [sreenathsnvaltpb@gmail.com](mailto:sreenathsnvaltpb@gmail.com) \
 [josephpallathukudy@gmail.com](mailto:josephpallathukudy@gmail.com)\
 [sarath.baburaj@mca.christuniversity.in](mailto:sarath.baburaj@mca.christuniversity.in) \
 [athul.raja@mca.christuniversity.in](mailto:athul.raja@mca.christuniversity.in) 
