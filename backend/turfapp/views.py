@@ -792,10 +792,13 @@ def get_all_slots(request,pk):
 
     return Response({"slots":serializer.data},HTTP_200_OK)
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_all_bookings(request):
 
     bookings = Booking.objects.filter(user=request.user)
 
-    serializer = BookingSerializer(bookings)
+    serializer = BookingSerializer(bookings,many=True)
 
     return Response(serializer.data,status=HTTP_200_OK)

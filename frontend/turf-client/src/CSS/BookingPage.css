@@ -1,0 +1,16 @@
+.bookings-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .booking-cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between cards */
+  }
+  
+  .booking_page__heading{
+    color: whitesmoke;
+    margin: auto;
+    font-size: 7vh;
+  }

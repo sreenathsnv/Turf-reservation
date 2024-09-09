@@ -31,7 +31,8 @@ from .views import (test,
                     create_payment,
                     get_booking_details,
                     get_user_booked_turfs,
-                    get_all_slots
+                    get_all_slots,
+                    get_all_bookings
 
                 )
 
@@ -79,6 +80,7 @@ urlpatterns = [
 
 
     path('player/review/',post_player_review,name='review-player'),
+    path('user/bookings/',get_all_bookings,name='booking-player'),
     re_path(r'turf/(?P<pk>[a-fA-F0-9-]+)/review/',post_turf_review,name='turf-review'),
 
 

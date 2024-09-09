@@ -1,0 +1,74 @@
+.booking-card {
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 550px;
+    width:400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .booking-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+  
+  .booking-card__info {
+    margin-bottom: 20px;
+  }
+  
+  .booking-card__title {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 12px;
+  }
+  
+  .booking-card__detail {
+    font-size: 1rem;
+    color: #555;
+    margin: 8px 0;
+  }
+  
+  .booking-card__status {
+    font-weight: bold;
+    margin-top: 15px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-transform: capitalize;
+  }
+  
+  .booking-card__status--confirmed {
+    color: #fff;
+    background-color: #28a745;
+  }
+  
+  .booking-card__status--pending {
+    color: #fff;
+    background-color: #ffc107;
+  }
+  
+  .booking-card__status--cancelled {
+    color: #fff;
+    background-color: #dc3545;
+  }
+  
+  .booking-card__cancel-button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: flex-end;
+  }
+  
+  .booking-card__cancel-button:hover {
+    background-color: #c82333;
+  }
+  

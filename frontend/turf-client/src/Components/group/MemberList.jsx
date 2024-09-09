@@ -112,12 +112,12 @@ const MemberList = ({
     <FeedbackModal isOpen ={isModalOpen} onRequestClose = {onRequestClose} user={CurrentReviewUser}/>
       <ul className="member-list">
         {members?.map((member, index) => (
-         <Link style={{textDecoration:"none"}} to={`/user/${member.id}/profile`}><li key={index} className="member-item">
+        <li key={index} className="member-item">
             <img
               src={`${import.meta.env.VITE_BACKEND_URL}${member.profile_pic}`}
               alt="Avatar"
             />
-            {member.username}
+            <Link style={{textDecoration:"none"}} to={`/user/${member.id}/profile`}>{member.username}</Link> 
             {isGroupAdmin && currentUser !== member.id ? (
               <div className="admin-controls">
                 <button className="remove-button" onClick={()=>{removeMember(member.id)}}>Remove</button>
@@ -135,7 +135,6 @@ const MemberList = ({
               )
             )}
           </li>
-          </Link> 
         ))}
       </ul>
     </>
